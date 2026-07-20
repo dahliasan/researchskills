@@ -445,7 +445,7 @@ Do NOT include the answer in this opening sentence. Just the question / rational
 
 Results sections should **integrate biological and ecological observations with quantitative evidence in the same clause or sentence**. The organism or process remains the subject; numbers specify scope and magnitude. This makes findings accessible and scientifically rigorous simultaneously.
 
-**Pattern (from your supervisors' work):**
+**Pattern (from your target-journal corpus):**
 
 The key is **integration, not sequence**. Organism/behavior first, then immediate quantification:
 
@@ -674,7 +674,7 @@ Semantic nuance (tone, scope fit) still needs this skill’s edit-pass checklist
 - **Huang, Li & Li (2025)** — "[Writing for non-specialists? Investigating readability and jargon use in successful lay summaries of CRF grant proposals 2006–2024](https://link.springer.com/article/10.1007/s11192-025-05442-8)," *Scientometrics* — Analysis of 560+ lay summaries over 19 years. Empirical findings: jargon density averages 8.0% (exceeds recommended ≤5% threshold); structural complexity has increased over time (sentences growing longer); readability correlates with jargon control, not lexical simplification alone.
 - **Cheng, Calhoun & Reedy (2025)** — "[Artificial intelligence-assisted academic writing: recommendations for ethical use](https://pmc.ncbi.nlm.nih.gov/articles/PMC12007126/)," *Advances in Simulation* — Guidelines for AI-assisted writing emphasizing human verification. Critical finding: AI-generated citations show ~38% DOI error rate and ~16% fabricated reference rate; manual verification required before submission.
 
-### Section-specific patterns from your supervisors' papers
+### Section-specific patterns from your target-journal corpus
 
 **Introduction:** Momentum-building structure  
 [Sequeira et al. 2018, co-authored by Hindell and McMahon] opens with technological enablement: "Tracking studies of marine animals have proliferated in recent years as miniaturized, cost-effective tags are deployed on an increasing array of species…" Then pivots to the problem via "However": "However, the deployment of tags can stress animals and involves considerable costs, leading to a fundamental but complex question…" This models the [momentum → concession → problem] sequence you should follow.
@@ -685,7 +685,7 @@ Semantic nuance (tone, scope fit) still needs this skill’s edit-pass checklist
 **Discussion:** Finding-mechanism-prior work-limitation sequence  
 [Sequeira et al. 2018] follows the prescribed order: finding ("A better assessment may be possible with larger sample sizes"), mechanism ("simulation exercises can be useful as exploratory tools"), prior work ("A recent study that tracked 10 green turtles…"), limitation ("the same number of tags can lead to very different data depending on deployment timing"), implication ("pooled datasets are generally useful to draw conclusions"). Limitation is integrated (not quarantined) with concrete examples (pinnipeds, molting timing). Hedging language uses modal verbs (may, can, likely) without triple-stacking.
 
-### Corpus examples: Your supervisors' work and peer papers
+### Corpus examples: Your field's high-impact papers
 Hindell, McMahon, and collaborators' papers model integrated biology + quantitative Results and disciplined section grammar:
 
 **Harbour seal movement (tidal habitat use):**

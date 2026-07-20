@@ -27,7 +27,7 @@ The loop treats the skill document itself as a **living specification** that evo
 - Extending the skill to cover new genres (review, synthesis, commentary)
 - Discovering patterns in published papers that aren't yet documented in the skill
 - When agent drafts fail validator checks repeatedly
-- When supervisor feedback suggests the skill is incomplete
+- When reviewer or mentor feedback suggests the skill is incomplete
 
 ## The 5-Phase Loop
 
@@ -37,7 +37,7 @@ The loop treats the skill document itself as a **living specification** that evo
 
 **Steps:**
 1. Identify 3–5 published papers in your field/area
-   - Preference: papers from project supervisors, recent high-impact journals
+   - Preference: papers from your target journal or field-defining authors, recent high-impact journals
    - Collect full-text PDFs or summaries (abstracts + figure captions)
 2. Read the target section in each paper (e.g., all 5 Results sections)
 3. Document patterns observed:
@@ -148,7 +148,7 @@ The loop treats the skill document itself as a **living specification** that evo
 5. **Compare against Phase 1 papers**:
    - Does the structure match published papers?
    - Are citations placed similarly (claim-proximate)?
-   - Is the tone/voice consistent with supervisor papers?
+   - Is the tone/voice consistent with field-standard papers?
 6. **Identify gaps** for agents to revise:
    - Mark sentences for rewrite
    - Note missing species/taxa coverage
@@ -169,7 +169,7 @@ The loop treats the skill document itself as a **living specification** that evo
 **Goal:** Fix human feedback and re-validate.
 
 **If cold-read found issues:**
-1. **Brief agents** with supervisor feedback
+1. **Brief agents** with reviewer or mentor feedback
 2. **Re-draft** problematic sections
 3. **Re-run validator** (must maintain 0 blockers)
 4. **Return to Phase 4** cold-read (repeat until approved)
@@ -229,7 +229,7 @@ Deterministic checks that **must pass**:
 1. **Phase 1 (Research):** Read 3+ papers. Document patterns.
 2. **Phase 2 (Update Skill):** Add patterns to SKILL.md + validator.
 3. **Phase 3 (Draft):** Agents write section using skill. Validate (0 blockers).
-4. **Phase 4 (Review):** Cold-read + supervisor approval.
+4. **Phase 4 (Review):** Cold-read + mentor or PI approval.
 5. **Phase 5 (Proof):** Citation audit + export.
 
 Loop = Phases 1–5. Repeat for each new section.
