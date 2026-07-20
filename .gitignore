@@ -9,3 +9,6 @@ tmp/
 !.env.example
 node_modules/
 .claude/settings.local.json
+
+# Private planning/notes — own nested git repo, not part of the public pack
+.private/
