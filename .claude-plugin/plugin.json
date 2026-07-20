@@ -1,0 +1,12 @@
+{
+  "name": "researchskills",
+  "description": "AI agent skills for scientific writing, OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, and Zotero. Works with Claude Code, Codex, and Cursor.",
+  "version": "0.1.0",
+  "author": {
+    "name": "dahliasan",
+    "url": "https://github.com/dahliasan"
+  },
+  "repository": "https://github.com/dahliasan/researchskills",
+  "license": "MIT",
+  "skills": "./skills"
+}
