@@ -28,6 +28,7 @@ class TestValidatorFixture(unittest.TestCase):
                 capture_output=True,
                 text=True,
             )
+            combined = (proc.stdout or "") + (proc.stderr or "")
             self.assertNotEqual(
                 proc.returncode,
                 0,
