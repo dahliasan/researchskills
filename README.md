@@ -53,10 +53,16 @@ Skills are workflow docs. Engines and CLIs (UsefulPapers, Unpaywall, institution
 /zotero · /zotseek · …    ← assume Zotero MCP / local API
 ```
 
+## Docs
+
+- [INSTALL.md](./INSTALL.md) — env vars and optional backends
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — public pack vs private backends
+- [EXAMPLES.md](./EXAMPLES.md) — what you say → what happens
+- [CONTRIBUTING.md](./CONTRIBUTING.md)
+
 ## Related
 
-- [usefulpapers](https://github.com/dahliasan/usefulpapers) — Zotero adapter + literature pipeline engine (optional)
-- Private maintainer library: dahlias-skills (not required for adopters)
+- [usefulpapers](https://github.com/dahliasan/usefulpapers) — optional Zotero adapter + literature pipeline engine
 
 ## License
 

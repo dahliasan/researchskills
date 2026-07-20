@@ -1,7 +1,5 @@
 ---
 name: scientific-writing
-author: dahlia
-version: 2.3.2
 description: >-
   Empirically grounded scientific prose: **section grammar** (Abstract–Intro–Methods–Results–Discussion 
   boundaries enforced with concrete job, voice, and content rules); **claim-first sentences** with 
@@ -10,25 +8,28 @@ description: >-
   Based on analysis of published papers in ecology and marine science. Use when drafting or revising 
   manuscripts, synthesis deliverables, and coauthor handouts. Enforces Results vs Discussion separation 
   and prevents methods/results conflation.
+metadata:
+  version: 2.3.2
 disable-model-invocation: true
 ---
 
 # Scientific writing
 
-**Canonical copy (this pack):** `skills/scientific-writing/SKILL.md` in researchskills  
+**Canonical copy (this pack):** `skills/scientific-writing/SKILL.md`  
 **Full handout:** [reference.md](reference.md)  
-**Self-improvement workflow:** [SELF_IMPROVEMENT_LOOP.md](SELF_IMPROVEMENT_LOOP.md) (v1.0, 2026-07-19) — 5-phase loop for iteratively improving this skill based on published paper patterns
+**Self-improvement workflow:** [SELF_IMPROVEMENT_LOOP.md](SELF_IMPROVEMENT_LOOP.md)  
+**Deterministic lint:** [validator.py](validator.py) (see [validator-README.md](validator-README.md))
 
-**Prose only:** claims, structure, citations, punctuation, statistics language. Citation proof pipelines and export gates live in **`corpus-citation-qa`** and **`research-workflow`**.
+**Prose only:** claims, structure, citations, punctuation, statistics language. Project citation-proof pipelines (if any) stay outside this skill.
 
-## Research plugin phases
+## Writing phases
 
 | Phase | This skill | Companion |
 |-------|------------|-----------|
-| **WRITE** | Draft prose, claim-proximate cites | `corpus-citation-qa` for citekey rules only |
-| **CITE-CHECK** | Do not rewrite quantified claims yet | `bash literature/run.sh prove` |
-| **CLARITY EDIT** | Cold-reader pass (study frame, gaps) | `synthesis-editor` + `clarity_lint.py` |
-| **STYLE** | Checklist + deterministic lint | `bash literature/run.sh prose-lint` |
+| **WRITE** | Draft prose, claim-proximate cites | `zotero` for library citekeys |
+| **CITE-CHECK** | Do not rewrite quantified claims yet | Project prove/audit tools if present |
+| **CLARITY EDIT** | Cold-reader pass (study frame, gaps) | Human coauthor pass |
+| **STYLE** | Checklist + deterministic lint | `python3 …/validator.py --file draft.md` |
 
 Order: **WRITE → CITE-CHECK → CLARITY EDIT → STYLE → EXPORT**.
 
@@ -699,12 +700,6 @@ Hindell, McMahon, and collaborators' papers model integrated biology + quantitat
 - Mullins et al. 2024 (habitat suitability): "Catch per unit effort increased five-fold from 0.0012 to 0.0068 individuals/gillnet hrs"
 - Bedriñana-Romano et al. 2021 (movement ecology): "Whales reduced velocity near areas of high spring chlorophyll concentration"
 
-## Promote back to researchskills
+## Contributing
 
-When stable, promote from this repo:
-
-```bash
-./scripts/promote-skill.sh --from /path/to/MegaMove_Threats --skill scientific-writing --to researchskills
-```
-
-See `skills/skill-lifecycle/SKILL.md` in researchskills.
+Improve this skill via PR to [dahliasan/researchskills](https://github.com/dahliasan/researchskills). Bump `metadata.version` for behavioral changes.

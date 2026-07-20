@@ -6,6 +6,8 @@ description: >-
   SQLite reads zotero.sqlite when the app is closed or on older Zotero. Use when
   the user names a collection (e.g. "nz sea lion"), wants references from that
   collection, or needs paths to stored Zotero PDFs.
+metadata:
+  version: 0.1.0
 ---
 
 # Local Zotero library and collections

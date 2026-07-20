@@ -6,7 +6,7 @@ opens a GET SSE stream on the same URL, Zotero returns 400 "Endpoint does not
 support method", and Cursor marks the server failed.
 
 This process speaks MCP over stdio and calls ZotSeek's REST API on localhost
-(or an SSH tunnel to Dahlia): GET /zotseek/search|similar|stats.
+(or an SSH tunnel to a remote Zotero host): GET /zotseek/search|similar|stats.
 """
 
 from __future__ import annotations
@@ -41,7 +41,7 @@ def _http_get(path: str, params: dict[str, Any] | None = None) -> Any:
         raise RuntimeError(
             f"Cannot reach ZotSeek at {BASE} ({e.reason}). "
             "Is Zotero running with AI Agent Access on? "
-            "If Zotero is on Dahlia: ssh -fN dahlia-zotseek"
+            "If remote: ssh -fN -L 23119:127.0.0.1:23119 your-zotero-host"
         ) from e
 
 

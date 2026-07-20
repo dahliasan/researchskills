@@ -8,25 +8,15 @@
 | Host process | Zotero desktop + ZotSeek plugin |
 | Bind | Typically `127.0.0.1:23119` (not LAN-exposed) |
 
-## Remote Zotero (Dahlia)
+## Remote Zotero (optional)
 
-ZotSeek on Dahlia listens on loopback only. From another Mac:
+If ZotSeek runs on another machine and listens on loopback only:
 
 ```bash
-# One-shot tunnel (background)
-ssh -fN -o ExitOnForwardFailure=yes -L 23119:127.0.0.1:23119 dahlia
-
-# Or durable SSH host alias (add to ~/.ssh/config):
-# Host dahlia-zotseek
-#   HostName <dahlia-tailscale-or-lan>
-#   User dahlia
-#   LocalForward 23119 127.0.0.1:23119
-#   ExitOnForwardFailure yes
-#   ServerAliveInterval 30
-ssh -fN dahlia-zotseek
+ssh -fN -o ExitOnForwardFailure=yes -L 23119:127.0.0.1:23119 your-zotero-host
 ```
 
-Claude and Cursor both use `localhost:23119` **after** the tunnel is up.
+Clients then use `localhost:23119` after the tunnel is up.
 
 Probe:
 
@@ -41,15 +31,15 @@ Expect `serverInfo.name` = `zotseek`.
 
 ## Harness registration
 
-### Cursor — use stdio bridge (required)
+### Cursor — use stdio bridge (recommended)
 
-HTTP Streamable MCP connects, then Cursor opens `GET` SSE on the same URL. ZotSeek returns `400 Endpoint does not support method` → MCP status **failed**.
+HTTP Streamable MCP connects, then Cursor opens `GET` SSE on the same URL. ZotSeek may return `400 Endpoint does not support method` → MCP status **failed**.
 
 ```json
 "zotseek": {
   "command": "/usr/bin/python3",
   "args": [
-    "/Users/dennis/Developer/dahlias-skills/skills/zotseek/scripts/zotseek_stdio_mcp.py"
+    "/ABSOLUTE/PATH/TO/researchskills/skills/zotseek/scripts/zotseek_stdio_mcp.py"
   ]
 }
 ```
@@ -64,10 +54,6 @@ Prefer the same stdio entry if HTTP shows SSE Bad Request. Otherwise:
 claude mcp add --transport http --scope user zotseek http://localhost:23119/zotseek/mcp
 claude mcp list
 ```
-
-### Codex
-
-Add an HTTP MCP entry pointing at the same URL in `~/.codex/config.toml` (see Codex MCP docs for current `http` / `url` syntax). Restart Codex.
 
 ## Tool schemas (v1.18+)
 
@@ -96,40 +82,6 @@ Each hit: `itemKey`, `title`, `authors`, `year`, `score`, `matchedChunk` (snippe
 | `library_key` | string | `user` |
 | `max_results` | int 1–100 | 10 |
 
-## HTTP fallback (`tools/call`)
-
-When the harness has no MCP tool but localhost answers:
-
-```python
-import json, urllib.request
-
-URL = "http://localhost:23119/zotseek/mcp"
-
-def rpc(method, params=None, id=1):
-    body = {"jsonrpc": "2.0", "id": id, "method": method}
-    if params is not None:
-        body["params"] = params
-    req = urllib.request.Request(
-        URL,
-        data=json.dumps(body).encode(),
-        headers={
-            "Content-Type": "application/json",
-            "Accept": "application/json, text/event-stream",
-        },
-    )
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return json.loads(r.read().decode())
-
-rpc("initialize", {
-    "protocolVersion": "2024-11-05",
-    "capabilities": {},
-    "clientInfo": {"name": "agent", "version": "0"},
-})
-# optional: notifications/initialized
-out = rpc("tools/call", {"name": "search", "arguments": {"query": "…", "max_results": 10}}, id=2)
-# parse out["result"]["content"][0]["text"] as JSON string of results
-```
-
 ## Boundaries vs other Zotero tooling
 
 | Need | Use |
@@ -137,6 +89,6 @@ out = rpc("tools/call", {"name": "search", "arguments": {"query": "…", "max_re
 | Semantic / passage search | ZotSeek |
 | Collection membership, disk PDF paths | `zotero-local-library` |
 | Export bib, cite into tex/md | `zotero` skill CLI |
-| Screening + project RAG + prove | `project-corpus` |
+| Find new papers (OpenAlex) | `discover-papers` |
 
-ZotSeek does **not** replace accepted-corpus policy or citation-proof (`prove`) pipelines.
+ZotSeek does **not** replace project-level screening or citation-proof pipelines.

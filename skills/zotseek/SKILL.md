@@ -6,8 +6,10 @@ description: >-
   related papers from embeddings, manuscript citation curation from the library,
   or PDF-page snippets with zotero:// deep links. Prefer this over keyword-only
   Zotero search when relevance ranking or passage evidence matters. Not a
-  substitute for project-corpus RAG or for listing a named collection
+  substitute for project RAG or for listing a named collection
   (use zotero-local-library for collection membership and PDF paths).
+metadata:
+  version: 0.1.0
 ---
 
 # ZotSeek (semantic Zotero MCP)
@@ -22,14 +24,14 @@ at `http://localhost:23119/zotseek/mcp` (same port family as the Zotero Connecto
 | Natural-language / semantic paper find | **ZotSeek** `search` |
 | More like this paper | **ZotSeek** `find_similar` |
 | Items in a named collection + PDF paths | `zotero-local-library` |
-| BibTeX / cite / write collections | `zotero` / `zotero-write-collections` |
-| Project-scoped RAG + prove gates | `project-corpus` / Litbase |
+| BibTeX / cite / write collections | `zotero` |
+| OpenAlex discovery (new papers) | `discover-papers` |
 
 ## Preconditions
 
-1. **Zotero is running** with ZotSeek installed and indexed — on Dennis's setup, this is on **Dahlia**, not the local machine.
+1. **Zotero is running** with ZotSeek installed and indexed.
 2. MCP registered in the harness (see [reference.md](reference.md)).
-3. Zotero + ZotSeek must be reachable on the configured host (default localhost:23119). If Zotero runs on another machine, open an SSH tunnel first (optional):
+3. ZotSeek reachable on localhost:23119 (or tunneled there). If Zotero runs on another machine:
 
 ```bash
 ssh -fN -L 23119:127.0.0.1:23119 your-zotero-host
@@ -40,21 +42,20 @@ Smoke test: `curl -sS http://localhost:23119/zotseek/mcp` should not connection-
 
 ## Agent workflow
 
-0. **Tunnel first** (Dennis only) — run `ssh -fN dahlia-zotseek` before the first ZotSeek call of the session, unless `lsof -i :23119` already shows a listener.
+0. Ensure port 23119 is listening (tunnel if remote).
 1. **`index_status`** — confirm `ready`, coverage, `lastIndexed`. If not ready, stop and tell the user to index in ZotSeek.
 2. **`search`** — write a concrete scholarly query (species + place + process), not a single vague keyword.
 3. Present results with **title, authors, year, snippet + page**, and clickable links:
    - Prefer `links.selectHttp` / `links.openPdfHttp` in clients that do not linkify `zotero://`.
 4. For expansion from a known hit, call **`find_similar`** with that `itemKey`.
-5. **Curate**, do not dump: mark keep / maybe / skip against the user's section goal (intro, methods, discussion).
-6. Collection membership is **not** in ZotSeek results — cross-check with `zotero-local-library` when the user asks “is this in Heard Island AFS?”.
+5. **Curate**, do not dump: mark keep / maybe / skip against the user's section goal.
+6. Collection membership is **not** in ZotSeek results — cross-check with `zotero-local-library` when needed.
 
 ### Query tips
 
 - One claim or section theme per query; run several targeted queries rather than one mega-query.
-- Default `mode`: `hybrid` (matches ZotSeek UI). Use `semantic` for paraphrase recall; `keyword` for exact author/title.
+- Default `mode`: `hybrid`. Use `semantic` for paraphrase recall; `keyword` for exact author/title.
 - `granularity: passages` when drafting and you need page-level quotes; `papers` for shortlists.
-- Hybrid scores are small RRF ranks (~0.005–0.03), useful only **within one result set**. Semantic scores are 0–1 cosine.
 
 ### Tools (names)
 
@@ -68,32 +69,32 @@ Smoke test: `curl -sS http://localhost:23119/zotseek/mcp` should not connection-
 
 ## MCP fallback (no harness tool)
 
-If the `zotseek` MCP server is not loaded in this session but the tunnel is up, call JSON-RPC over HTTP (initialize → `tools/call`). Full recipe: [reference.md](reference.md).
+If the `zotseek` MCP server is not loaded but port 23119 is up, call JSON-RPC over HTTP (initialize → `tools/call`). Full recipe: [reference.md](reference.md).
 
 ## Setup (once per harness)
 
-**Prefer stdio bridge in Cursor** (and Claude if HTTP shows SSE errors). ZotSeek's HTTP MCP is POST-only / stateless; Cursor then GETs an SSE stream, gets `400 Endpoint does not support method`, and marks the server failed.
+**Prefer stdio bridge in Cursor** when HTTP MCP shows SSE errors. Point at this pack's bridge script:
 
 ```json
 "zotseek": {
   "command": "/usr/bin/python3",
-  "args": ["~/Developer/dahlias-skills/skills/zotseek/scripts/zotseek_stdio_mcp.py"]
+  "args": ["/ABSOLUTE/PATH/TO/researchskills/skills/zotseek/scripts/zotseek_stdio_mcp.py"]
 }
 ```
 
-Expand `~` to an absolute path. The bridge calls REST `GET /zotseek/*` on `127.0.0.1:23119` (local Zotero or `ssh -fN dahlia-zotseek`).
+Use an absolute path (expand `~`). The bridge calls REST `GET /zotseek/*` on `127.0.0.1:23119`.
 
-HTTP transport still works in clients that do not require SSE GET (some Claude setups):
+HTTP transport still works in clients that do not require SSE GET:
 
 ```bash
 claude mcp add --transport http --scope user zotseek http://localhost:23119/zotseek/mcp
 ```
 
-Details: [reference.md](reference.md). Also `docs/mcp-setup.md`.
+Details: [reference.md](reference.md).
 
 ## Related skills
 
 - `zotero-local-library` — collection list + PDF paths
 - `zotero` — local CLI / API inventory and bibtex
-- `citation-management` / `scientific-writing` — how cites land in prose
-- `project-corpus` — screening pool + chunk RAG (not Zotero embeddings)
+- `scientific-writing` — how cites land in prose
+- `discover-papers` — find new papers outside the library

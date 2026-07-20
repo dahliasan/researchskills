@@ -24,7 +24,7 @@ See [references/waterfall.md](references/waterfall.md).
 | User already has an `oa_url` / PDF URL | **direct** |
 | "Unpaywall" / need legal OA resolve | **unpaywall** |
 | Item already in Zotero; "Find Available PDF" | **zotero_native** |
-| Institutional access / ANU / EZproxy | **institutional** (optional CLI) |
+| Institutional library / EZproxy / campus proxy | **institutional** (optional CLI) |
 | OA + library miss; user accepts Sci-Hub risk | **scihub** |
 | Publisher JS gate / paywall needing browser | **browser_hitl** |
 | "get the PDF" with only a DOI | **waterfall** (try in order) |
