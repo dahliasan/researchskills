@@ -8,6 +8,7 @@ fail=0
 required_skills=(
   researchskills
   manuscript-writing
+  figure-design
   manuscript-submission
   literature-review
   discover-papers
