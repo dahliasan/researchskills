@@ -5,19 +5,21 @@ description: >-
   question through paper discovery, full-text retrieval, structured extraction,
   synthesis, and citation checking. Use for preliminary reviews, research-question
   refinement, methods searches, formal reviews, evidence updates, synthesis
-  matrices, or checking whether papers support manuscript claims. Routes to
-  protocol, discover-papers, find-pdf, Zotero/ZotSeek, UsefulPapers, and
-  scientific-writing when available. Does not treat search snippets or abstracts
-  as full-text evidence.
+  matrices, or checking whether papers support manuscript claims. Routes internally
+  to protocol, discover-papers, find-pdf, Zotero/ZotSeek, and UsefulPapers when
+  available. Does not treat search snippets or abstracts as full-text evidence.
 metadata:
-  version: 0.1.0
+  version: 0.1.1
 ---
 
 # Literature Review
 
 You coordinate the literature workflow and its durable evidence artifacts.
-Use existing specialist skills and backends rather than reimplementing search,
-PDF retrieval, library management, or manuscript prose.
+Use existing literature capabilities rather than reimplementing search, PDF
+retrieval, library management, or screening engines.
+
+`literature-review` is a peer of `research-project-ops`, `analysis-design`, and
+`manuscript-writing`. It does not own those skills.
 
 ## Core rule
 
@@ -53,19 +55,24 @@ orient or formal-review
 
 Do not force a formal protocol onto a one-off exploratory search.
 
-## Step 1: Inspect existing project evidence
+## Step 1: Inspect existing evidence
 
 Before searching, inspect what already exists when accessible:
 
-- `PROJECT.md`, `STATUS.md`, `METHODS.md`, and `DECISIONS.md`
-- `PROTOCOL.md` or another review brief
+- review scope or `PROTOCOL.md`
 - `references.bib`
 - Zotero collections and attached PDFs
-- prior search logs, candidate lists, screening decisions, extractions, and synthesis matrices
+- prior search logs and candidate lists
+- screening decisions
+- extraction records
+- synthesis matrices
 - manuscript claims that need evidence
 
-Reuse verified evidence rather than searching from scratch.
-Report stale, conflicting, or duplicate review artifacts.
+When the review belongs to a larger research project, read relevant project files
+for context, but do not take ownership of them.
+
+Reuse verified evidence rather than searching from scratch. Report stale,
+conflicting, or duplicate review artifacts.
 
 ## Step 2: Apply the evidence-access gate
 
@@ -77,9 +84,9 @@ Report stale, conflicting, or duplicate review artifacts.
 | Numerical results extraction | full Results, tables, and figures |
 | Limitations appraisal | full Discussion and limitations |
 | Citation verification | exact supporting passage, table, figure, or result |
-| Cross-study synthesis | verified extraction from the relevant full-text sections |
+| Cross-study synthesis | verified extraction from relevant full-text sections |
 
-Use these access labels:
+Use these review statuses:
 
 ```text
 discovered
@@ -91,7 +98,7 @@ synthesised
 excluded
 ```
 
-Also record:
+Also record access level:
 
 ```text
 metadata-only
@@ -111,9 +118,9 @@ If required full text is unavailable:
 PDF failure must not stop discovery or corpus building, but it must block
 full-text extraction and claim verification.
 
-## Step 3: Route to existing capabilities
+## Step 3: Route within the literature workflow
 
-| Need | Route |
+| Need | Internal route |
 |---|---|
 | Durable review question, eligibility, and search plan | `protocol` |
 | External paper discovery | `discover-papers` |
@@ -121,11 +128,22 @@ full-text extraction and claim verification.
 | Existing-library semantic search | `zotseek` |
 | PDF or full-text retrieval | `find-pdf` |
 | Batch discovery, screening, and Zotero sync | UsefulPapers, when installed |
-| Manuscript prose from verified evidence | `scientific-writing` |
-| Project-level question, method, decision, or status updates | `research-project-ops` |
 
-The skill is the review-state router. Search engines, PDF libraries, credentials,
-and heavy pipelines remain external.
+The skill is the literature review-state router. Search engines, PDF libraries,
+credentials, and heavy pipelines remain external.
+
+## Peer handoffs
+
+These are peer skills, not parts of the literature-review workflow:
+
+- Hand accepted research-question, scope, project-status, or artifact changes to
+  `research-project-ops`.
+- Hand accepted study-design or analytical implications to `analysis-design`.
+- Hand verified literature evidence to `manuscript-writing` when drafting or
+  revising manuscript prose.
+
+Do not edit another peer skill's authoritative artifacts unless the user asks for
+that handoff and the peer workflow is available.
 
 ## Mode workflows
 
@@ -153,16 +171,10 @@ Assess whether the provisional question is:
 - feasible with likely data and methods
 - framed at an appropriate spatial, temporal, taxonomic, or conceptual scale
 
-Produce:
+Produce established knowledge, unresolved uncertainty, a candidate gap, question
+revisions with reasons, methods or data implications, and remaining search needs.
 
-- established knowledge
-- unresolved uncertainty
-- candidate gap
-- question revisions with reasons
-- methods or data implications
-- remaining search needs
-
-Do not independently overwrite `PROJECT.md`. Route accepted changes through
+Do not independently overwrite project files. Hand accepted changes to
 `research-project-ops`.
 
 ### `methods-search`
@@ -180,22 +192,11 @@ Search specifically for evidence relevant to:
 Full Methods and relevant supplements are required before extracting detailed
 parameters or presenting a paper as methodological precedent.
 
-Return a methods evidence table with:
+Return a methods evidence table containing citation, research step, method,
+context, important parameters, validation, author-stated limitations,
+transferability, and evidence location.
 
-```text
-citation
-research step
-method used
-study context
-important parameters
-validation
-author-stated limitations
-transferability to this project
-evidence location
-```
-
-Route accepted choices to `analysis-design` when available, or to
-`research-project-ops` for `METHODS.md` and `DECISIONS.md` updates.
+Hand accepted analytical implications to `analysis-design`.
 
 ### `formal-review`
 
@@ -218,12 +219,11 @@ Do not describe the work as systematic unless the documented process supports th
 3. Preserve the original corpus and identify newly discovered records.
 4. Deduplicate against the existing corpus.
 5. Screen and extract only new or materially changed evidence.
-6. update conclusions only where the new evidence warrants it.
+6. Update conclusions only where the new evidence warrants it.
 
 ### `extract`
 
-Use the schema in
-[references/evidence-artifacts.md](references/evidence-artifacts.md).
+Use [references/evidence-artifacts.md](references/evidence-artifacts.md).
 
 For each paper:
 
@@ -240,20 +240,10 @@ Abstract extraction may be stored as a separate preliminary layer.
 
 ### `synthesise`
 
-Build synthesis from verified extraction records.
+Build synthesis from verified extraction records. Organise by question, theme,
+context, method, agreement, disagreement, evidence strength, limitations, and gaps.
 
-Organise by:
-
-- research question or objective
-- theme or mechanism
-- population, species, region, or context
-- study design or method
-- agreement and disagreement
-- evidence strength and limitations
-- unresolved gaps
-
-Use a synthesis matrix rather than paper-by-paper summaries.
-Clearly distinguish:
+Use a synthesis matrix rather than paper-by-paper summaries. Distinguish:
 
 ```text
 reported evidence
@@ -273,11 +263,8 @@ For each manuscript claim:
 1. identify the exact cited source
 2. open the relevant full text
 3. locate the supporting passage, result, table, or figure
-4. classify the citation as:
-   - `supported`
-   - `partially-supported`
-   - `unsupported`
-   - `source-unavailable`
+4. classify it as `supported`, `partially-supported`, `unsupported`, or
+   `source-unavailable`
 5. explain any mismatch
 6. propose narrower wording or a better source when needed
 
@@ -298,7 +285,8 @@ Summarise:
 - exact next action
 - files or collections to read first
 
-Update `STATUS.md` through `research-project-ops` when the review is part of a larger project.
+When the review is part of a larger project, hand this summary to
+`research-project-ops` for project-status updates.
 
 ## Artifact policy
 
@@ -339,7 +327,7 @@ See [references/evidence-artifacts.md](references/evidence-artifacts.md).
 - Do not use search snippets as scientific evidence.
 - Do not present abstract-only details as full-text verified.
 - Do not invent sample sizes, methods, effect estimates, limitations, or quotations.
-- Do not cite a review as though it were the primary study unless that distinction is explicit.
+- Do not cite a review as though it were the primary study unless explicit.
 - Mark preprints, reports, and non-peer-reviewed sources clearly.
 - Preserve conflicting and null findings.
 - Keep discovery source and access status separate from evidence strength.
@@ -371,7 +359,7 @@ After substantive work, report:
 [one highest-value next step]
 ```
 
-## Composes with
+## Internal literature components
 
 - `protocol`
 - `discover-papers`
@@ -379,5 +367,9 @@ After substantive work, report:
 - `zotero`
 - `zotseek`
 - UsefulPapers
+
+## Peer skills
+
 - `research-project-ops`
-- `scientific-writing`
+- `analysis-design`
+- `manuscript-writing`
