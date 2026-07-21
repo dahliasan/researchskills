@@ -3,11 +3,11 @@ name: researchskills
 description: >-
   Pack router for researchskills. Use when the user is unsure which research
   skill to run, asks for research help generally, or says "/researchskills".
-  Routes to manuscript-writing, literature-review, discover-papers, protocol,
-  find-pdf, research-project-ops, zotero, zotseek, or zotero-local-library.
-  Does not reimplement those skills.
+  Routes to manuscript-writing, figure-design, literature-review,
+  discover-papers, protocol, find-pdf, research-project-ops, zotero, zotseek,
+  or zotero-local-library. Does not reimplement those skills.
 metadata:
-  version: 0.1.1
+  version: 0.1.2
 ---
 
 # /researchskills — pack router
@@ -18,7 +18,8 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 
 | Intent | Skill |
 |--------|--------|
-| Draft, revise, or audit manuscript prose | `manuscript-writing` |
+| Draft, revise, storyboard, or audit manuscript prose | `manuscript-writing` |
+| Plan, create, revise, or audit a scientific figure | `figure-design` |
 | Literature workflow, synthesis, citation check | `literature-review` |
 | Find papers / OpenAlex / brain-dump search | `discover-papers` |
 | Build or refine PROTOCOL.md from a research question | `protocol` |
@@ -30,9 +31,10 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 
 ## Rules
 
-1. Prefer `literature-review` for review-shaped work; prefer `discover-papers` for one-off search (it can offer `protocol`).
+1. Prefer `literature-review` for review-shaped work; prefer `discover-papers` for one-off search.
 2. Do not invent a second prose skill; always `manuscript-writing`.
-3. If Zotero MCP is unavailable, say so and continue with non-Zotero paths where possible.
+3. Use `figure-design` for visual design; keep analytical decisions with the analysis owner.
+4. If Zotero MCP is unavailable, say so and continue with non-Zotero paths where possible.
 
 ## Exit
 
