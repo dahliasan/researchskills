@@ -26,6 +26,7 @@ Same idea as makerskills `second-brain`: the skill is the workflow; the data and
 | Project operations | `research-project-ops` | Project artifacts, state, dependencies, handoff |
 | Literature workflow | `literature-review` | Review mode → evidence gate → sibling/backend |
 | Prose | `manuscript-writing` | Artifact-driven draft/revise/audit + lint |
+| Document roundtrip | `manuscript-markdown` | **Default** DOCX ↔ Markdown (CLI/extension; not pandoc) |
 | Discovery | `discover-papers`, `protocol` | Search front door + durable protocol walk |
 | Full text | `find-pdf` | Waterfall router |
 | Library | `zotero`, `zotseek`, `zotero-local-library` | Assume Zotero MCP/API |

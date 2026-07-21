@@ -1,7 +1,7 @@
 {
   "name": "researchskills",
-  "description": "AI agent skills for manuscript writing and literature review, OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, and Zotero. Works with Claude Code, Codex, and Cursor.",
-  "version": "0.2.1",
+  "description": "AI agent skills for manuscript writing, DOCX\u2194Markdown roundtrip, literature review, OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, and Zotero. Works with Claude Code, Codex, and Cursor.",
+  "version": "0.2.2",
   "author": {
     "name": "dahliasan",
     "url": "https://github.com/dahliasan"

@@ -1,10 +1,10 @@
 # researchskills
 
 **AI agent skills for scientific research workflows.** Manuscript writing,
-scientific figure design, submission packaging, evidence-grounded literature
-reviews, OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, Zotero, and
-research-project operations. Works with Claude Code, Codex, Cursor, and any
-Agent Skills host.
+DOCX↔Markdown roundtrip, scientific figure design, submission packaging,
+evidence-grounded literature reviews, OpenAlex discovery, PROTOCOL.md
+walkthroughs, PDF finding, Zotero, and research-project operations. Works with
+Claude Code, Codex, Cursor, and any Agent Skills host.
 
 Packaged like [marketingskills](https://github.com/coreyhaines31/marketingskills) /
 [makerskills](https://github.com/coreyhaines31/makerskills):
@@ -43,6 +43,7 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 |------------|--------|
 | Unsure which skill | [`researchskills`](./skills/researchskills/SKILL.md) |
 | Draft, revise, storyboard, or audit a research manuscript | [`manuscript-writing`](./skills/manuscript-writing/SKILL.md) |
+| Roundtrip Word DOCX ↔ Markdown (**default** MD↔Word path) | [`manuscript-markdown`](./skills/manuscript-markdown/SKILL.md) |
 | Plan, create, revise, or audit a scientific figure | [`figure-design`](./skills/figure-design/SKILL.md) |
 | Adapt a manuscript to a journal or prepare its submission package | [`manuscript-submission`](./skills/manuscript-submission/SKILL.md) |
 | Manage a preliminary, methods, or formal literature workflow | [`literature-review`](./skills/literature-review/SKILL.md) |
@@ -68,6 +69,7 @@ institutional fetch, and Zotero MCP) stay on your machine. See
      └─ /zotero · /zotseek · UsefulPapers
 /research-project-ops    ← project artifacts, state, and handoff
 /manuscript-writing      ← manuscript argument, prose, and audit
+/manuscript-markdown     ← DOCX ↔ Markdown roundtrip (CLI + extension)
 /figure-design           ← scientific figure design and QA
 /manuscript-submission   ← journal compliance and submission package
 ```

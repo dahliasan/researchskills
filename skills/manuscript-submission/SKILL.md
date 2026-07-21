@@ -31,6 +31,7 @@ components, package assembly, and final preflight checks. It does not own:
 Use companion workflows when available:
 
 - `manuscript-writing` for scientific prose and structural revision
+- `manuscript-markdown` for Markdown↔DOCX emit or import (default Word roundtrip)
 - `figure-design` for visual changes and export quality
 - `research-project-ops` for provenance, availability statements, ethics, funding, and project facts
 - `literature-review` for unsupported external claims

@@ -6,10 +6,11 @@ Operating notes for agents working in **researchskills**.
 
 1. Skills are documentation-first; do not vendor UsefulPapers, anulib, or scihub into this repo.
 2. Do not add overlapping prose twins. `manuscript-writing` is the manuscript prose and audit source of truth.
-3. `discover-papers` must support quick mode without PROTOCOL.md.
-4. `protocol` is soft-hidden but must remain a real, independently invocable skill.
-5. Scrub personal paths, credentials, project data, and private conventions before committing skill text.
-6. Treat validators as guardrails. Do not encode context-dependent style preferences as universal scientific blockers.
+3. Default MD↔DOCX converter is `manuscript-markdown` (CLI/extension). Do not use pandoc for manuscript Word roundtrip unless the user opts in after an install/compare flag. `manuscript-markdown` does not draft prose.
+4. `discover-papers` must support quick mode without PROTOCOL.md.
+5. `protocol` is soft-hidden but must remain a real, independently invocable skill.
+6. Scrub personal paths, credentials, project data, and private conventions before committing skill text.
+7. Treat validators as guardrails. Do not encode context-dependent style preferences as universal scientific blockers.
 
 ## Layout
 

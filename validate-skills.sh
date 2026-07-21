@@ -8,6 +8,7 @@ fail=0
 required_skills=(
   researchskills
   manuscript-writing
+  manuscript-markdown
   figure-design
   manuscript-submission
   literature-review
@@ -70,6 +71,7 @@ echo "== scrub: no personal machine paths in skill runtime files =="
 hits=$(grep -RInE 'Dennis|Dahlia|/Users/dennis|dahlias-skills|dahlia-zotseek' \
   skills/*/SKILL.md \
   skills/*/reference.md \
+  skills/*/references/*.md \
   skills/*/*.py \
   skills/*/scripts/*.py \
   2>/dev/null || true)

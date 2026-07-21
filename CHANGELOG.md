@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2 — 2026-07-21
+
+- Add `manuscript-markdown` for DOCX ↔ Markdown roundtrip via the Manuscript Markdown CLI/extension (install gate; CriticMarkup references).
+- Make `manuscript-markdown` the **default** MD↔DOCX path (AGENTS + pack router; pandoc only opt-in).
+- Route table, README, ARCHITECTURE, EXAMPLES, and pack validation updated.
+
 ## 0.2.1 — 2026-07-21
 
 - Remove deprecated `scientific-writing` skill; `manuscript-writing` is the only prose skill.

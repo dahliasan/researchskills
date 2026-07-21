@@ -28,6 +28,7 @@ Use companion workflows when available:
 - `literature-review` for verified external evidence and citation support
 - `analysis-design` for unresolved design or statistical questions
 - Zotero tooling for citekeys and bibliography management
+- `manuscript-markdown` for any Markdown↔DOCX conversion (default; not pandoc)
 
 ## Router
 

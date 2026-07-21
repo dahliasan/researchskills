@@ -14,6 +14,12 @@ One worked example per skill: what you say → what happens.
 
 **Agent:** Loads `manuscript-writing`, rewrites claim-first sentences with uncertainty, runs `skills/manuscript-writing/validator.py` on the draft.
 
+## manuscript-markdown
+
+**You:** /manuscript-markdown — convert this coauthor Word outline to Markdown and keep comments.
+
+**Agent:** Step 0 checks `manuscript-markdown` on PATH (flags install if missing) → DOCX→MD with CriticMarkup preserved → places MD in the manuscript tree with provenance; does not rewrite scientific prose.
+
 ## literature-review
 
 **You:** Orient me on shipping exposure for migratory whales and build a core reading set.
