@@ -27,8 +27,6 @@ Use companion workflows when available:
 - `research-project-ops` for project state, authoritative artifacts, and conflicts
 - `literature-review` for verified external evidence and citation support
 - `analysis-design` for unresolved design or statistical questions
-- `figure-design` for visual design and figure production
-- `manuscript-submission` for journal adaptation and submission packaging
 - Zotero tooling for citekeys and bibliography management
 
 ## Router
@@ -43,9 +41,6 @@ Classify the request before editing.
 | `surgical-edit` | User wants minimal changes | Only necessary edits; preserve wording and structure |
 | `audit` | Checking a draft before review or submission | Prioritised issue report; no broad rewrite unless asked |
 | `response-to-reviewers` | Revising from reviewer comments | Response map and manuscript changes |
-
-For journal requirements or a full submission package, route to
-`manuscript-submission` when available.
 
 ## Evidence gate
 
