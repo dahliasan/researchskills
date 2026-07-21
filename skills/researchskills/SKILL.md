@@ -31,7 +31,7 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 ## Rules
 
 1. Prefer `literature-review` for review-shaped work; prefer `discover-papers` for one-off search (it can offer `protocol`).
-2. Do not invent a second prose skill; always `manuscript-writing` (`scientific-writing` is a deprecated alias only).
+2. Do not invent a second prose skill; always `manuscript-writing`.
 3. If Zotero MCP is unavailable, say so and continue with non-Zotero paths where possible.
 
 ## Exit

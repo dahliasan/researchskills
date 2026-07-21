@@ -44,8 +44,6 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | Semantic search in Zotero | [`zotseek`](./skills/zotseek/SKILL.md) |
 | List a Zotero collection and PDF paths | [`zotero-local-library`](./skills/zotero-local-library/SKILL.md) |
 
-`scientific-writing` remains only as a deprecated compatibility alias for `manuscript-writing`.
-
 ## Architecture
 
 Skills are workflow docs. Engines and CLIs (UsefulPapers, OpenAlex, Unpaywall, institutional fetch, and Zotero MCP) stay on your machine. See [INSTALL.md](./INSTALL.md).

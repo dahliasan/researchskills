@@ -4,7 +4,7 @@
 
 ```bash
 npx skills add dahliasan/researchskills
-npx skills add dahliasan/researchskills --skill scientific-writing discover-papers
+npx skills add dahliasan/researchskills --skill manuscript-writing discover-papers
 npx skills add dahliasan/researchskills --list
 ```
 

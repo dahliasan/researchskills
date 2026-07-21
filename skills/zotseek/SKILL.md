@@ -96,5 +96,5 @@ Details: [reference.md](reference.md).
 
 - `zotero-local-library` — collection list + PDF paths
 - `zotero` — local CLI / API inventory and bibtex
-- `scientific-writing` — how cites land in prose
+- `manuscript-writing` — how cites land in prose
 - `discover-papers` — find new papers outside the library

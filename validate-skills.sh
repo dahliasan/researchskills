@@ -8,7 +8,6 @@ fail=0
 required_skills=(
   researchskills
   manuscript-writing
-  scientific-writing
   literature-review
   discover-papers
   protocol
