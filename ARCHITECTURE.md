@@ -11,7 +11,7 @@
 ┌───────────────────────────▼───────────────────────────────┐
 │  Your machine                                              │
 │  OpenAlex HTTP · Zotero/ZotSeek · Unpaywall · optional    │
-│  UsefulPapers / institutional / Sci-Hub CLIs               │
+│  UsefulPapers / institutional full-text tools              │
 │  RESEARCHSKILLS_MAILTO in env                              │
 └────────────────────────────────────────────────────────────┘
 ```
@@ -22,11 +22,46 @@ Same idea as makerskills `second-brain`: the skill is the workflow; the data and
 
 | Family | Skills | Pattern |
 |--------|--------|---------|
-| Router | `researchskills` | Intent → sibling |
+| Pack routing | `researchskills` | Intent → sibling |
+| Project operations | `research-project-ops` | Project artifacts, state, dependencies, handoff |
+| Literature workflow | `literature-review` | Review mode → evidence gate → sibling/backend |
 | Prose | `scientific-writing` | Standalone + validator |
-| Discovery | `discover-papers`, `protocol` | Front door + soft-hidden walk |
-| Full text | `find-pdf` | skillify-style mode router |
+| Discovery | `discover-papers`, `protocol` | Search front door + durable protocol walk |
+| Full text | `find-pdf` | Waterfall router |
 | Library | `zotero`, `zotseek`, `zotero-local-library` | Assume Zotero MCP/API |
+
+## Literature workflow
+
+```text
+research-project-ops
+        │ project question, methods, status
+        ▼
+literature-review
+        ├─ protocol          durable scope and locked search
+        ├─ discover-papers   OpenAlex candidates
+        ├─ find-pdf          authorised full-text retrieval
+        ├─ zotero/zotseek    existing project library
+        └─ UsefulPapers      optional batch engine and Zotero adapter
+                │
+                ▼
+       verified evidence artifacts
+                │
+                ├─ research-project-ops updates project SOT
+                └─ scientific-writing uses evidence for prose
+```
+
+`literature-review` is not the parent of project operations or scientific writing. It is a specialist router that produces verified evidence artifacts. `research-project-ops` owns project state. `scientific-writing` owns manuscript prose.
+
+## Evidence gates
+
+```text
+metadata        → discovery
+abstract        → initial screening
+full text       → methods/results extraction
+exact location  → citation verification
+```
+
+A missing PDF may leave a paper in the corpus, but it cannot be promoted to full-text verified evidence.
 
 ## discover-papers modes
 
@@ -38,8 +73,8 @@ locked ──► PROTOCOL.md search.queries[] (else PCC concat)
 
 ## Composes with (optional)
 
-- [usefulpapers](https://github.com/dahliasan/usefulpapers) — PROTOCOL.md consumer / Zotero adapter
-- Institutional PDF CLIs — only if on PATH
+- [usefulpapers](https://github.com/dahliasan/usefulpapers) — PROTOCOL.md consumer, screening pipeline, and Zotero adapter
+- Institutional full-text tools — only if available and authorised
 
 ## Maintainer loop (edit → live)
 
