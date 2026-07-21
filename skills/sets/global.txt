@@ -2,6 +2,7 @@
 # Refresh: ./scripts/link-global.sh
 researchskills
 manuscript-writing
+manuscript-markdown
 figure-design
 manuscript-submission
 literature-review

@@ -1,16 +1,17 @@
 ---
 name: manuscript-markdown
 description: >-
-  Roundtrip DOCX ↔ Manuscript Markdown with Word comments, track changes,
-  highlights, tables, equations, and Zotero citations via the Manuscript
-  Markdown CLI and VS Code extension. Default converter for any research
-  Markdown↔Word work. Use when converting .docx ↔ .md, exporting Word for
-  coauthors, importing Word drafts, preserving CriticMarkup, comparing to
-  pandoc, or the user says "/manuscript-markdown". Does not draft scientific
-  prose (use manuscript-writing). Requires Manuscript Markdown tooling —
-  stop and flag install if missing.
+  Agent workflow for the Manuscript Markdown product (Cursor/VS Code extension
+  jbearak.manuscript-markdown + matching CLI). Roundtrip DOCX ↔ Markdown with
+  Word comments, track changes, highlights, tables, equations, and Zotero
+  citations. Default converter for research Markdown↔Word work. Use when
+  converting .docx ↔ .md, exporting Word for coauthors, importing Word drafts,
+  preserving CriticMarkup, comparing to pandoc, installing/doctoring Manuscript
+  Markdown, or the user says "/manuscript-markdown". Does not draft scientific
+  prose (use manuscript-writing). Requires Manuscript Markdown tooling — stop
+  and flag install if missing.
 metadata:
-  version: 0.1.1
+  version: 0.1.2
 ---
 
 # /manuscript-markdown — DOCX ↔ Markdown roundtrip
@@ -21,10 +22,28 @@ Do not reach for pandoc first.
 
 **Not prose.** Argument, storyboard, and audit stay in `manuscript-writing`.
 
+## Product link (read first)
+
+This skill is **not** a separate converter. It is the agent playbook for
+**[Manuscript Markdown](https://marketplace.visualstudio.com/items?itemName=jbearak.manuscript-markdown)**
+from [jbearak/manuscript-markdown](https://github.com/jbearak/manuscript-markdown).
+
+| Surface | Who uses it | Role |
+|---------|-------------|------|
+| Cursor / VS Code extension `jbearak.manuscript-markdown` | Humans | In-editor CriticMarkup, preview, right-click **Export to Markdown** / **Export to Word** |
+| `manuscript-markdown` CLI (same upstream releases) | Agents / terminal | Same conversion engine for scripted roundtrips |
+
+Same product, two surfaces. Prefer the extension when the user is editing in
+Cursor; use the CLI when an agent must convert without UI. Do not describe
+them as unrelated tools.
+
+Install / doctor → [references/install.md](references/install.md).
+
 ## Step 0 — Install gate (always)
 
-Completion criterion: CLI is on `PATH` **or** you have stopped and told the
-user what to install. Do not convert with a substitute without saying so.
+Completion criterion: at least one Manuscript Markdown surface is available
+**or** you have stopped and told the user what to install. Do not convert with
+a substitute without saying so.
 
 ```bash
 command -v manuscript-markdown
@@ -33,11 +52,12 @@ manuscript-markdown --version
 
 | Check | If missing |
 |-------|------------|
-| `manuscript-markdown` CLI | **Flag:** Manuscript Markdown CLI is required. Install steps → [references/install.md](references/install.md) |
-| VS Code / Cursor extension `jbearak.manuscript-markdown` (human editing) | **Flag:** Extension recommended for annotations UI and right-click Export. Same install doc |
+| Extension `jbearak.manuscript-markdown` (Cursor / VS Code) | **Flag** when the user expects in-editor Export / annotations UI. Install steps → [references/install.md](references/install.md) |
+| `manuscript-markdown` CLI on `PATH` | **Flag** when an agent must convert in the terminal. Same install doc |
 
-If the user only needs agent conversion, CLI alone unblocks Step 1. Still note
-when the extension is absent so they can install it for editor roundtrip.
+- Human editing in Cursor → extension is the primary surface; CLI optional.
+- Agent / scripted conversion → CLI required; still note if the extension is
+  absent so the user can install it for editor roundtrip.
 
 **Do not silently fall back to pandoc.** Pandoc drops Word comments and
 highlights. If the user accepts pandoc after the flag, say so explicitly and
@@ -55,7 +75,9 @@ label the output as pandoc (not Manuscript Markdown).
 
 ## Step 2 — Convert
 
-Default CLI (direction from extension):
+Prefer pointing the user to the extension Export commands when they are in
+Cursor and only need a one-off file. Use the CLI when the agent must run the
+conversion (same engine as the extension):
 
 ```bash
 manuscript-markdown path/to/paper.docx --force --output path/to/paper
@@ -97,9 +119,10 @@ normalizing whitespace.
 
 - `manuscript-writing` — draft/revise after a clean Markdown outline exists
 - `manuscript-submission` — venue DOCX packaging (separate from roundtrip edit)
-- `zotero` — library search; MM owns field-code roundtrip when present in DOCX
+- `zotero` — library search; Manuscript Markdown owns field-code roundtrip when
+  present in DOCX
 
 ## Upstream
 
-- Repo: [jbearak/manuscript-markdown](https://github.com/jbearak/manuscript-markdown)
-- Marketplace: [Manuscript Markdown](https://marketplace.visualstudio.com/items?itemName=jbearak.manuscript-markdown)
+- Product / extension: [Manuscript Markdown](https://marketplace.visualstudio.com/items?itemName=jbearak.manuscript-markdown) (`jbearak.manuscript-markdown`)
+- Repo + CLI releases: [jbearak/manuscript-markdown](https://github.com/jbearak/manuscript-markdown)
