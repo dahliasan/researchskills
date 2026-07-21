@@ -44,6 +44,7 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | Unsure which skill | [`researchskills`](./skills/researchskills/SKILL.md) |
 | Draft, revise, storyboard, or audit a research manuscript | [`manuscript-writing`](./skills/manuscript-writing/SKILL.md) |
 | Roundtrip Word DOCX ↔ Markdown (**default** MD↔Word path) | [`manuscript-markdown`](./skills/manuscript-markdown/SKILL.md) |
+| CriticMarkup collab / strip agent comments / export Word for coauthors | [`manuscript-collab`](./skills/manuscript-collab/SKILL.md) |
 | Plan, create, revise, or audit a scientific figure | [`figure-design`](./skills/figure-design/SKILL.md) |
 | Adapt a manuscript to a journal or prepare its submission package | [`manuscript-submission`](./skills/manuscript-submission/SKILL.md) |
 | Manage a preliminary, methods, or formal literature workflow | [`literature-review`](./skills/literature-review/SKILL.md) |
