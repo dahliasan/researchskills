@@ -2,6 +2,7 @@
 # Refresh: ./scripts/link-global.sh
 researchskills
 scientific-writing
+literature-review
 discover-papers
 protocol
 find-pdf

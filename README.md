@@ -1,6 +1,6 @@
 # researchskills
 
-**AI agent skills for scientific research workflows.** Scientific prose, OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, and Zotero. Works with Claude Code, Codex, Cursor, and any Agent Skills host.
+**AI agent skills for scientific research workflows.** Scientific prose, evidence-grounded literature reviews, OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, Zotero, and research-project operations. Works with Claude Code, Codex, Cursor, and any Agent Skills host.
 
 Packaged like [marketingskills](https://github.com/coreyhaines31/marketingskills) / [makerskills](https://github.com/coreyhaines31/makerskills): documentation-first skills, backends optional and out of band.
 
@@ -25,18 +25,20 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 
 1. Install the pack.
 2. Try **scientific writing**: ask your agent to revise a Results paragraph with `/scientific-writing`.
-3. Try **discovery**: `/discover-papers` with a brain-dump question (no PROTOCOL.md required).
-4. When you want a durable review, let discover offer the **protocol** walk, or run `/protocol`.
+3. Try **literature review**: ask `/literature-review` to orient around a provisional research question.
+4. For direct discovery, use `/discover-papers` with a brain-dump question.
+5. When you need a reproducible review, let literature-review route to `/protocol` and locked discovery.
 
 ## Which skill when?
 
 | I want to… | Skill |
 |------------|--------|
 | Unsure which skill | [`researchskills`](./skills/researchskills/SKILL.md) |
+| Scaffold / audit / hand off a research project | [`research-project-ops`](./skills/research-project-ops/SKILL.md) |
+| Manage a preliminary, methods, or formal literature workflow | [`literature-review`](./skills/literature-review/SKILL.md) |
 | Draft/revise scientific prose | [`scientific-writing`](./skills/scientific-writing/SKILL.md) |
 | Find papers (OpenAlex) | [`discover-papers`](./skills/discover-papers/SKILL.md) |
-| Build a PROTOCOL.md from a research question | [`protocol`](./skills/protocol/SKILL.md) (soft-hidden; discover can invoke it) |
-| Scaffold / audit / hand off a research project | [`research-project-ops`](./skills/research-project-ops/SKILL.md) |
+| Build a PROTOCOL.md from a research question | [`protocol`](./skills/protocol/SKILL.md) (soft-hidden; literature-review or discover can invoke it) |
 | Get a PDF by DOI | [`find-pdf`](./skills/find-pdf/SKILL.md) |
 | Search / cite from Zotero | [`zotero`](./skills/zotero/SKILL.md) |
 | Semantic search in Zotero | [`zotseek`](./skills/zotseek/SKILL.md) |
@@ -44,14 +46,16 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 
 ## Architecture
 
-Skills are workflow docs. Engines and CLIs (UsefulPapers, Unpaywall, institutional fetch, Sci-Hub, Zotero MCP) stay on your machine. See [INSTALL.md](./INSTALL.md).
+Skills are workflow docs. Engines and CLIs (UsefulPapers, OpenAlex, Unpaywall, institutional fetch, and Zotero MCP) stay on your machine. See [INSTALL.md](./INSTALL.md).
 
 ```text
-/discover-papers          ← front door (quick | protocol | locked)
-     └─ /protocol         ← soft-hidden walk → PROTOCOL.md
-/find-pdf                 ← waterfall router
-/scientific-writing       ← prose SOT
-/zotero · /zotseek · …    ← assume Zotero MCP / local API
+/literature-review       ← review-state router + evidence gates
+     ├─ /protocol        ← durable review plan → PROTOCOL.md
+     ├─ /discover-papers ← external candidate discovery
+     ├─ /find-pdf        ← full-text waterfall router
+     └─ /zotero · /zotseek · UsefulPapers
+/research-project-ops    ← project artifacts, state, and handoff
+/scientific-writing      ← manuscript prose SOT
 ```
 
 ## Docs
