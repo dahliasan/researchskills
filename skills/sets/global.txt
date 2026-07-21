@@ -3,6 +3,7 @@
 researchskills
 manuscript-writing
 figure-design
+manuscript-submission
 literature-review
 research-project-ops
 discover-papers
