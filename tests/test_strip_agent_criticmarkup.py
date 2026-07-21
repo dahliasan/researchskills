@@ -24,7 +24,7 @@ class TestStripAgentCriticmarkup(unittest.TestCase):
         self.mod = load_mod()
 
     def test_keeps_human_comment(self) -> None:
-        src = "Hello.{>>@Dahlia Foo (2025-09-09 22:21) | Please expand.<<}"
+        src = "Hello.{>>@Ada Lee (2025-09-09 22:21) | Please expand.<<}"
         out, stats = self.mod.strip_agent_comments(src)
         self.assertEqual(out, src)
         self.assertEqual(sum(stats.values()), 0)
@@ -67,7 +67,7 @@ class TestStripAgentCriticmarkup(unittest.TestCase):
     def test_fixture_mixed(self) -> None:
         text = FIXTURE.read_text(encoding="utf-8")
         out, stats = self.mod.strip_agent_comments(text)
-        self.assertIn("@Dahlia Foo", out)
+        self.assertIn("@Ada Lee", out)
         self.assertNotIn("@Claude", out)
         self.assertNotIn("Claude (2026-07-21)", out)
         self.assertIn("Keep this human comment", out)

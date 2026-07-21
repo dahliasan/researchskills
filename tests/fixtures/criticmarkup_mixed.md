@@ -1,6 +1,6 @@
 # Sample
 
-Keep this human comment.{>>@Dahlia Foo (2025-09-09 22:21) | Keep this human comment<<}
+Keep this human comment.{>>@Ada Lee (2025-09-09 22:21) | Keep this human comment<<}
 
 Normal prose with agent note.{>>@Claude | remove me<<}
 

@@ -11,7 +11,7 @@ Stripped on collaborator export (case-insensitive):
 | Codex | `codex`, `@Codex` |
 | ChatGPT | `chatgpt`, `@ChatGPT`, `GPT`, `Chat GPT` |
 
-Humans (e.g. `@Dahlia Foo`) are never stripped.
+Humans (e.g. `@Ada Lee`) are never stripped.
 
 ## Preferred comment form
 
@@ -63,7 +63,7 @@ Snapshot filename: `<stem>-YYYY-MM-DD-HHMM.md` with a SNAPSHOT banner.
 Append after the human comment (do not mutate the human body):
 
 ```markdown
-…prose…{>>@Dahlia Foo | Please expand.<<}{>>@Claude | Expanded the Methods paragraph on …<<}
+…prose…{>>@Ada Lee | Please expand.<<}{>>@Claude | Expanded the Methods paragraph on …<<}
 ```
 
 ## HTML comments

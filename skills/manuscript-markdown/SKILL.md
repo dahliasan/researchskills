@@ -115,9 +115,17 @@ diff. Typical delta: Manuscript Markdown keeps `{>>comments<<}` and
 `{==highlights==}`; pandoc does not. Body prose is usually the same after
 normalizing whitespace.
 
+## Share with coauthors (agent CriticMarkup)
+
+To snapshot the full `.md`, strip agent CriticMarkup (`@Claude` / `@Cursor` /
+etc.), then emit DOCX, use **`manuscript-collab` export** — do not expand this
+convert skill into collab policy. See `skills/manuscript-collab/SKILL.md`.
+
 ## Composes with
 
 - `manuscript-writing` — draft/revise after a clean Markdown outline exists
+- `manuscript-collab` — agent comment authorship, address human CriticMarkup,
+  collaborator export (strip agents → CLI)
 - `manuscript-submission` — venue DOCX packaging (separate from roundtrip edit)
 - `zotero` — library search; Manuscript Markdown owns field-code roundtrip when
   present in DOCX

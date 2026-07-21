@@ -3,12 +3,12 @@ name: researchskills
 description: >-
   Pack router for researchskills. Use when the user is unsure which research
   skill to run, asks for research help generally, or says "/researchskills".
-  Routes to manuscript-writing, manuscript-markdown, figure-design,
-  manuscript-submission, literature-review, discover-papers, protocol, find-pdf,
-  research-project-ops, zotero, zotseek, or zotero-local-library. Does not
-  reimplement those skills.
+  Routes to manuscript-writing, manuscript-markdown, manuscript-collab,
+  figure-design, manuscript-submission, literature-review, discover-papers,
+  protocol, find-pdf, research-project-ops, zotero, zotseek, or
+  zotero-local-library. Does not reimplement those skills.
 metadata:
-  version: 0.1.4
+  version: 0.1.5
 ---
 
 # /researchskills — pack router
@@ -21,6 +21,7 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 |--------|--------|
 | Draft, revise, storyboard, or audit manuscript prose | `manuscript-writing` |
 | Roundtrip DOCX ↔ Markdown (default MD↔Word path) | `manuscript-markdown` |
+| CriticMarkup collab, address review comments, or export Word without agent comments | `manuscript-collab` |
 | Plan, create, revise, or audit a scientific figure | `figure-design` |
 | Adapt a manuscript to a journal or prepare a submission package | `manuscript-submission` |
 | Literature workflow, synthesis, citation check | `literature-review` |

@@ -50,7 +50,7 @@ Never-visible agent-only notes may use HTML `<!-- … -->` (invisible in Word).
 ## Mode: address
 
 1. Find CriticMarkup `{>>…<<}` whose author is **not** on the agent allowlist
-   (human comments such as `@Dahlia Foo`).
+   (human comments such as `@Ada Lee`).
 2. Edit surrounding prose as requested.
 3. Append a reply: `{>>@Claude | …<<}` (or your acting agent name) after the
    human comment. Do **not** delete or edit the human comment body. Do **not**
