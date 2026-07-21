@@ -1,0 +1,11 @@
+# Symlinked to ~/.agents/skills, ~/.cursor/skills, ~/.claude/skills, ~/.codex/skills
+# Refresh: ./scripts/link-global.sh
+researchskills
+scientific-writing
+discover-papers
+protocol
+find-pdf
+zotero
+zotseek
+zotero-local-library
+research-project-ops

@@ -41,6 +41,20 @@ locked ──► PROTOCOL.md search.queries[] (else PCC concat)
 - [usefulpapers](https://github.com/dahliasan/usefulpapers) — PROTOCOL.md consumer / Zotero adapter
 - Institutional PDF CLIs — only if on PATH
 
+## Maintainer loop (edit → live)
+
+```text
+~/Developer/researchskills/skills/<name>/   ← edit here
+        ▲
+        │  ./scripts/link-global.sh  (symlink once)
+        ▼
+~/.agents/skills/<name>  →  ~/.cursor|claude|codex/skills/<name>
+```
+
+File edits are live. Re-run `link-global.sh` only when adding a new skill name to `skills/sets/global.txt`.
+
+Consumers who use `npx skills add` get **copies**; they refresh with `npx skills update`, not live symlinks.
+
 ## Versioning
 
 - Pack: `CHANGELOG.md` + `.claude-plugin/*.json` version

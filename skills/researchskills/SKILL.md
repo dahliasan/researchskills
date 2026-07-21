@@ -3,8 +3,9 @@ name: researchskills
 description: >-
   Pack router for researchskills. Use when the user is unsure which research
   skill to run, asks for research help generally, or says "/researchskills".
-  Routes to scientific-writing, discover-papers, protocol, find-pdf, zotero,
-  zotseek, or zotero-local-library. Does not reimplement those skills.
+  Routes to scientific-writing, discover-papers, protocol, find-pdf,
+  research-project-ops, zotero, zotseek, or zotero-local-library. Does not
+  reimplement those skills.
 metadata:
   version: 0.1.0
 ---
@@ -21,6 +22,7 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 | Find papers / OpenAlex / brain-dump search | `discover-papers` |
 | Build or refine PROTOCOL.md from a research question | `protocol` |
 | Get a PDF for a DOI or paper | `find-pdf` |
+| Scaffold / audit / hand off a research repo (PROJECT.md, METHODS.md, STATUS.md) | `research-project-ops` |
 | Zotero search, BibTeX, cite into draft | `zotero` |
 | Semantic search over Zotero PDFs | `zotseek` |
 | List items in a named Zotero collection + PDF paths | `zotero-local-library` |

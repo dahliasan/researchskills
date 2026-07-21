@@ -14,6 +14,7 @@ required_skills=(
   zotero
   zotseek
   zotero-local-library
+  research-project-ops
 )
 
 echo "== frontmatter + required skills =="

@@ -36,6 +36,7 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | Draft/revise scientific prose | [`scientific-writing`](./skills/scientific-writing/SKILL.md) |
 | Find papers (OpenAlex) | [`discover-papers`](./skills/discover-papers/SKILL.md) |
 | Build a PROTOCOL.md from a research question | [`protocol`](./skills/protocol/SKILL.md) (soft-hidden; discover can invoke it) |
+| Scaffold / audit / hand off a research project | [`research-project-ops`](./skills/research-project-ops/SKILL.md) |
 | Get a PDF by DOI | [`find-pdf`](./skills/find-pdf/SKILL.md) |
 | Search / cite from Zotero | [`zotero`](./skills/zotero/SKILL.md) |
 | Semantic search in Zotero | [`zotseek`](./skills/zotseek/SKILL.md) |

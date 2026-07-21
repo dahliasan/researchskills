@@ -1,0 +1,19 @@
+interface:
+  display_name: research project ops
+  short_description: Use when the user wants to start, scaffold, audit, reorganize,
+    document, hand off, resume, or prepare an empirical research project for analysis
+    or manuscript writing. Also use for requests about research repository structure,
+    PROJECT.md, METHODS.md, DECISIONS.md, STATUS.md, claims, results tables and figures,
+    data provenance, reproducibility, or making a research project AI-agent friendly.
+    This skill manages project artifacts and routes work by project phase; it does
+    not replace domain-specific literature review, statistical analysis, or manuscript-writing
+    skills.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
