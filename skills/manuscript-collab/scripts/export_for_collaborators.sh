@@ -88,8 +88,9 @@ snap="$ARCHIVE_DIR/${stem}-${stamp}.md"
 } >"$snap"
 echo "Snapshot: $snap"
 
-tmp="$(mktemp -t "${stem}.stripped.XXXXXX.md")"
-trap 'rm -f "$tmp"' EXIT
+tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/${stem}.strip.XXXXXX")"
+tmp="$tmp_dir/${stem}.stripped.md"
+trap 'rm -rf "$tmp_dir"' EXIT
 python3 "$STRIP" --in "$SOURCE" --out "$tmp" --stats
 
 mm_args=("$tmp" --output "$DEST")
