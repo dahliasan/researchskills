@@ -1,9 +1,15 @@
 ---
 name: manuscript-writing
 description: >-
-  Plan, draft, revise, and audit empirical research manuscripts from verified project artifacts. Use for manuscript outlines, Introduction, Methods, Results, Discussion, Abstract, captions, journal adaptation, surgical edits, and consistency checks. Reads the project question, implemented methods, verified literature, final tables and figures, and result claims before writing. Does not invent missing scientific details or silently resolve conflicts between prose, code, configuration, and outputs.
+  Plan, storyboard, draft, revise, and audit empirical research manuscripts from
+  verified project artifacts. Use for manuscript outlines, Introduction, Methods,
+  Results, Discussion, Abstract, captions, surgical edits, and consistency checks.
+  Reads the project question, implemented methods, verified literature, final
+  tables and figures, and result claims before writing. Does not invent missing
+  scientific details or silently resolve conflicts between prose, code,
+  configuration, and outputs.
 metadata:
-  version: 3.0.0
+  version: 3.1.0
 ---
 
 # Manuscript writing
@@ -12,7 +18,9 @@ Write manuscripts from maintained evidence, not from memory.
 
 ## Scope
 
-This skill owns manuscript prose and manuscript-level quality control. It does not own literature discovery, analysis design, project scaffolding, or statistical execution.
+This skill owns manuscript argument, structure, prose, and manuscript-level
+quality control. It does not own literature discovery, analysis design, project
+scaffolding, statistical execution, figure rendering, or submission packaging.
 
 Use companion workflows when available:
 
@@ -27,17 +35,16 @@ Classify the request before editing.
 
 | Mode | Use when | Output |
 |---|---|---|
-| `outline` | Planning a manuscript or section | Claim-evidence paragraph plan |
+| `outline` | Planning a manuscript or section | Central contribution, result logic, and paragraph storyboard |
 | `draft` | Writing a new section | Evidence-grounded prose |
 | `revise` | Improving logic, clarity, or structure | Revised section plus material issues |
 | `surgical-edit` | User wants minimal changes | Only necessary edits; preserve wording and structure |
 | `audit` | Checking a draft before review or submission | Prioritised issue report; no broad rewrite unless asked |
-| `journal-adapt` | Adapting to a named venue | Structure, length, terminology, and formatting changes |
 | `response-to-reviewers` | Revising from reviewer comments | Response map and manuscript changes |
 
 ## Evidence gate
 
-Before drafting, load the strongest available sources for the section.
+Before planning or drafting, load the strongest available sources for the section.
 
 | Section | Required inputs |
 |---|---|
@@ -57,7 +64,20 @@ Evidence status must remain visible:
 - `agent inference`
 - `[TBC]`
 
-Do not use search snippets as scientific evidence. Do not cite a paper for a claim that has not been checked against the accessible source.
+Do not use search snippets as scientific evidence. Do not cite a paper for a
+claim that has not been checked against the accessible source.
+
+### Section readiness
+
+Before substantial drafting, classify the requested section:
+
+- `READY`: all material inputs are available and consistent
+- `READY WITH GAPS`: drafting can proceed with visible `[TBC]` items
+- `NOT READY`: a missing or conflicting input would make the draft unreliable
+
+`research-project-ops` decides whether the underlying project is
+manuscript-ready. This skill decides whether the requested writing task can
+proceed from the available artifacts.
 
 ## Conflict gate
 
@@ -69,33 +89,93 @@ Stop and report a material conflict when, for example:
 - a citation does not support the sentence
 - planned methods are written as completed methods
 
-Route the conflict to `research-project-ops` or `analysis-design`. Do not guess which version is correct.
+Route the conflict to `research-project-ops` or `analysis-design`. Do not
+guess which version is correct.
 
 ## Workflow
 
-1. Identify mode, manuscript type, target journal, audience, and word limit when available.
-2. Read the relevant project artifacts.
-3. Build or verify the claim-evidence map.
-4. Draft in the correct section role.
-5. Check scientific boundaries and internal consistency.
-6. Run deterministic lint as a final guardrail, not as a substitute for scientific review.
-7. Return the revised text and list only material unresolved issues.
+1. Identify mode, manuscript type, audience, and available journal constraints.
+2. Read the relevant project and evidence artifacts.
+3. Apply the evidence, readiness, and conflict gates.
+4. State or verify the central contribution.
+5. Build or verify the result logic and paragraph storyboard when required.
+6. Draft in the correct section role.
+7. Revise in separate scientific, structural, and editorial passes.
+8. Check claim-evidence traceability and cross-manuscript consistency.
+9. Run deterministic lint as a final guardrail.
+10. Return the finished artifact and only material unresolved issues.
 
-## Paragraph contract
+## Planning gate
 
-Each paragraph should have one main job:
+A storyboard is required for:
+
+- a new manuscript
+- a new complete section
+- a major structural revision
+- an Introduction or Discussion with several linked claims
+
+It may be skipped for:
+
+- surgical edits
+- a single isolated paragraph
+- captions
+- proofreading or formatting
+
+Use an existing `manuscript/outline.md` when present. Do not create a second
+source of truth.
+
+### Central contribution contract
+
+Before outlining a whole paper, record:
+
+| Field | Question |
+|---|---|
+| Research question | What exact question does the study answer? |
+| Answer | What do the results establish? |
+| Contribution | What changes because this study exists? |
+| Evidence | Which result IDs, figures, or tables support the answer? |
+| Boundary | What is the strongest claim the design and evidence permit? |
+| Significance | Why does this contribution matter beyond the study? |
+
+Every main figure, Results subsection, and Discussion claim should establish,
+qualify, or interpret this contribution.
+
+### Reverse figure outline
+
+Before planning Results prose, map each final figure or table:
+
+```text
+question answered
+→ result claim
+→ exact supporting output
+→ estimate and uncertainty
+→ interpretation boundary
+→ required Methods
+→ next logical result
+```
+
+Order Results by scientific logic, not analysis chronology. Route visual design
+or figure production to `figure-design`.
+
+### Paragraph storyboard
+
+Each planned paragraph should have one main job:
 
 ```text
 purpose → claim → evidence or reasoning → boundary → transition
 ```
 
-Before drafting a paragraph, identify:
+Record:
 
 - what the reader must understand
-- the main claim
-- the evidence supporting it
-- the figure, table, result ID, or citation involved
-- what the paragraph must not claim
+- the paragraph's main claim
+- supporting result IDs, figures, tables, or citations
+- what the evidence does not establish
+- why the next paragraph follows
+
+See [reference.md](reference.md) for expanded section guidance. Use
+[assets/manuscript-outline.md](assets/manuscript-outline.md) when a project does
+not already have an outline format.
 
 ## Section contracts
 
@@ -107,10 +187,9 @@ Move from broad problem to the exact study:
 problem → established knowledge → unresolved gap → why it matters → objective/question
 ```
 
-Rules:
-
 - Build only the background needed to understand the gap.
 - Synthesize by idea, not paper-by-paper summaries.
+- Match gap language to the scope of the literature search.
 - End with the study objective, question, and predictions where applicable.
 - Do not pre-report or interpret the study results.
 
@@ -122,8 +201,6 @@ Move from overall design to reproducible detail:
 study design → data → eligibility → processing → variables → analysis → validation
 ```
 
-Rules:
-
 - Report the implemented method, not the history of exploratory attempts.
 - Keep consequential rationale brief; preserve the fuller history in decision records.
 - Put rules in Methods and resulting counts in Results or QC outputs.
@@ -132,13 +209,11 @@ Rules:
 
 ### Results
 
-Follow the order of objectives and corresponding Methods:
+Follow the result logic and corresponding Methods:
 
 ```text
-question → finding → estimate and uncertainty → figure/table
+question → finding → estimate and uncertainty → figure/table → bounded answer
 ```
-
-Rules:
 
 - Lead with the biological or scientific finding, then support it with numbers.
 - Report effect size, uncertainty, sample, unit, and comparison where relevant.
@@ -151,14 +226,20 @@ Rules:
 Use the inverse hourglass:
 
 ```text
-main interpretation → comparison with literature → explanations and alternatives → limitations → broader implications
+main interpretation → literature comparison → alternatives → limitations → implications
 ```
 
-Rules:
+For each important interpretation, connect:
+
+```text
+result ID → supported interpretation → literature agreement or conflict
+→ plausible alternative → evidence boundary → implication
+```
 
 - Start with what the key findings mean, not a numerical Results recap.
 - Separate direct evidence from interpretation and speculation.
 - Address credible alternatives and contradictory literature.
+- Integrate limitations with the claims they constrain.
 - Match causal language to the study design.
 - End at the broadest implication supported by the evidence.
 
@@ -170,7 +251,8 @@ Write the Abstract after the manuscript stabilises:
 context → gap/objective → methods → main results → conclusion
 ```
 
-Use the most decision-relevant results. Include exact estimates only when they materially improve understanding.
+Use the most decision-relevant results. Include exact estimates only when they
+materially improve understanding.
 
 ### Captions
 
@@ -188,7 +270,7 @@ Do not interpret the result in the caption unless the venue requires it.
 
 - Put citations directly after the claim they support.
 - Group citations only when all sources support the same claim.
-- Use narrative author names only when the identity of the study or researcher is rhetorically relevant. Otherwise lead with the finding.
+- Use narrative author names only when identity, chronology, or contrast matters.
 - Preserve the project's citation syntax and house style.
 - Verify citekeys, bibliographic metadata, and claim support before submission.
 
@@ -197,20 +279,34 @@ Do not interpret the result in the caption unless the venue requires it.
 - Match precision to the data and analysis.
 - Report uncertainty, not only point estimates.
 - Distinguish absence of evidence from evidence of no effect.
-- Do not turn prediction into causation.
+- Do not turn prediction or association into causation.
 - State exploratory status when relevant.
 - Avoid threshold-only reporting when effect size and uncertainty are available.
+
+## Revision passes
+
+Do not mix all editing jobs in one pass:
+
+1. scientific accuracy and completeness
+2. central contribution and whole-paper argument
+3. section role and result logic
+4. claim-evidence traceability
+5. paragraph logic and transitions
+6. sentence clarity and concision
+7. terminology, numbers, figures, tables, and citations
+8. journal compliance when requirements are available
+9. deterministic lint
 
 ## Style defaults
 
 - Prefer clear subjects and concrete verbs.
-- Use active voice when it improves clarity; passive voice is acceptable when the actor is irrelevant or the action should be foregrounded.
+- Use active voice when it improves clarity.
 - Keep one main idea per sentence and paragraph where practical.
 - Remove filler, repetition, and unnecessary nominalisations.
 - Define study-specific terms and uncommon abbreviations at first use.
 - Calibrate hedging to evidence; avoid stacked hedges.
 - Preserve technical terms that carry necessary precision.
-- Follow local journal and project conventions over generic style preferences.
+- Follow local journal and project conventions over generic preferences.
 
 ## Audit mode
 
@@ -223,7 +319,7 @@ Audit before rewriting. Classify findings:
 
 Check:
 
-1. question, objectives, analyses, results, and conclusions align
+1. central contribution, question, objectives, analyses, results, and conclusions align
 2. Methods match implementation
 3. all reported values trace to authoritative outputs
 4. tables, figures, captions, and prose agree
@@ -244,11 +340,20 @@ python skills/manuscript-writing/validator.py --file manuscript.md --mode strict
 python skills/manuscript-writing/validator.py --file manuscript.md --section Results
 ```
 
-The validator flags likely issues. It cannot determine scientific truth, citation support, causal validity, or whether a paragraph makes the right argument.
+The validator flags likely issues. It cannot determine scientific truth,
+citation support, causal validity, or whether a paragraph makes the right
+argument.
 
-See [reference.md](reference.md) for expanded guidance and [validator-README.md](validator-README.md) for check definitions.
+See [validator-README.md](validator-README.md) for check definitions.
 
 ## Output contract
+
+For outlining:
+
+1. provide the central contribution
+2. provide the reverse figure outline when Results are in scope
+3. provide the paragraph storyboard
+4. list unresolved evidence or decisions
 
 For drafting or revision:
 
