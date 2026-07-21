@@ -2,6 +2,7 @@
 # Refresh: ./scripts/link-global.sh
 researchskills
 manuscript-writing
+manuscript-submission
 literature-review
 research-project-ops
 discover-papers
