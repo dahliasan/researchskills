@@ -34,7 +34,7 @@ See [references/waterfall.md](references/waterfall.md).
 1. Direct OA URL from OpenAlex / metadata  
 2. Unpaywall API (`mailto` required — reuse `RESEARCHSKILLS_MAILTO`)  
 3. Zotero native attach (if item exists in Zotero)  
-4. Institutional CLI if installed (e.g. `anulib`) — HITL login without asking for DevTools  
+4. Institutional CLI if installed (Primo/LibKey/EZproxy pattern) — HITL login without asking for DevTools  
 5. Sci-Hub CLI if installed and user/policy allows — polite rate limit  
 6. Browser HITL for publisher-specific gates  
 
@@ -53,7 +53,10 @@ If the parent item is in Zotero, prefer Zotero's Find Available PDF / UsefulPape
 
 ## Institutional / Sci-Hub
 
-Documented as optional. Detect CLI on PATH (`anulib`, `scihub`). If missing, skip the mode and continue. For institutional SSO: open the library login in the agent browser and ask the user only to sign in — agents harvest session tokens; never ask users to paste DevTools JavaScript.
+Documented as optional. Detect CLI on PATH. If missing, skip the mode and continue. For institutional SSO: open the library login in the agent browser and ask the user only to sign in — agents harvest session tokens; never ask users to paste DevTools JavaScript.
+
+- Institutional (Primo/LibKey/EZproxy pattern): see [references/institutional-proxy.md](references/institutional-proxy.md)
+- Sci-Hub: see [references/scihub.md](references/scihub.md) — canonical CLI: [dahliasan/scihub-pp-cli](https://github.com/dahliasan/scihub-pp-cli)
 
 ## Browser HITL
 
