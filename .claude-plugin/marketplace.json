@@ -5,15 +5,16 @@
     "url": "https://github.com/dahliasan"
   },
   "metadata": {
-    "description": "Research skills for AI agents — scientific writing, OpenAlex discovery, protocol walkthroughs, PDF finding, and Zotero.",
-    "version": "0.1.1",
+    "description": "Research skills for AI agents \u2014 manuscript writing, literature review, OpenAlex discovery, protocol walkthroughs, PDF finding, and Zotero.",
+    "version": "0.2.0",
     "repository": "https://github.com/dahliasan/researchskills"
   },
   "plugins": [
     {
       "name": "researchskills",
-      "description": "Scientific writing, discover-papers (OpenAlex), protocol walk → PROTOCOL.md, research-project-ops, find-pdf waterfall, and Zotero/ZotSeek skills.",
-      "source": "./"
+      "description": "Manuscript writing, literature-review router, discover-papers (OpenAlex), protocol walk \u2192 PROTOCOL.md, research-project-ops, find-pdf waterfall, and Zotero/ZotSeek skills.",
+      "source": "./",
+      "version": "0.2.0"
     }
   ]
 }

@@ -8,11 +8,17 @@ One worked example per skill: what you say → what happens.
 
 **Agent:** Mode **scaffold** → creates minimum PROJECT.md / STATUS.md / METHODS.md / DECISIONS.md / AGENTS.md as needed; does not invent results.
 
-## scientific-writing
+## manuscript-writing
 
 **You:** Revise this Results paragraph; keep Discussion claims out.
 
-**Agent:** Loads `scientific-writing`, rewrites claim-first sentences with uncertainty, runs `validator.py` on the draft.
+**Agent:** Loads `manuscript-writing`, rewrites claim-first sentences with uncertainty, runs `skills/manuscript-writing/validator.py` on the draft.
+
+## literature-review
+
+**You:** Orient me on shipping exposure for migratory whales and build a core reading set.
+
+**Agent:** Mode **orient** → applies evidence gates → routes to `discover-papers` / `find-pdf` as needed → returns candidates with access level, not invented full-text detail.
 
 ## discover-papers (quick)
 

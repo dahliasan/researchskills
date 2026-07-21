@@ -7,6 +7,7 @@ fail=0
 
 required_skills=(
   researchskills
+  manuscript-writing
   scientific-writing
   literature-review
   discover-papers
@@ -44,7 +45,7 @@ done
 echo "== required scripts =="
 for path in \
   skills/discover-papers/scripts/openalex_search.py \
-  skills/scientific-writing/validator.py \
+  skills/manuscript-writing/validator.py \
   skills/zotero/scripts/zotero.py \
   skills/zotero-local-library/query_collection.py \
   skills/zotseek/scripts/zotseek_stdio_mcp.py

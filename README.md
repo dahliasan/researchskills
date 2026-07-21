@@ -1,6 +1,6 @@
 # researchskills
 
-**AI agent skills for scientific research workflows.** Scientific prose, evidence-grounded literature reviews, OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, Zotero, and research-project operations. Works with Claude Code, Codex, Cursor, and any Agent Skills host.
+**AI agent skills for scientific research workflows.** Manuscript writing, evidence-grounded literature reviews, OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, Zotero, and research-project operations. Works with Claude Code, Codex, Cursor, and any Agent Skills host.
 
 Packaged like [marketingskills](https://github.com/coreyhaines31/marketingskills) / [makerskills](https://github.com/coreyhaines31/makerskills): documentation-first skills, backends optional and out of band.
 
@@ -24,7 +24,7 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 ## 5-minute path
 
 1. Install the pack.
-2. Try **scientific writing**: ask your agent to revise a Results paragraph with `/scientific-writing`.
+2. Try **manuscript writing**: ask your agent to revise a Results paragraph with `/manuscript-writing`.
 3. Try **literature review**: ask `/literature-review` to orient around a provisional research question.
 4. For direct discovery, use `/discover-papers` with a brain-dump question.
 5. When you need a reproducible review, let literature-review route to `/protocol` and locked discovery.
@@ -34,15 +34,17 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | I want to… | Skill |
 |------------|--------|
 | Unsure which skill | [`researchskills`](./skills/researchskills/SKILL.md) |
-| Scaffold / audit / hand off a research project | [`research-project-ops`](./skills/research-project-ops/SKILL.md) |
+| Draft, revise, or audit a research manuscript | [`manuscript-writing`](./skills/manuscript-writing/SKILL.md) |
 | Manage a preliminary, methods, or formal literature workflow | [`literature-review`](./skills/literature-review/SKILL.md) |
-| Draft/revise scientific prose | [`scientific-writing`](./skills/scientific-writing/SKILL.md) |
+| Scaffold / audit / hand off a research project | [`research-project-ops`](./skills/research-project-ops/SKILL.md) |
 | Find papers (OpenAlex) | [`discover-papers`](./skills/discover-papers/SKILL.md) |
 | Build a PROTOCOL.md from a research question | [`protocol`](./skills/protocol/SKILL.md) (soft-hidden; literature-review or discover can invoke it) |
 | Get a PDF by DOI | [`find-pdf`](./skills/find-pdf/SKILL.md) |
-| Search / cite from Zotero | [`zotero`](./skills/zotero/SKILL.md) |
+| Search or cite from Zotero | [`zotero`](./skills/zotero/SKILL.md) |
 | Semantic search in Zotero | [`zotseek`](./skills/zotseek/SKILL.md) |
-| List a Zotero collection + PDF paths | [`zotero-local-library`](./skills/zotero-local-library/SKILL.md) |
+| List a Zotero collection and PDF paths | [`zotero-local-library`](./skills/zotero-local-library/SKILL.md) |
+
+`scientific-writing` remains only as a deprecated compatibility alias for `manuscript-writing`.
 
 ## Architecture
 
@@ -55,19 +57,19 @@ Skills are workflow docs. Engines and CLIs (UsefulPapers, OpenAlex, Unpaywall, i
      ├─ /find-pdf        ← full-text waterfall router
      └─ /zotero · /zotseek · UsefulPapers
 /research-project-ops    ← project artifacts, state, and handoff
-/scientific-writing      ← manuscript prose SOT
+/manuscript-writing      ← manuscript prose and audit
 ```
 
 ## Docs
 
-- [INSTALL.md](./INSTALL.md) — env vars and optional backends
-- [ARCHITECTURE.md](./ARCHITECTURE.md) — public pack vs private backends
-- [EXAMPLES.md](./EXAMPLES.md) — what you say → what happens
+- [INSTALL.md](./INSTALL.md)
+- [ARCHITECTURE.md](./ARCHITECTURE.md)
+- [EXAMPLES.md](./EXAMPLES.md)
 - [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Related
 
-- [usefulpapers](https://github.com/dahliasan/usefulpapers) — optional Zotero adapter + literature pipeline engine
+- [usefulpapers](https://github.com/dahliasan/usefulpapers) — optional Zotero adapter and literature pipeline engine
 
 ## License
 

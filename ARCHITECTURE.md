@@ -25,7 +25,7 @@ Same idea as makerskills `second-brain`: the skill is the workflow; the data and
 | Pack routing | `researchskills` | Intent → sibling |
 | Project operations | `research-project-ops` | Project artifacts, state, dependencies, handoff |
 | Literature workflow | `literature-review` | Review mode → evidence gate → sibling/backend |
-| Prose | `scientific-writing` | Standalone + validator |
+| Prose | `manuscript-writing` (`scientific-writing` alias) | Artifact-driven draft/revise/audit + lint |
 | Discovery | `discover-papers`, `protocol` | Search front door + durable protocol walk |
 | Full text | `find-pdf` | Waterfall router |
 | Library | `zotero`, `zotseek`, `zotero-local-library` | Assume Zotero MCP/API |
@@ -47,10 +47,10 @@ literature-review
        verified evidence artifacts
                 │
                 ├─ research-project-ops updates project SOT
-                └─ scientific-writing uses evidence for prose
+                └─ manuscript-writing uses evidence for prose
 ```
 
-`literature-review` is not the parent of project operations or scientific writing. It is a specialist router that produces verified evidence artifacts. `research-project-ops` owns project state. `scientific-writing` owns manuscript prose.
+`literature-review` is not the parent of project operations or manuscript writing. It is a specialist router that produces verified evidence artifacts. `research-project-ops` owns project state. `manuscript-writing` owns manuscript prose.
 
 ## Evidence gates
 

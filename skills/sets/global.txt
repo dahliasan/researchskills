@@ -1,12 +1,13 @@
 # Symlinked to ~/.agents/skills, ~/.cursor/skills, ~/.claude/skills, ~/.codex/skills
 # Refresh: ./scripts/link-global.sh
 researchskills
+manuscript-writing
 scientific-writing
 literature-review
+research-project-ops
 discover-papers
 protocol
 find-pdf
 zotero
 zotseek
 zotero-local-library
-research-project-ops

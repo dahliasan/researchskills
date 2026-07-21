@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0 — 2026-07-21
+
+- Add `literature-review` router with evidence gates and artifact contracts.
+- Add `manuscript-writing` as the manuscript prose/audit source of truth; keep `scientific-writing` as a deprecated alias only.
+- Point pack validation at `skills/manuscript-writing/validator.py`.
+- Update pack router, README, ARCHITECTURE, and EXAMPLES for the peer skill layout.
+
 ## 0.1.1 — 2026-07-21
 
 - Add `research-project-ops` (scaffold/audit/handoff research repos).
