@@ -2,9 +2,10 @@
 
 **AI agent skills for scientific research workflows.** Manuscript writing,
 DOCX↔Markdown roundtrip, scientific figure design, submission packaging,
-evidence-grounded literature reviews, OpenAlex discovery, PROTOCOL.md
-walkthroughs, PDF finding, Zotero, and research-project operations. Works with
-Claude Code, Codex, Cursor, and any Agent Skills host.
+evidence-grounded literature reviews, project-wide research red teaming,
+OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, Zotero, and
+research-project operations. Works with Claude Code, Codex, Cursor, and any
+Agent Skills host.
 
 Packaged like [marketingskills](https://github.com/coreyhaines31/marketingskills) /
 [makerskills](https://github.com/coreyhaines31/makerskills):
@@ -32,10 +33,11 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 1. Install the pack.
 2. Try **manuscript writing**: ask your agent to revise a Results paragraph with `/manuscript-writing`.
 3. Try **figure design**: ask `/figure-design` to plan or audit a scientific figure.
-4. Try **manuscript submission**: ask `/manuscript-submission` to inspect a target journal or run preflight.
-5. Try **literature review**: ask `/literature-review` to orient around a provisional research question.
-6. For direct discovery, use `/discover-papers` with a brain-dump question.
-7. When you need a reproducible review, let literature-review route to `/protocol` and locked discovery.
+4. Try **research red teaming**: ask `/research-red-team` to challenge a project from premise through reproducibility.
+5. Try **manuscript submission**: ask `/manuscript-submission` to inspect a target journal or run preflight.
+6. Try **literature review**: ask `/literature-review` to orient around a provisional research question.
+7. For direct discovery, use `/discover-papers` with a brain-dump question.
+8. When you need a reproducible review, let literature-review route to `/protocol` and locked discovery.
 
 ## Which skill when?
 
@@ -46,6 +48,7 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | Roundtrip Word DOCX ↔ Markdown (**default** MD↔Word path) | [`manuscript-markdown`](./skills/manuscript-markdown/SKILL.md) |
 | CriticMarkup collab / strip agent comments / export Word for coauthors | [`manuscript-collab`](./skills/manuscript-collab/SKILL.md) |
 | Plan, create, revise, or audit a scientific figure | [`figure-design`](./skills/figure-design/SKILL.md) |
+| Critically stress-test an entire research project | [`research-red-team`](./skills/research-red-team/SKILL.md) |
 | Adapt a manuscript to a journal or prepare its submission package | [`manuscript-submission`](./skills/manuscript-submission/SKILL.md) |
 | Manage a preliminary, methods, or formal literature workflow | [`literature-review`](./skills/literature-review/SKILL.md) |
 | Scaffold / audit / hand off a research project | [`research-project-ops`](./skills/research-project-ops/SKILL.md) |
@@ -69,6 +72,7 @@ institutional fetch, and Zotero MCP) stay on your machine. See
      ├─ /find-pdf        ← authorised full-text retrieval
      └─ /zotero · /zotseek · UsefulPapers
 /research-project-ops    ← project artifacts, state, and handoff
+/research-red-team       ← independent project-wide challenge register
 /manuscript-writing      ← manuscript argument, prose, and audit
 /manuscript-markdown     ← DOCX ↔ Markdown roundtrip (CLI + extension)
 /figure-design           ← scientific figure design and QA
