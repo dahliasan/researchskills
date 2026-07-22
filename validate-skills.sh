@@ -13,6 +13,7 @@ required_skills=(
   figure-design
   manuscript-submission
   literature-review
+  research-red-team
   discover-papers
   protocol
   find-pdf
