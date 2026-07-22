@@ -42,7 +42,7 @@ it is the literal `.docx` path.
 | Word comments | CriticMarkup `{>>…<<}` | Usually dropped |
 | Highlights | `{==…==}` | Usually dropped |
 | Track changes | CriticMarkup add/del/sub | Limited / lost |
-| Zotero fields | Roundtrip + optional `.bib` | Citekeys only if already text |
+| Zotero fields | Roundtrip + optional `.bib`; live fields need bib `zotero-key`/`zotero-uri` ([zotero-fields.md](zotero-fields.md)) | Citekeys only if already text |
 | Equations | LaTeX ↔ OMML | Varies |
 
 Use Manuscript Markdown as the **default** MD↔DOCX path. Use pandoc only when

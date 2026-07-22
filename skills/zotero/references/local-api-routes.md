@@ -10,7 +10,8 @@ Important constraints:
 
 - Use `/api/users/0/...` for the local user by default.
 - Local API reads do not require an API key.
-- The local API is read-only; write requests are not supported there.
+- The local API is read-only; write requests are not supported there (expect **501** on collection membership POSTs and similar).
+- For collection membership and other library writes that Desktop sync must receive, use the **cloud Web API** (`https://api.zotero.org`) with an API key after user confirmation.
 - Atom output is not supported locally.
 - Attachment file URLs and full text can expose local file paths or document text; only retrieve them when the user asks.
 

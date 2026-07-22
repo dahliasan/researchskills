@@ -4,13 +4,14 @@ description: >-
   CriticMarkup collaboration for research Markdown: teach agents to attribute
   comments (@Claude/@Cursor/@Codex/@ChatGPT), address human review comments,
   and export Word for coauthors after snapshotting and stripping agent notes.
-  Use when the user says "/manuscript-collab", asks to leave agent comments,
-  address CriticMarkup review feedback, or share DOCX without Claude/Cursor
-  comments. Convert engine is upstream manuscript-markdown CLI (required for
-  export); extension optional. Does not draft scientific prose
-  (use manuscript-writing).
+  Day-to-day router for comment/address/share Word (does not replace
+  manuscript-markdown for convert-only / Zotero-field / install jobs). Use when
+  the user says "/manuscript-collab", asks to leave agent comments, address
+  CriticMarkup review feedback, or share DOCX without Claude/Cursor comments.
+  Convert engine is upstream manuscript-markdown CLI (required for export);
+  extension optional. Does not draft scientific prose (use manuscript-writing).
 metadata:
-  version: 0.1.0
+  version: 0.1.1
 ---
 
 # /manuscript-collab — CriticMarkup collab router
@@ -18,6 +19,10 @@ metadata:
 Router for **comment / address / export**. Storage is CriticMarkup in the `.md`
 file (not Markdown Collab `<!--mc:-->`). DOCX conversion stays in
 `manuscript-markdown` + upstream CLI.
+
+**Day-to-day:** use this skill for coauthor notes and share packs. You still need
+the Manuscript Markdown **CLI** installed; invoke `/manuscript-markdown` for
+import, install/doctor, live Zotero field wiring, or pandoc compare.
 
 Details: [reference.md](reference.md)
 
@@ -75,10 +80,17 @@ Pipeline:
 2. Strip agent comments (+ paired `{==…==}` wrappers → bare text)
 3. `manuscript-markdown` → DOCX
 
+**Live Zotero cites + human comments:** cites inside `{++}` / `{--}` stay
+literal `[@citekey]` in Word. If the user wants live Zotero fields, accept
+additions and drop deletions on an **export-only** copy (keep `{>>}` / `{==}`);
+do not rewrite the track-change source MD unless asked. Details:
+`skills/manuscript-markdown/references/zotero-fields.md`.
+
 **Do not** fall back to pandoc. If CLI missing, stop and point to
 `skills/manuscript-markdown/references/install.md` or `--ensure-cli`.
 
 ## Composes with
 
-- `manuscript-markdown` — raw MD↔DOCX / install doctor
+- `manuscript-markdown` — raw MD↔DOCX / install doctor / Zotero fields
 - `manuscript-writing` — prose draft/revise (not this skill)
+- `zotero` — library sync for citekeys / bib enrichment before export

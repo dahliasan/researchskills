@@ -6,12 +6,13 @@ description: >-
   Word comments, track changes, highlights, tables, equations, and Zotero
   citations. Default converter for research Markdown↔Word work. Use when
   converting .docx ↔ .md, exporting Word for coauthors, importing Word drafts,
-  preserving CriticMarkup, comparing to pandoc, installing/doctoring Manuscript
-  Markdown, or the user says "/manuscript-markdown". Does not draft scientific
-  prose (use manuscript-writing). Requires Manuscript Markdown tooling — stop
-  and flag install if missing.
+  preserving CriticMarkup, wiring live Zotero Word fields (zotero-key/uri, CSL
+  styleID), comparing to pandoc, installing/doctoring Manuscript Markdown, or
+  the user says "/manuscript-markdown". Day-to-day comment/address/share routes
+  via manuscript-collab. Does not draft scientific prose (use manuscript-writing).
+  Requires Manuscript Markdown tooling — stop and flag install if missing.
 metadata:
-  version: 0.1.2
+  version: 0.2.0
 ---
 
 # /manuscript-markdown — DOCX ↔ Markdown roundtrip
@@ -92,9 +93,15 @@ manuscript-markdown path/to/paper.md --force --output path/to/paper.docx
 
 Flags and edge cases → [references/cli.md](references/cli.md).
 CriticMarkup marks → [references/criticmarkup.md](references/criticmarkup.md).
+Live Zotero Word fields → [references/zotero-fields.md](references/zotero-fields.md).
+
+When the user wants **live Zotero fields** in Word: ensure YAML `csl:`, BibTeX
+`zotero-key` / `zotero-uri`, and cites outside `{++}` / `{--}` (or accept
+add/del for an export-only copy). Patch `styleID` if MM appended `.csl`.
 
 Completion criterion: output file exists; report path(s); if annotations were
 present, mention that CriticMarkup was preserved (or that none were found).
+If Zotero fields were requested, report `ZOTERO_ITEM` count vs literal `[@`.
 
 ## Step 3 — Place the artifact (when in a research repo)
 
@@ -117,6 +124,10 @@ normalizing whitespace.
 
 ## Share with coauthors (agent CriticMarkup)
 
+Day-to-day **comment / address / share Word** → route via **`manuscript-collab`**
+(it calls this CLI). Use **this** skill when the job is convert-only: import,
+install/doctor, Zotero field wiring, pandoc compare.
+
 To snapshot the full `.md`, strip agent CriticMarkup (`@Claude` / `@Cursor` /
 etc.), then emit DOCX, use **`manuscript-collab` export** — do not expand this
 convert skill into collab policy. See `skills/manuscript-collab/SKILL.md`.
@@ -125,10 +136,10 @@ convert skill into collab policy. See `skills/manuscript-collab/SKILL.md`.
 
 - `manuscript-writing` — draft/revise after a clean Markdown outline exists
 - `manuscript-collab` — agent comment authorship, address human CriticMarkup,
-  collaborator export (strip agents → CLI)
+  collaborator export (strip agents → CLI); day-to-day collab router
 - `manuscript-submission` — venue DOCX packaging (separate from roundtrip edit)
-- `zotero` — library search; Manuscript Markdown owns field-code roundtrip when
-  present in DOCX
+- `zotero` — library search, BBT citekey sync, Web API collection writes;
+  this skill owns MD→DOCX field-code emission when bib is enriched
 
 ## Upstream
 

@@ -34,7 +34,10 @@ When removing an agent comment:
 2. If a `{==text==}` or `==text==` highlight immediately precedes that comment,
    unwrap to bare `text`.
 3. Leave human comments alone.
-4. Leave `{++}` / `{--}` / `{~~}` alone (v1).
+4. Leave `{++}` / `{--}` / `{~~}` alone (v1), unless the user asked for a
+   **Zotero-ready** share pack: then accept add/del on the export-only copy
+   (see `manuscript-markdown` → `references/zotero-fields.md`). Keep human
+   `{>>}` / `{==}`.
 
 Script:
 

@@ -22,6 +22,13 @@ Combined: `{==span==}{>>comment<<}`.
   (unless the user wants the comment text promoted into `[TBC]` / TODO notes).
 - Do not invent CriticMarkup the DOCX did not contain.
 
+## Zotero fields
+
+Cites inside `{++…++}` / `{--…--}` stay **literal** `[@citekey]` in Word (no
+`ADDIN ZOTERO_ITEM`). For a Zotero-ready DOCX that still keeps human comments:
+accept additions and drop deletions on an **export-only** copy; leave `{>>}` /
+`{==}` in place. Details → [zotero-fields.md](zotero-fields.md).
+
 ## Preview caveat
 
 Multi-line CriticMarkup only renders cleanly in Markdown preview when the

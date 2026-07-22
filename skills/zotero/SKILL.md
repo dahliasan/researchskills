@@ -1,8 +1,8 @@
 ---
 name: zotero
-description: Use Zotero Desktop to enable/probe the local API, search a local Zotero library, list items/collections/tags, export BibTeX, insert citation keys into LaTeX or Markdown drafts, read indexed full text when requested, and import BibTeX/RIS records into Zotero through the connector server. Use when the user mentions Zotero, citations, references.bib, BibTeX export, local Zotero API, localhost:23119, or adding citations from a Zotero library. Assumes Zotero MCP or local API is available.
+description: Use Zotero Desktop to enable/probe the local API, search a local Zotero library, list items/collections/tags, export BibTeX, insert citation keys into LaTeX or Markdown drafts, read indexed full text when requested, and import BibTeX/RIS records into Zotero through the connector server. Use when the user mentions Zotero, citations, references.bib, BibTeX export, local Zotero API, localhost:23119, Better BibTeX citekey alignment, collection membership writes via the cloud Web API, or adding citations from a Zotero library. Assumes Zotero MCP or local API is available.
 metadata:
-  version: 0.1.0
+  version: 0.1.1
 ---
 
 # Zotero
@@ -57,6 +57,9 @@ python3 <researchskills-root>/skills/zotero/scripts/zotero.py cite --query "Atte
    - `cite` for inserting a citation into a draft.
 4. Only retrieve attachment file URLs or full text when the user asks for PDFs, attachment paths, or full-text content.
 5. Treat Zotero library writes as explicit write actions. Before `import-bibtex`, `import-ris`, or connector save commands, confirm the exact record/source and destination unless the user's prompt already explicitly asked to add/import it.
+6. **Local API is read-only** for library/collection membership. `POST` to `/api/.../collections/.../items` returns **501**. For adding items to a collection (or other cloud writes), use the **Zotero Web API** with `ZOTERO_API_KEY` + user/group id (confirm with the user first). Then sync Desktop.
+7. **Citekey alignment with Better BibTeX:** when manuscript `[@keys]` disagree with BBT export keys, prefer **renaming manuscript + `refs.bib` keys to match BBT** over pinning Zotero items to old keys (pinning needs writes the local API cannot do).
+8. **Live Word fields (Manuscript Markdown):** enrich cited BibTeX entries with `zotero-key` and `zotero-uri` (`http://zotero.org/users/<id>/items/<key>`). See `skills/manuscript-markdown/references/zotero-fields.md`.
 
 ## Common commands
 
@@ -97,8 +100,9 @@ python3 <researchskills-root>/skills/zotero/scripts/zotero.py import-ris --file 
 - Explain the two-key distinction when relevant: Zotero item keys like `PXW99EKT` are not the same as exported BibTeX keys like `vaswani_attention_2023`.
 - For `.bib` export, return the absolute output path and entry count.
 - For draft citation insertion, report the edited file, inserted citation key, and updated `.bib` path.
-- For blockers, name the exact gate: Zotero app missing, local API disabled, port closed, connector unavailable, no matching item, or write not confirmed.
+- For blockers, name the exact gate: Zotero app missing, local API disabled, port closed, connector unavailable, no matching item, write not confirmed, or local API **501** (use cloud Web API for collection membership).
 
 ## Route details
 
 Read `references/local-api-routes.md` only when you need endpoint details beyond the helper commands.
+For cloud collection membership and other remote writes, use the official Web API (`https://api.zotero.org`) with an API key — not the local `/api/` server.
