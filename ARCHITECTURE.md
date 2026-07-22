@@ -12,6 +12,7 @@
 │  Your machine                                              │
 │  OpenAlex HTTP · Zotero/ZotSeek · Unpaywall · optional    │
 │  UsefulPapers / institutional full-text tools              │
+│  project code, data readers, runtimes, and generated files │
 │  RESEARCHSKILLS_MAILTO in env                              │
 └────────────────────────────────────────────────────────────┘
 ```
@@ -24,12 +25,69 @@ Same idea as makerskills `second-brain`: the skill is the workflow; the data and
 |--------|--------|---------|
 | Pack routing | `researchskills` | Intent → sibling |
 | Project operations | `research-project-ops` | Project artifacts, state, dependencies, handoff |
+| Project challenge | `research-red-team` | Evidence tier → argument map → challenge register |
 | Literature workflow | `literature-review` | Review mode → evidence gate → sibling/backend |
 | Prose | `manuscript-writing` | Artifact-driven draft/revise/audit + lint |
 | Document roundtrip | `manuscript-markdown` | **Default** DOCX ↔ Markdown (CLI/extension; not pandoc) |
 | Discovery | `discover-papers`, `protocol` | Search front door + durable protocol walk |
 | Full text | `find-pdf` | Waterfall router |
 | Library | `zotero`, `zotseek`, `zotero-local-library` | Assume Zotero MCP/API |
+
+## Peer research workflows
+
+```text
+research-project-ops
+    owns project state, decisions, dependencies, and handoff
+
+literature-review
+    owns review workflow and verified literature evidence
+
+research-red-team
+    reads across the project and records evidence-linked challenges
+
+manuscript-writing
+    owns manuscript argument, prose, revision, and audit
+
+figure-design
+    owns scientific figure planning, creation, and visual QA
+```
+
+`research-red-team` is not a parent router and does not own the artifacts it
+challenges. It can hand accepted findings to peer skills:
+
+```text
+research-red-team
+    ├─ project state or decision      → research-project-ops
+    ├─ novelty or citation challenge  → literature-review
+    ├─ figure-integrity challenge     → figure-design
+    └─ manuscript wording challenge   → manuscript-writing
+```
+
+## Red-team evidence tiers
+
+```text
+Tier 1  project documentation and manuscript
+Tier 2  + code, configuration, outputs, logs, history, full text
+Tier 3  + data, model objects, runtime, bounded recomputation
+```
+
+The skill must state the tier used. A documentation review cannot claim to have
+verified implementation or data correctness.
+
+Default truth hierarchy:
+
+```text
+authoritative source data
+→ executed outputs and logs
+→ code and configuration used for the run
+→ versioned generated summaries
+→ verified full-text literature
+→ project documentation and decisions
+→ manuscript prose
+→ agent memory or convention
+```
+
+Conflicts are reported rather than silently resolved.
 
 ## Literature workflow
 
@@ -76,6 +134,7 @@ locked ──► PROTOCOL.md search.queries[] (else PCC concat)
 
 - [usefulpapers](https://github.com/dahliasan/usefulpapers) — PROTOCOL.md consumer, screening pipeline, and Zotero adapter
 - Institutional full-text tools — only if available and authorised
+- Project runtimes and data readers — used by research-red-team only when available and proportionate
 
 ## Maintainer loop (edit → live)
 
