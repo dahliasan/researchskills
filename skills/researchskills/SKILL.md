@@ -5,8 +5,8 @@ description: >-
   skill to run, asks for research help generally, or says "/researchskills".
   Routes to manuscript-writing, manuscript-markdown, manuscript-collab,
   figure-design, manuscript-submission, literature-review, research-red-team,
-  discover-papers, protocol, find-pdf, research-project-ops, zotero, zotseek,
-  or zotero-local-library. Does not reimplement those skills.
+  discover-papers, protocol, find-pdf, pp-scite, research-project-ops, zotero,
+  zotseek, or zotero-local-library. Does not reimplement those skills.
 metadata:
   version: 0.1.6
 ---
@@ -29,6 +29,7 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 | Find papers / OpenAlex / brain-dump search | `discover-papers` |
 | Build or refine PROTOCOL.md from a research question | `protocol` |
 | Get a PDF for a DOI or paper | `find-pdf` |
+| Scite Smart Citations, search, tallies, assistant, reference-check | `pp-scite` |
 | Scaffold / audit / hand off a research repo (PROJECT.md, METHODS.md, STATUS.md) | `research-project-ops` |
 | Zotero search, BibTeX, cite into draft | `zotero` |
 | Semantic search over Zotero PDFs | `zotseek` |

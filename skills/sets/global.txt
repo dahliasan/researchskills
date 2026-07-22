@@ -11,6 +11,7 @@ research-project-ops
 discover-papers
 protocol
 find-pdf
+pp-scite
 zotero
 zotseek
 zotero-local-library

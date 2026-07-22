@@ -3,8 +3,8 @@
 **AI agent skills for scientific research workflows.** Manuscript writing,
 DOCX↔Markdown roundtrip, scientific figure design, submission packaging,
 evidence-grounded literature reviews, project-wide research red teaming,
-OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, Zotero, and
-research-project operations. Works with Claude Code, Codex, Cursor, and any
+OpenAlex discovery, PROTOCOL.md walkthroughs, PDF finding, Scite CLI, Zotero,
+and research-project operations. Works with Claude Code, Codex, Cursor, and any
 Agent Skills host.
 
 Packaged like [marketingskills](https://github.com/coreyhaines31/marketingskills) /
@@ -55,6 +55,7 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | Find papers (OpenAlex) | [`discover-papers`](./skills/discover-papers/SKILL.md) |
 | Build a PROTOCOL.md from a research question | [`protocol`](./skills/protocol/SKILL.md) (soft-hidden; literature-review or discover can invoke it) |
 | Get a PDF by DOI | [`find-pdf`](./skills/find-pdf/SKILL.md) |
+| Scite Smart Citations / literature search CLI | [`pp-scite`](./skills/pp-scite/SKILL.md) |
 | Search or cite from Zotero | [`zotero`](./skills/zotero/SKILL.md) |
 | Semantic search in Zotero | [`zotseek`](./skills/zotseek/SKILL.md) |
 | List a Zotero collection and PDF paths | [`zotero-local-library`](./skills/zotero-local-library/SKILL.md) |
@@ -70,6 +71,7 @@ institutional fetch, and Zotero MCP) stay on your machine. See
      ├─ /protocol        ← durable scope and locked search
      ├─ /discover-papers ← external candidate discovery
      ├─ /find-pdf        ← authorised full-text retrieval
+     ├─ /pp-scite        ← Smart Citations / Scite CLI
      └─ /zotero · /zotseek · UsefulPapers
 /research-project-ops    ← project artifacts, state, and handoff
 /research-red-team       ← independent project-wide challenge register
