@@ -7,9 +7,9 @@ description: >-
   or PDF-page snippets with zotero:// deep links. Prefer this over keyword-only
   Zotero search when relevance ranking or passage evidence matters. Not a
   substitute for project RAG or for listing a named collection
-  (use zotero-local-library for collection membership and PDF paths).
+  (use zotero for collection membership and PDF paths).
 metadata:
-  version: 0.1.0
+  version: 0.1.2
 ---
 
 # ZotSeek (semantic Zotero MCP)
@@ -17,13 +17,17 @@ metadata:
 ZotSeek is a **Zotero plugin** that embeds library PDFs locally and exposes MCP tools
 at `http://localhost:23119/zotseek/mcp` (same port family as the Zotero Connector).
 
+**Download / install the plugin** (not this skill): [introfini/ZotSeek](https://github.com/introfini/ZotSeek) → [Releases](https://github.com/introfini/ZotSeek/releases) (`.xpi`) → Zotero Tools → Plugins → Install Plugin From File. Then enable AI Agent Access in ZotSeek settings and allow Zotero local HTTP access (Settings → Advanced). MCP setup notes: [docs/MCP.md](https://github.com/introfini/ZotSeek/blob/main/docs/MCP.md).
+
+This skill documents agent workflow. It does **not** install ZotSeek, and it is unrelated to [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) (a separate Python MCP server; that is routed by skill `zotero` when present).
+
 ## When to use
 
 | Goal | Tooling |
 |------|---------|
 | Natural-language / semantic paper find | **ZotSeek** `search` |
 | More like this paper | **ZotSeek** `find_similar` |
-| Items in a named collection + PDF paths | `zotero-local-library` |
+| Items in a named collection + PDF paths | `zotero` (MCP if present, else local scripts) |
 | BibTeX / cite / write collections | `zotero` |
 | OpenAlex discovery (new papers) | `discover-papers` |
 
@@ -38,18 +42,21 @@ ssh -fN -L 23119:127.0.0.1:23119 your-zotero-host
 # Check: lsof -i :23119
 ```
 
+If skill **`zotero-private`** is installed, load it first for this machine’s
+tunnel alias and MCP bridge path.
+
 Smoke test: `curl -sS http://localhost:23119/zotseek/mcp` should not connection-refuse.
 
 ## Agent workflow
 
-0. Ensure port 23119 is listening (tunnel if remote).
+0. Ensure port 23119 is listening (tunnel if remote; follow `zotero-private` when present).
 1. **`index_status`** — confirm `ready`, coverage, `lastIndexed`. If not ready, stop and tell the user to index in ZotSeek.
 2. **`search`** — write a concrete scholarly query (species + place + process), not a single vague keyword.
 3. Present results with **title, authors, year, snippet + page**, and clickable links:
    - Prefer `links.selectHttp` / `links.openPdfHttp` in clients that do not linkify `zotero://`.
 4. For expansion from a known hit, call **`find_similar`** with that `itemKey`.
 5. **Curate**, do not dump: mark keep / maybe / skip against the user's section goal.
-6. Collection membership is **not** in ZotSeek results — cross-check with `zotero-local-library` when needed.
+6. Collection membership is **not** in ZotSeek results — cross-check with `zotero` when needed.
 
 ### Query tips
 
@@ -94,7 +101,8 @@ Details: [reference.md](reference.md).
 
 ## Related skills
 
-- `zotero-local-library` — collection list + PDF paths
-- `zotero` — local CLI / API inventory and bibtex
+- `zotero-private` — optional host overlay (tunnel / remote library); load when present
+- `zotero` — library router (prefer MCP if present, else local API scripts)
+- `zotero-mcp` — install/config for [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp)
 - `manuscript-writing` — how cites land in prose
 - `discover-papers` — find new papers outside the library

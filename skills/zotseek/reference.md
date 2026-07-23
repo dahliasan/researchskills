@@ -1,5 +1,15 @@
 # ZotSeek reference
 
+## Plugin download
+
+| Field | Value |
+|-------|-------|
+| Repo | [introfini/ZotSeek](https://github.com/introfini/ZotSeek) |
+| Releases (`.xpi`) | [github.com/introfini/ZotSeek/releases](https://github.com/introfini/ZotSeek/releases) |
+| MCP setup | [docs/MCP.md](https://github.com/introfini/ZotSeek/blob/main/docs/MCP.md) |
+
+Install: download the latest `.xpi` → Zotero Tools → Plugins → Install Plugin From File → restart when prompted. Requires Zotero 8+.
+
 ## Endpoint
 
 | Field | Value |
@@ -87,7 +97,7 @@ Each hit: `itemKey`, `title`, `authors`, `year`, `score`, `matchedChunk` (snippe
 | Need | Use |
 |------|-----|
 | Semantic / passage search | ZotSeek |
-| Collection membership, disk PDF paths | `zotero-local-library` |
+| Collection membership, disk PDF paths | `zotero` |
 | Export bib, cite into tex/md | `zotero` skill CLI |
 | Find new papers (OpenAlex) | `discover-papers` |
 

@@ -1,108 +1,157 @@
 ---
 name: zotero
-description: Use Zotero Desktop to enable/probe the local API, search a local Zotero library, list items/collections/tags, export BibTeX, insert citation keys into LaTeX or Markdown drafts, read indexed full text when requested, and import BibTeX/RIS records into Zotero through the connector server. Use when the user mentions Zotero, citations, references.bib, BibTeX export, local Zotero API, localhost:23119, Better BibTeX citekey alignment, collection membership writes via the cloud Web API, or adding citations from a Zotero library. Assumes Zotero MCP or local API is available.
+description: >-
+  Router for Zotero library work: prefer 54yyyu Zotero MCP tools when present,
+  otherwise use the pack's local-API CLI (status, search, BibTeX, cite, collection
+  PDF paths). Use when the user mentions Zotero, citations, references.bib,
+  BibTeX, localhost:23119, collections, or library PDFs. For semantic/passage
+  search hand off to zotseek. For install/config of 54yyyu MCP, see zotero-mcp.
+  Does not replace ZotSeek.
 metadata:
-  version: 0.1.1
+  version: 0.2.1
 ---
 
-# Zotero
+# Zotero (router)
 
-Use this skill to operate a user's local Zotero Desktop library from any harness (Cursor, Codex, Claude, or CLI).
+One skill for day-to-day Zotero work. **Probe backends first**, then pick the
+strongest path that exists in this session.
 
-Core helper:
+- Install / debug **54yyyu Zotero MCP** → load sibling **`zotero-mcp`**
+  ([github.com/54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp)).
+- Semantic / embedding search via **ZotSeek plugin** → sibling **`zotseek`**
+  ([introfini/ZotSeek](https://github.com/introfini/ZotSeek)).
 
-```bash
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py <command>
-```
+## Route (every session)
 
-Resolve `<researchskills-root>` as the repository root that contains `skills/` (the installed researchskills pack).
+0. **Host-private overlay** — if skill **`zotero-private`** is installed (personal
+   harness), load it first. It owns tunnel / remote-library wiring for this
+   machine. Public skills stay scrubbed of host paths.
+1. **Detect Zotero MCP** — look for harness MCP tools whose names start with
+   `zotero_` (from [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp)),
+   e.g. `zotero_search_items`, `zotero_get_collection_items`,
+   `zotero_get_attachment_path`, `zotero_get_item_metadata`.
+2. **If MCP is present → prefer it** for library search, collection listing,
+   attachment paths, metadata, annotations, DOI/URL add, notes, and other rich
+   ops the MCP exposes. Do not reinvent those with shell if the MCP tool fits.
+3. **If MCP is absent → use the local-API scripts** below (default path). State
+   the limitations briefly when they matter.
+4. **On first miss of MCP in this conversation** — tell the user once that a
+   richer backend exists; point them at skill **`zotero-mcp`** and
+   https://github.com/54yyyu/zotero-mcp (see [Suggest upgrades](#suggest-upgrades)).
+   Then continue with the local-API fallback. Do not nag every turn.
+5. **Semantic / “find by meaning” / PDF passages** → load and follow `zotseek`
+   (separate plugin + MCP). Do not fake semantic search with keyword local API.
 
-The helper is stdlib-only and runs with `python3` (`#!/usr/bin/env python3`). It does not depend on harness-specific runtime discovery.
+## What the scripts are for
 
-## Fast starts
+Pack CLIs under `skills/zotero/scripts/`. Stdlib Python only. They talk to
+**Zotero Desktop’s native local HTTP API** (`http://127.0.0.1:23119`) and the
+connector where needed. They are the **fallback** when 54yyyu MCP is not
+installed or not connected to this harness — not a full substitute for that MCP.
 
-Check readiness in one command:
+| Script | Role |
+|--------|------|
+| `zotero.py` | Enable/probe local API; inventory; keyword search; BibTeX export; insert citekeys into TeX/Markdown; children/fulltext/file-url; connector BibTeX/RIS import |
+| `query_collection.py` | Resolve a **collection by name** and list items with **disk PDF paths** (API default; SQLite if app closed) |
+
+Resolve `<researchskills-root>` as the pack root that contains `skills/`.
 
 ```bash
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py status --json
+python3 <researchskills-root>/skills/zotero/scripts/query_collection.py "collection name" --json
 ```
 
-Enable the local API and restart Zotero if needed:
+**Not the scripts’ job:** semantic search (→ `zotseek`), Scite tallies (→ `pp-scite`
+or MCP `[scite]` extra), or cloud-only libraries with no Desktop local access.
+
+## Local-API limitations (fallback)
+
+When using scripts only:
+
+- Library/collection **membership writes** via local `POST` often return **501**;
+  use Zotero Web API + API key (confirm with user) or MCP write tools if available.
+- Keyword / metadata search only — not embedding search.
+- No annotation CRUD, DOI ingest cascade, or Scite enrichment unless MCP (or
+  another skill) provides them.
+- Zotero Desktop must be running with local app access enabled (Settings → Advanced),
+  except `query_collection.py --backend sqlite` when the app is closed.
+
+## Prefer MCP when available (examples)
+
+| Goal | Prefer MCP tool (if present) | Else script |
+|------|------------------------------|-------------|
+| Search library | `zotero_search_items` / `zotero_advanced_search` | `zotero.py search …` |
+| Collection items | `zotero_get_collection_items` / `zotero_search_collections` | `query_collection.py "Name" --json` |
+| PDF / attachment path | `zotero_get_attachment_path` | `query_collection.py` or `zotero.py children` / `file-url` |
+| Metadata / full text | `zotero_get_item_metadata` / `zotero_get_item_fulltext` | `zotero.py` inventory/search/fulltext |
+| Add by DOI / notes / annotations | MCP write/annotation tools | Say MCP (or Web API) needed; do not fake it |
+| BibTeX + insert into draft | MCP export if handy, then still wire draft | `zotero.py cite` / `export-bibtex` (skill specialty) |
+| Semantic passages | **Not MCP-54yyyu by default** — use `zotseek` | — |
+
+Manuscript citekey insertion and `references.bib` sync remain a first-class
+local-script workflow even when MCP exists (`zotero.py cite`).
+
+## Suggest upgrades
+
+If MCP tools were **not** detected, mention once (plain language):
+
+1. **Richer library MCP (optional):** skill **`zotero-mcp`** → install from
+   [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp)
+   (`uv tool install zotero-mcp-server` then `zotero-mcp setup` / harness config).
+2. **Semantic search plugin (optional):** [introfini/ZotSeek](https://github.com/introfini/ZotSeek)
+   — download `.xpi` from [Releases](https://github.com/introfini/ZotSeek/releases),
+   install in Zotero, enable AI Agent Access; use skill `zotseek`.
+
+Prerequisite for local scripts and for most MCP local modes: **Zotero Desktop**
+running with local HTTP access allowed.
+
+## Fast starts (local fallback)
 
 ```bash
+python3 <researchskills-root>/skills/zotero/scripts/zotero.py status --json
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py enable --restart
-```
-
-Search and export citation data:
-
-```bash
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py search "transformer" --json
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py export-bibtex --out references.bib
-```
-
-Insert a citation from Zotero into a draft and keep `references.bib` in sync:
-
-```bash
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py cite --query "Attention Is All You Need" --tex paper.tex --bib references.bib --marker '<cite>'
+python3 <researchskills-root>/skills/zotero/scripts/query_collection.py "nz sea lion" --json
 ```
 
-## Workflow
+## Workflow checklist
 
-1. Start with `status --json`. Do not rediscover prefs, ports, or profile paths manually unless the helper fails.
-2. If `local_api_enabled_pref` is false, run `enable --restart` when the user asked you to operate Zotero. This updates Zotero's local preference and restarts Zotero so port `23119` comes up.
-3. Use read-only local API commands for normal work:
-   - `inventory` for item/collection/tag summaries.
-   - `search <query>` for papers/items.
-   - `export-bibtex` or `sync-bib` for `.bib` files.
-   - `cite` for inserting a citation into a draft.
-4. Only retrieve attachment file URLs or full text when the user asks for PDFs, attachment paths, or full-text content.
-5. Treat Zotero library writes as explicit write actions. Before `import-bibtex`, `import-ris`, or connector save commands, confirm the exact record/source and destination unless the user's prompt already explicitly asked to add/import it.
-6. **Local API is read-only** for library/collection membership. `POST` to `/api/.../collections/.../items` returns **501**. For adding items to a collection (or other cloud writes), use the **Zotero Web API** with `ZOTERO_API_KEY` + user/group id (confirm with the user first). Then sync Desktop.
-7. **Citekey alignment with Better BibTeX:** when manuscript `[@keys]` disagree with BBT export keys, prefer **renaming manuscript + `refs.bib` keys to match BBT** over pinning Zotero items to old keys (pinning needs writes the local API cannot do).
-8. **Live Word fields (Manuscript Markdown):** enrich cited BibTeX entries with `zotero-key` and `zotero-uri` (`http://zotero.org/users/<id>/items/<key>`). See `skills/manuscript-markdown/references/zotero-fields.md`.
+1. Route per [Route](#route-every-session) (MCP → scripts → suggest once → `zotseek` if semantic).
+2. If using scripts and local API is down: `status --json`; `enable --restart` only when the user asked to operate Zotero.
+3. Confirm before any library **write** (import, MCP add/update/delete, Web API collection membership).
+4. **Better BibTeX:** when draft `[@keys]` disagree with BBT export, prefer renaming manuscript + `.bib` to match BBT over pinning items via writes the local API cannot do.
+5. **Live Word fields (Manuscript Markdown):** enrich BibTeX with `zotero-key` / `zotero-uri`. See `skills/manuscript-markdown/references/zotero-fields.md`.
 
-## Common commands
+## Common local commands
 
 ```bash
-# Readiness and route map
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py status --json
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py probe --json
-
-# Library inventory
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py inventory
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py collections
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py tags
-
-# Search and export
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py search "BERT"
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py export-bibtex --out references.bib
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py export-bibtex --item-key PXW99EKT
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py citations --style apa --json
-
-# Draft editing
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py cite --item-key PXW99EKT --tex paper.tex --bib references.bib --marker '<cite>'
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py cite --query "BERT" --markdown notes.md --bib references.bib --marker '<cite>'
-
-# Attachments and full text; use only on request
 python3 <researchskills-root>/skills/zotero/scripts/zotero.py children PXW99EKT --json
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py fulltext 2JAZS9U8 --out attention-fulltext.txt
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py file-url 2JAZS9U8
-
-# Writes to Zotero; confirm first unless explicitly requested
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py selected-target --json
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py import-bibtex --file new-reference.bib --yes
-python3 <researchskills-root>/skills/zotero/scripts/zotero.py import-ris --file new-reference.ris --yes
+python3 <researchskills-root>/skills/zotero/scripts/zotero.py cite --item-key PXW99EKT --markdown notes.md --bib references.bib --marker '<cite>'
+python3 <researchskills-root>/skills/zotero/scripts/query_collection.py "Heard Island AFS" --json
 ```
 
 ## Output standards
 
-- For inventory/search, return title, creators, year, Zotero item key, and BibTeX key when available.
-- Explain the two-key distinction when relevant: Zotero item keys like `PXW99EKT` are not the same as exported BibTeX keys like `vaswani_attention_2023`.
-- For `.bib` export, return the absolute output path and entry count.
-- For draft citation insertion, report the edited file, inserted citation key, and updated `.bib` path.
-- For blockers, name the exact gate: Zotero app missing, local API disabled, port closed, connector unavailable, no matching item, write not confirmed, or local API **501** (use cloud Web API for collection membership).
+- Prefer title, creators, year, Zotero item key, and BibTeX key when available.
+- Zotero item keys (`PXW99EKT`) ≠ BibTeX keys (`vaswani_attention_2023`).
+- Name the backend used: `mcp`, `local-api`, or `sqlite`.
+- For blockers: MCP missing (suggested), Zotero app missing, local API disabled, port closed, no match, write not confirmed, or local API **501**.
+
+## Related
+
+- `zotero-private` — optional host overlay (remote library tunnel); load when present
+- `zotero-mcp` — install/config for 54yyyu MCP
+- `zotseek` — semantic / passage search
 
 ## Route details
 
-Read `references/local-api-routes.md` only when you need endpoint details beyond the helper commands.
-For cloud collection membership and other remote writes, use the official Web API (`https://api.zotero.org`) with an API key — not the local `/api/` server.
+Endpoint map for the fallback CLI: `references/local-api-routes.md`.
+Cloud writes: official Web API (`https://api.zotero.org`) with an API key — not local `/api/` membership POSTs.
