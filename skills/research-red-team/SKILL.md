@@ -586,6 +586,7 @@ skills own durable changes.
 | project state, decision, dependency, or backlog | `research-project-ops` |
 | novelty, literature gap, or citation verification | `literature-review` |
 | formal redesign, model choice, or analysis implementation | `analysis-design`, when available |
+| AIC/AICc model selection / nested near-ties / uninformative parameters | `aic-model-selection` |
 | figure or visual-integrity problem | `figure-design` |
 | manuscript wording, structure, or reviewer response | `manuscript-writing` |
 

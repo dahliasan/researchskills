@@ -54,9 +54,23 @@ npx skills update
 | Batch literature pipeline | [usefulpapers](https://github.com/dahliasan/usefulpapers) engine |
 | Institutional PDF | `anulib` CLI (if your institution supports it) |
 | Sci-Hub fallback | `scihub` CLI |
-| Semantic Zotero | ZotSeek plugin + MCP |
+| Semantic Zotero | [introfini/ZotSeek](https://github.com/introfini/ZotSeek) plugin (`.xpi` from [Releases](https://github.com/introfini/ZotSeek/releases)) + MCP; see skill `zotseek` |
+| Richer Zotero MCP (Python) | [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) — skill `zotero-mcp` for install/config; skill `zotero` prefers it when connected. **Not** a Zotero `.xpi` |
 
 Skills degrade: HTTP OpenAlex and documented waterfall steps still work without UsefulPapers.
+
+## Optional companion skills (external)
+
+Keep these **upstream**; do not fork into this pack unless you need lasting
+pack-specific changes (then use `references/attribution.md`).
+
+| Capability | Install |
+|------------|---------|
+| Quarto authoring (`.qmd`, projects, callouts, …) | `npx skills add posit-dev/skills@quarto-authoring -g` |
+
+`r-editor-setup` installs/checks Quarto **CLI + editor extension** only; it
+does not vendor the Quarto authoring skill. After env setup, install the
+companion when you write Quarto docs.
 
 ## Clone for contributors
 

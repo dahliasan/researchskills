@@ -59,6 +59,26 @@ for dest_root in "${DESTS[@]}"; do
   for skill in "${skills[@]}"; do
     link_skill "$skill" "$dest_root"
   done
+  # Drop stale researchskills links no longer in global.txt (e.g. removed skills)
+  if [[ "$DRY_RUN" != "1" && -d "$dest_root" ]]; then
+    for link in "$dest_root"/*; do
+      [[ -L "$link" ]] || continue
+      target="$(readlink "$link" || true)"
+      case "$target" in
+        "${SKILLS_DIR}/"*)
+          base="$(basename "$link")"
+          keep=0
+          for skill in "${skills[@]}"; do
+            [[ "$base" == "$skill" ]] && keep=1 && break
+          done
+          if [[ "$keep" -eq 0 ]]; then
+            rm -f "$link"
+            echo "removed stale ${link}"
+          fi
+          ;;
+      esac
+    done
+  fi
 done
 
 if [[ "$DRY_RUN" == "1" ]]; then

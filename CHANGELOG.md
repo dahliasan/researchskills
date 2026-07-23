@@ -1,5 +1,62 @@
 # Changelog
 
+## 0.2.9 — 2026-07-23
+
+- Restructure `manuscript-writing` for progressive disclosure: thin `SKILL.md`
+  (gates + router), mode files under `modes/`, scaffolding examples in
+  `scaffolding.md`, section contracts SSOT in `reference.md`. Same skill, not
+  split into prose twins. Skill version 3.6.0.
+
+## 0.2.8 — 2026-07-23
+
+- Rename/expand `aic-uninformative-parameters` → `aic-model-selection`: broader
+  AIC/AICc selection concept (Δ, weights, cross-family rule, primary inference
+  choice) with Arnold (2010) uninformative-parameters as a module under
+  `references/`.
+
+## 0.2.7 — 2026-07-23
+
+- Add AIC near-tie concept skill (initially `aic-uninformative-parameters`;
+  superseded by `aic-model-selection` in 0.2.8).
+- Wire into pack router, `global.txt`, README, ARCHITECTURE, EXAMPLES,
+  validation.
+
+## 0.2.6 — 2026-07-23
+
+- Add `zotero-mcp` skill: install/config reference for
+  [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) (does not vendor the
+  server). Wire into pack router, `global.txt`, README, INSTALL, ARCHITECTURE.
+- `zotero` router points install/debug at `zotero-mcp`.
+
+## 0.2.5 — 2026-07-23
+
+- Collapse Zotero into one router skill: remove `zotero-local-library`; move
+  `query_collection.py` under `skills/zotero/scripts/`.
+- `zotero` prefers [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) when
+  connected, else local-API scripts; suggests MCP/ZotSeek install once if missing.
+- Keep `zotseek` for [introfini/ZotSeek](https://github.com/introfini/ZotSeek).
+
+## 0.2.4 — 2026-07-23
+
+- Add `r-editor-setup`: Cursor/VS Code R environment skill (doctor → install →
+  packages → Air project wiring), grounded in VS Code / vscode-R / Air /
+  `usethis::use_air()` docs plus Datanovia-style verify checks.
+- Package tiers: editor (languageserver, httpgd, …), research baseline
+  (tidyverse, renv, conflicted, …), domain (incl. duckplyr/mirai), opt-in AI
+  (ellmer, btw, mcptools); Positron/Ark noted in `modern-tooling.md`.
+- Quarto policy: env skill installs/checks CLI + extension only; Quarto
+  authoring stays upstream (`npx skills add posit-dev/skills@quarto-authoring -g`);
+  documented in INSTALL.md companion skills (no in-pack fork by default).
+- Wire into pack router, `skills/sets/global.txt`, and validation.
+- Link Zotero download targets: [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp),
+  [introfini/ZotSeek](https://github.com/introfini/ZotSeek) releases.
+
+## 0.2.3 — 2026-07-22
+
+- Add `ggplot-maps` companion skill: R/ggplot2 + `sf` map stacks, polar CRS, basemaps, rasters, and export recipes.
+- Wire `ggplot-maps` into pack router, `figure-design` companions, `skills/sets/global.txt`, and validation.
+- Add deep-research reference `layouts-and-colour.md` (patchwork layouts, Okabe–Ito/Tol/viridis/scico, journal export).
+
 ## 0.2.2 — 2026-07-21
 
 - Add `manuscript-markdown` for DOCX ↔ Markdown roundtrip via the Manuscript Markdown CLI/extension (install gate; CriticMarkup references).

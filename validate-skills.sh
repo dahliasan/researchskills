@@ -11,16 +11,19 @@ required_skills=(
   manuscript-markdown
   manuscript-collab
   figure-design
+  ggplot-maps
   manuscript-submission
   literature-review
   research-red-team
+  aic-model-selection
   discover-papers
   protocol
   find-pdf
   zotero
+  zotero-mcp
   zotseek
-  zotero-local-library
   research-project-ops
+  r-editor-setup
 )
 
 echo "== frontmatter + required skills =="
@@ -54,7 +57,7 @@ for path in \
   skills/manuscript-collab/scripts/export_for_collaborators.sh \
   skills/manuscript-collab/scripts/ensure_manuscript_markdown_cli.sh \
   skills/zotero/scripts/zotero.py \
-  skills/zotero-local-library/query_collection.py \
+  skills/zotero/scripts/query_collection.py \
   skills/zotseek/scripts/zotseek_stdio_mcp.py
 do
   if [[ ! -f "$path" ]]; then
@@ -76,6 +79,8 @@ echo "== scrub: no personal machine paths in skill runtime files =="
 hits=$(grep -RInE 'Dennis|Dahlia|/Users/dennis|dahlias-skills|dahlia-zotseek' \
   skills/*/SKILL.md \
   skills/*/reference.md \
+  skills/*/scaffolding.md \
+  skills/*/modes/*.md \
   skills/*/references/*.md \
   skills/*/*.py \
   skills/*/scripts/*.py \

@@ -30,6 +30,7 @@ Use companion workflows when available:
 - `research-project-ops` for result IDs, source data, generating code, and output manifests
 - `analysis-design` for unresolved analytical choices
 - `manuscript-writing` for the claim, figure order, and caption role
+- `ggplot-maps` for R/ggplot2 + `sf` map stacks, polar CRS, basemaps, and `ggsave` recipes
 - a chart, GIS, notebook, or graphics tool for rendering
 
 ## Router

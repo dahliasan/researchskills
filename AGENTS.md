@@ -11,6 +11,7 @@ Operating notes for agents working in **researchskills**.
 5. `protocol` is soft-hidden but must remain a real, independently invocable skill.
 6. Scrub personal paths, credentials, project data, and private conventions before committing skill text.
 7. Treat validators as guardrails. Do not encode context-dependent style preferences as universal scientific blockers.
+8. Do not import demoted Research Harness generics (`academic-writing`, `citation-management`, stats dumps, community `peer-review`) from dahlias `research-harness-optional.txt`. Those stay out of this pack.
 
 ## Layout
 

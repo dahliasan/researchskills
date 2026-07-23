@@ -69,5 +69,5 @@ Report: mode used, output path or Zotero attachment status, or explicit `pdf_una
 ## Composes with
 
 - `discover-papers` — candidates often include `oa_url`
-- `zotero` / `zotero-local-library` — attach or locate existing PDFs
+- `zotero` — attach or locate existing PDFs (MCP or local scripts)
 - UsefulPapers (optional) — PDF-on-accept modes

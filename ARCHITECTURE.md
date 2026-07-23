@@ -25,13 +25,15 @@ Same idea as makerskills `second-brain`: the skill is the workflow; the data and
 |--------|--------|---------|
 | Pack routing | `researchskills` | Intent → sibling |
 | Project operations | `research-project-ops` | Project artifacts, state, dependencies, handoff |
+| Editor tooling | `r-editor-setup` | Doctor/install R + Cursor/VS Code + packages + Air |
 | Project challenge | `research-red-team` | Evidence tier → argument map → challenge register |
+| AIC model selection | `aic-model-selection` | AICc ranking, near-ties, primary inference; Arnold module for nested junk params |
 | Literature workflow | `literature-review` | Review mode → evidence gate → sibling/backend |
-| Prose | `manuscript-writing` | Artifact-driven draft/revise/audit + lint |
+| Prose | `manuscript-writing` | Artifact-driven draft/revise/audit + lint; modes under `modes/` |
 | Document roundtrip | `manuscript-markdown` | **Default** DOCX ↔ Markdown (CLI/extension; not pandoc) |
 | Discovery | `discover-papers`, `protocol` | Search front door + durable protocol walk |
 | Full text | `find-pdf` | Waterfall router |
-| Library | `zotero`, `zotseek`, `zotero-local-library` | Assume Zotero MCP/API |
+| Library | `zotero`, `zotero-mcp`, `zotseek` | `zotero` day-to-day router; `zotero-mcp` = [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) install/config; `zotseek` = [ZotSeek](https://github.com/introfini/ZotSeek) plugin |
 
 ## Peer research workflows
 
@@ -45,8 +47,12 @@ literature-review
 research-red-team
     reads across the project and records evidence-linked challenges
 
+aic-model-selection
+    owns AIC/AICc ranking, near-ties, and primary inference choice
+
 manuscript-writing
     owns manuscript argument, prose, revision, and audit
+    (thin SKILL.md + modes/*.md + reference.md; one skill, not prose twins)
 
 figure-design
     owns scientific figure planning, creation, and visual QA
