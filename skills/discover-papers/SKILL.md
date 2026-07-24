@@ -66,7 +66,7 @@ python3 skills/discover-papers/scripts/openalex_search.py \
 ## Mode: locked
 
 1. Read PROTOCOL.md YAML.
-2. Prefer `search.queries[]`. Else concatenate `question.population|concept|context` (UsefulPapers rule).
+2. Prefer `search.queries[]`. Else concatenate `question.population|concept|context` (locked-protocol rule).
 3. Apply `date_range` filters when present.
 4. Run one OpenAlex search per query string; dedupe by DOI.
 5. Report candidates + which query produced each hit.
@@ -80,7 +80,7 @@ Each candidate should include at least: `title`, `doi`, `year`, `oa_url` (if any
 - `protocol` — durable review design
 - `find-pdf` — full text for chosen DOIs
 - `zotero` / `zotseek` — library ops after triage
-- UsefulPapers engine (optional) — batch discover when installed
+- optional local batch engine — batch discover when installed
 
 ## Notes
 

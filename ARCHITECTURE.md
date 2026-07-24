@@ -11,7 +11,7 @@
 ┌───────────────────────────▼───────────────────────────────┐
 │  Your machine                                              │
 │  OpenAlex HTTP · Zotero/ZotSeek · Unpaywall · optional    │
-│  UsefulPapers / institutional full-text tools              │
+│  local batch literature engine / institutional full-text  │
 │  project code, data readers, runtimes, and generated files │
 │  RESEARCHSKILLS_MAILTO in env                              │
 └────────────────────────────────────────────────────────────┘
@@ -106,7 +106,7 @@ literature-review
         ├─ discover-papers   OpenAlex candidates
         ├─ find-pdf          authorised full-text retrieval
         ├─ zotero/zotseek    existing project library
-        └─ UsefulPapers      optional batch engine and Zotero adapter
+        └─ optional batch    local screening/pipeline engine when installed
                 │
                 ▼
        verified evidence artifacts
@@ -138,7 +138,7 @@ locked ──► PROTOCOL.md search.queries[] (else PCC concat)
 
 ## Composes with (optional)
 
-- [usefulpapers](https://github.com/dahliasan/usefulpapers) — PROTOCOL.md consumer, screening pipeline, and Zotero adapter
+- Optional local batch literature engine — screening/pipeline when you install one (not required for PROTOCOL or paper-card schema; schema lives in this repo)
 - Institutional full-text tools — only if available and authorised
 - Project runtimes and data readers — used by research-red-team only when available and proportionate
 

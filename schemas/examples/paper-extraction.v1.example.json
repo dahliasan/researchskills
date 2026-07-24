@@ -1,0 +1,69 @@
+{
+  "schema_version": "researchskills.extraction.v1",
+  "file": {
+    "paper_id": "10.1234_example",
+    "doi": "10.1234/example",
+    "original_filename": "example.pdf",
+    "extracted_at": "2026-07-17T00:00:00Z",
+    "extractor_version": "researchskills-0.2.10",
+    "chunks_artifact": null,
+    "embedding_collection": null
+  },
+  "metadata": {
+    "title": "Example fur seal census paper",
+    "authors": [{ "full_name": "Ada Example", "orcid": null, "corresponding": true, "email": null, "affiliation": null }],
+    "year": 2024,
+    "journal_name": "Polar Biology"
+  },
+  "reader_summary": "Example summary of study system, methods, findings, and relevance.",
+  "background": {
+    "problem_statement": "Colony trend uncertainty at Heard Island.",
+    "research_gap": "Few recent pup counts.",
+    "stated_objectives": ["Estimate pup production for one season."]
+  },
+  "key_findings": ["Pup production estimated at N in year Y."],
+  "methods": {
+    "data_type": "drone imagery",
+    "sample": "one breeding colony",
+    "study_period": "2023/24 season",
+    "spatial_scale": "colony",
+    "analytical_approach": "manual count with double observer",
+    "response_variable": "pup count",
+    "key_predictors": []
+  },
+  "focal_taxa": [
+    { "scientific_name": "Arctocephalus gazella", "common_name": "Antarctic fur seal" }
+  ],
+  "domain": {
+    "study_region": "Heard Island",
+    "temporal_coverage": "2023-2024",
+    "ecological_data_type": "census"
+  },
+  "study_design": "survey_census",
+  "evidence_type": "empirical",
+  "sample_size": 1,
+  "geo": {
+    "place": "Heard Island, Southern Ocean",
+    "region_label": "Southern Ocean"
+  },
+  "years_covered": { "from": 2023, "to": 2024 },
+  "limitations_stated": ["Single season only."],
+  "quantitative_findings": [
+    {
+      "metric": "pup_count",
+      "value": 1200,
+      "units": "pups",
+      "context": "one colony, one season"
+    }
+  ],
+  "gaps_and_recommendations": ["Multi-year repeat survey needed."],
+  "key_cited_works": [
+    {
+      "citation_string": "Page et al. 2003",
+      "reason": "Prior HIMI census baseline",
+      "doi": null,
+      "role": "foundational"
+    }
+  ],
+  "protocol_extra": {}
+}

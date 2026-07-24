@@ -51,13 +51,13 @@ npx skills update
 
 | Capability | Optional install |
 |------------|------------------|
-| Batch literature pipeline | [usefulpapers](https://github.com/dahliasan/usefulpapers) engine |
+| Batch literature pipeline | Optional local batch engine on your machine — not required for PROTOCOL or `researchskills.extraction.v1` |
 | Institutional PDF | `anulib` CLI (if your institution supports it) |
 | Sci-Hub fallback | `scihub` CLI |
 | Semantic Zotero | [introfini/ZotSeek](https://github.com/introfini/ZotSeek) plugin (`.xpi` from [Releases](https://github.com/introfini/ZotSeek/releases)) + MCP; see skill `zotseek` |
 | Richer Zotero MCP (Python) | [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) — skill `zotero-mcp` for install/config; skill `zotero` prefers it when connected. **Not** a Zotero `.xpi` |
 
-Skills degrade: HTTP OpenAlex and documented waterfall steps still work without UsefulPapers.
+Skills degrade: HTTP OpenAlex and documented waterfall steps still work without a batch engine.
 
 ## Optional companion skills (external)
 

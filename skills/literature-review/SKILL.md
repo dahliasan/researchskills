@@ -6,8 +6,8 @@ description: >-
   synthesis, and citation checking. Use for preliminary reviews, research-question
   refinement, methods searches, formal reviews, evidence updates, synthesis
   matrices, or checking whether papers support manuscript claims. Routes internally
-  to protocol, discover-papers, find-pdf, Zotero/ZotSeek, and UsefulPapers when
-  available. Does not treat search snippets or abstracts as full-text evidence.
+  to protocol, discover-papers, find-pdf, and Zotero/ZotSeek when available.
+  Does not treat search snippets or abstracts as full-text evidence.
 metadata:
   version: 0.1.1
 ---
@@ -127,7 +127,7 @@ full-text extraction and claim verification.
 | Existing-library keyword or bibliographic search | `zotero` |
 | Existing-library semantic search | `zotseek` |
 | PDF or full-text retrieval | `find-pdf` |
-| Batch discovery, screening, and Zotero sync | UsefulPapers, when installed |
+| Batch discovery, screening, and library sync | optional local batch engine, when installed |
 
 The skill is the literature review-state router. Search engines, PDF libraries,
 credentials, and heavy pipelines remain external.
@@ -223,17 +223,40 @@ Do not describe the work as systematic unless the documented process supports th
 
 ### `extract`
 
-Use [references/evidence-artifacts.md](references/evidence-artifacts.md).
+Canonical paper card: [../../schemas/paper-extraction.v1.schema.json](../../schemas/paper-extraction.v1.schema.json)
+(`schema_version`: `researchskills.extraction.v1`). Example:
+[../../schemas/examples/paper-extraction.v1.example.json](../../schemas/examples/paper-extraction.v1.example.json).
+
+**Prompt (PROTOCOL-templated, project-agnostic base):**
+
+```bash
+python skills/literature-review/scripts/render_extraction_prompt.py \
+  --protocol PROTOCOL.md \
+  -o /tmp/extract_prompt.txt
+```
+
+Template: [references/extraction-prompt.md](references/extraction-prompt.md).
+Review colour (question, eligibility, overview, `extraction.extra_fields`) is
+injected from PROTOCOL.md — do not reuse project-local corpus-engine prompts.
+
+**Validate:**
+
+```bash
+python skills/literature-review/scripts/validate_extraction.py path/to/card.json
+```
+
+Optional review worksheets: [references/evidence-artifacts.md](references/evidence-artifacts.md).
 
 For each paper:
 
 1. verify identity using DOI or another stable identifier
-2. record access level and sections checked
-3. extract only fields required by the current review question
-4. attach page, section, table, or figure locations
-5. distinguish author-reported findings from reviewer inference
-6. record uncertainty, caveats, and missing information
-7. save the extraction before writing synthesis prose
+2. render the extraction prompt from the locked PROTOCOL.md
+3. write a JSON paper card that validates against the v1 schema
+4. put review-specific fields only in `protocol_extra` keys declared by PROTOCOL
+5. attach page, section, table, or figure locations when practical
+6. distinguish author-reported findings from reviewer inference
+7. record uncertainty, caveats, and missing information
+8. save the extraction before writing synthesis prose
 
 Do not use abstract-only extraction as a substitute for full-text extraction.
 Abstract extraction may be stored as a separate preliminary layer.
@@ -366,7 +389,7 @@ After substantive work, report:
 - `find-pdf`
 - `zotero`
 - `zotseek`
-- UsefulPapers
+- optional local batch literature engine (when installed)
 
 ## Peer skills
 

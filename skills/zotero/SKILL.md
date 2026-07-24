@@ -85,6 +85,7 @@ When using scripts only:
 | PDF / attachment path | `zotero_get_attachment_path` | `query_collection.py` or `zotero.py children` / `file-url` |
 | Metadata / full text | `zotero_get_item_metadata` / `zotero_get_item_fulltext` | `zotero.py` inventory/search/fulltext |
 | Add by DOI / notes / annotations | MCP write/annotation tools | Say MCP (or Web API) needed; do not fake it |
+| Attach PDF (binary) | MCP write only if hybrid + user OK; prefer Desktop UI | File sync may be WebDAV — follow `zotero-private` when present; do not assume Zotero Storage |
 | BibTeX + insert into draft | MCP export if handy, then still wire draft | `zotero.py cite` / `export-bibtex` (skill specialty) |
 | Semantic passages | **Not MCP-54yyyu by default** — use `zotseek` | — |
 

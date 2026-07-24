@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dahliasan/researchskills/schemas/paper-extraction.v1.schema.json",
+  "title": "ResearchskillsPaperExtraction",
+  "description": "Default lean paper card for researchskills literature extraction (v1). Field shape matches the former external extraction.v3 card for migration. No claims array — claims are a separate optional step.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "file",
+    "metadata",
+    "reader_summary",
+    "background",
+    "key_findings",
+    "methods",
+    "focal_taxa",
+    "domain",
+    "study_design",
+    "evidence_type",
+    "gaps_and_recommendations",
+    "key_cited_works"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "researchskills.extraction.v1"
+    },
+    "file": {
+      "type": "object",
+      "required": ["paper_id", "extracted_at", "extractor_version"],
+      "additionalProperties": false,
+      "properties": {
+        "paper_id": { "type": "string", "minLength": 1 },
+        "doi": { "type": ["string", "null"] },
+        "original_filename": { "type": ["string", "null"] },
+        "extracted_at": { "type": "string" },
+        "extractor_version": { "type": "string" },
+        "chunks_artifact": { "type": ["string", "null"] },
+        "embedding_collection": { "type": ["string", "null"] }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["title", "authors", "year", "journal_name"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["full_name"],
+            "additionalProperties": false,
+            "properties": {
+              "full_name": { "type": "string", "minLength": 1 },
+              "orcid": { "type": ["string", "null"] },
+              "corresponding": { "type": "boolean" },
+              "email": { "type": ["string", "null"] },
+              "affiliation": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "year": { "type": ["integer", "null"], "minimum": 1900, "maximum": 2100 },
+        "journal_name": { "type": ["string", "null"] }
+      }
+    },
+    "reader_summary": { "type": "string", "minLength": 1 },
+    "background": {
+      "type": "object",
+      "required": ["problem_statement", "research_gap", "stated_objectives"],
+      "additionalProperties": false,
+      "properties": {
+        "problem_statement": { "type": ["string", "null"] },
+        "research_gap": { "type": ["string", "null"] },
+        "stated_objectives": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "key_findings": {
+      "type": "array",
+      "maxItems": 10,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "methods": {
+      "type": "object",
+      "required": ["data_type", "analytical_approach"],
+      "additionalProperties": false,
+      "properties": {
+        "data_type": { "type": ["string", "null"] },
+        "sample": { "type": ["string", "null"] },
+        "study_period": { "type": ["string", "null"] },
+        "spatial_scale": { "type": ["string", "null"] },
+        "analytical_approach": { "type": ["string", "null"] },
+        "response_variable": { "type": ["string", "null"] },
+        "key_predictors": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "focal_taxa": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["scientific_name"],
+        "additionalProperties": false,
+        "properties": {
+          "scientific_name": { "type": ["string", "null"] },
+          "common_name": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "domain": {
+      "type": "object",
+      "required": ["study_region", "temporal_coverage", "ecological_data_type"],
+      "additionalProperties": false,
+      "properties": {
+        "study_region": { "type": ["string", "null"] },
+        "temporal_coverage": { "type": ["string", "null"] },
+        "ecological_data_type": { "type": ["string", "null"] }
+      }
+    },
+    "study_design": {
+      "type": "string",
+      "description": "Coarse design label for filtering matrices.",
+      "enum": [
+        "observational",
+        "experimental",
+        "modelling",
+        "telemetry",
+        "survey_census",
+        "review",
+        "meta_analysis",
+        "methods",
+        "other",
+        "unknown"
+      ]
+    },
+    "evidence_type": {
+      "type": "string",
+      "enum": ["empirical", "review", "methods", "opinion", "other"]
+    },
+    "sample_size": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Primary n if clearly reported; null if absent. Never invent."
+    },
+    "geo": {
+      "type": "object",
+      "required": ["place"],
+      "additionalProperties": false,
+      "properties": {
+        "place": {
+          "type": ["string", "null"],
+          "description": "Human-readable study location."
+        },
+        "region_label": {
+          "type": ["string", "null"],
+          "description": "Optional coarse region tag (e.g. Southern Ocean, North Atlantic)."
+        }
+      }
+    },
+    "years_covered": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "from": { "type": ["integer", "null"], "minimum": 1500, "maximum": 2100 },
+        "to": { "type": ["integer", "null"], "minimum": 1500, "maximum": 2100 }
+      }
+    },
+    "limitations_stated": {
+      "type": "array",
+      "description": "Limitations explicitly stated by the authors only.",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "quantitative_findings": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "Optional numeric findings when clearly reported.",
+      "items": {
+        "type": "object",
+        "required": ["metric", "value"],
+        "additionalProperties": false,
+        "properties": {
+          "metric": { "type": "string", "minLength": 1 },
+          "value": { "type": ["number", "string"] },
+          "units": { "type": ["string", "null"] },
+          "context": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "gaps_and_recommendations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "key_cited_works": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": ["citation_string", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "citation_string": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 },
+          "doi": { "type": ["string", "null"] },
+          "role": {
+            "type": "string",
+            "enum": ["seminal", "foundational", "key"]
+          }
+        }
+      }
+    },
+    "protocol_extra": {
+      "type": "object",
+      "description": "Only keys declared in PROTOCOL.md extraction.extra_fields.",
+      "additionalProperties": true
+    }
+  }
+}

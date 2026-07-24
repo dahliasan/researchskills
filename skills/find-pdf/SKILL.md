@@ -49,7 +49,7 @@ curl -sL "https://api.unpaywall.org/v2/${DOI}?email=${RESEARCHSKILLS_MAILTO}" \
 
 ## Zotero native
 
-If the parent item is in Zotero, prefer Zotero's Find Available PDF / UsefulPapers `zotero_first` behavior when the plugin is present. Otherwise use `zotero` skill + manual attach.
+If the parent item is in Zotero, prefer Zotero's Find Available PDF, or a local `zotero_first` PDF mode when a batch engine plugin is present. Otherwise use `zotero` skill + manual attach.
 
 ## Institutional / Sci-Hub
 
@@ -70,4 +70,4 @@ Report: mode used, output path or Zotero attachment status, or explicit `pdf_una
 
 - `discover-papers` — candidates often include `oa_url`
 - `zotero` — attach or locate existing PDFs (MCP or local scripts)
-- UsefulPapers (optional) — PDF-on-accept modes
+- optional local batch engine — PDF-on-accept modes when installed

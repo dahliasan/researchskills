@@ -66,9 +66,9 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 
 ## Architecture
 
-Skills are workflow docs. Engines and CLIs (UsefulPapers, OpenAlex, Unpaywall,
-institutional fetch, and Zotero MCP) stay on your machine. See
-[INSTALL.md](./INSTALL.md).
+Skills are workflow docs. Engines and CLIs (OpenAlex, Unpaywall,
+institutional fetch, optional local batch literature engines, and Zotero MCP)
+stay on your machine. See [INSTALL.md](./INSTALL.md).
 
 ```text
 /literature-review       ← review-state router + evidence gates
@@ -76,7 +76,7 @@ institutional fetch, and Zotero MCP) stay on your machine. See
      ├─ /discover-papers ← external candidate discovery
      ├─ /find-pdf        ← authorised full-text retrieval
      ├─ /pp-scite        ← Smart Citations / Scite CLI
-     └─ /zotero · /zotero-mcp · /zotseek · UsefulPapers
+     └─ /zotero · /zotero-mcp · /zotseek
 /research-project-ops    ← project artifacts, state, and handoff
 /r-editor-setup          ← R env doctor: extensions, packages, Air
 /research-red-team       ← independent project-wide challenge register
@@ -94,10 +94,6 @@ institutional fetch, and Zotero MCP) stay on your machine. See
 - [ARCHITECTURE.md](./ARCHITECTURE.md)
 - [EXAMPLES.md](./EXAMPLES.md)
 - [CONTRIBUTING.md](./CONTRIBUTING.md)
-
-## Related
-
-- [usefulpapers](https://github.com/dahliasan/usefulpapers) — optional Zotero adapter and literature pipeline engine
 
 ## License
 

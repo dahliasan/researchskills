@@ -51,6 +51,6 @@ official package/extension lists**, plus research Tier B and opt-in AI Tier D.
 
 ## Deliberate exclusions
 
-- Do not vendor UsefulPapers / Sci-Hub / institutional PDF tools here
+- Do not vendor external literature-pipeline engines / Sci-Hub / institutional PDF tools here
   (researchskills pack rule).
 - Do not replace `ggplot-maps` or `research-project-ops`.

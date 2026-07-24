@@ -34,7 +34,13 @@ screening:
     enabled: true
     role: triage
 extraction:
-  schema: usefulpapers.extraction.v3
+  schema: researchskills.extraction.v1
+  # Optional review-specific keys stored under protocol_extra on the paper card:
+  # extra_fields:
+  #   - name: example_field
+  #     type: string
+  #     description: What to extract and when to use null.
+  extra_fields: []
 synthesis:
   method: narrative
 reporting:

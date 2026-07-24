@@ -1,5 +1,4 @@
 # Attribution
 
-- UsefulPapers D24 PDF-on-accept modes and Zotero attach helpers.
-- Institutional HITL pattern for campus proxy / EZproxy login (agent browser; no DevTools paste).
-- Optional CLIs (not vendored here): institutional library fetch; [scihub-pp-cli](https://github.com/dahliasan/scihub-pp-cli).
+- PDF-on-accept mode vocabulary (`off | unpaywall | zotero_first | engine_only`) and Zotero attach helpers from an earlier local batch-engine design.
+- Institutional SSO / EZproxy HITL patterns from MegaMove literature PDF auth docs, generalized for public use.

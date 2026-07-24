@@ -98,7 +98,8 @@ Find the binary with `which zotero-mcp` or `zotero-mcp setup-info`.
 ### Hybrid writes (optional)
 
 Local API is largely **read-only** for library membership. For MCP writes
-(add by DOI, update items, notes, etc.), set a Zotero Web API key + library id
+(add by DOI, update items, notes, attach PDF, etc.), set a Zotero Web API key +
+library id
 ([Zotero → Settings → Security → Applications](https://www.zotero.org/settings/security#applications)):
 
 - Keep `ZOTERO_LOCAL=true` for fast local reads
@@ -106,6 +107,18 @@ Local API is largely **read-only** for library membership. For MCP writes
   `ZOTERO_LIBRARY_TYPE=group`)
 
 Confirm with the user before any write.
+
+**Where to store the API key (hosts):** prefer
+`~/.config/zotero-mcp/config.json` → `client_env` (upstream loads this on
+`serve`). Host overlays like **`zotero-private`** document the local helpers
+`zotero-mcp-set-key` / `zotero-mcp-cred-status`. Do not commit keys.
+
+**PDF file sync vs Zotero Storage:** MCP attachment uploads follow the library’s
+Desktop sync settings. To avoid burning Zotero’s free file quota, configure
+**Settings → Sync → File Syncing → WebDAV** (or turn file sync off). Host-specific
+WebDAV / attach policy belongs in skill **`zotero-private`** when present — do not
+put credentials in public skills.
+See [WebDAV services](https://www.zotero.org/support/kb/webdav_services).
 
 Web-only remote mode: `zotero-mcp setup --no-local --api-key … --library-id …`
 (see upstream).

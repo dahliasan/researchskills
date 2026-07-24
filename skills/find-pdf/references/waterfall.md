@@ -13,4 +13,4 @@ Order for **waterfall** mode:
 
 **Policy:** never block accept/discover if all modes fail. Reject HTML stub "PDFs". Prefer legal OA paths before Sci-Hub.
 
-Extracted from UsefulPapers D24 (`off | unpaywall | zotero_first | usefulpapers_only`) and MegaMove literature PDF auth HITL docs — generalized for public use.
+Extracted from an earlier PDF-on-accept design (`off | unpaywall | zotero_first | engine_only`) and MegaMove literature PDF auth HITL docs — generalized for public use.

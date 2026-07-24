@@ -108,10 +108,18 @@ Human and AI decisions should remain distinguishable.
 
 ## Full-text extraction record
 
+**Preferred:** save a paper card JSON that matches
+[`schemas/paper-extraction.v1.schema.json`](../../../schemas/paper-extraction.v1.schema.json)
+(`researchskills.extraction.v1`). See
+[`schemas/README.md`](../../../schemas/README.md).
+
+The YAML worksheet below is optional for review notes that do not fit the card.
+Do not treat it as a second competing schema.
+
 ```yaml
 paper_id:
 review_question:
-extraction_version:
+extraction_version: researchskills.extraction.v1
 access_level: full-text | full-text-plus-supplement
 checked_sections: []
 

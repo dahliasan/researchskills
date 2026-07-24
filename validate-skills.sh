@@ -93,10 +93,27 @@ else
   echo "OK scrub"
 fi
 
+echo "== paper-card schema =="
+if [[ ! -f schemas/paper-extraction.v1.schema.json ]]; then
+  echo "FAIL: missing schemas/paper-extraction.v1.schema.json"
+  fail=1
+else
+  python3 - <<'PY'
+import json
+from pathlib import Path
+schema = json.loads(Path("schemas/paper-extraction.v1.schema.json").read_text())
+assert schema["properties"]["schema_version"]["const"] == "researchskills.extraction.v1"
+example = json.loads(Path("schemas/examples/paper-extraction.v1.example.json").read_text())
+assert example["schema_version"] == "researchskills.extraction.v1"
+print("OK schema + example version")
+PY
+fi
+
 echo "== offline tests =="
 python3 tests/test_openalex_offline.py
 python3 tests/test_validator_fixture.py
 python3 tests/test_strip_agent_criticmarkup.py
+python3 tests/test_extraction_prompt.py
 
 if [[ "$fail" -ne 0 ]]; then
   echo "FAILED"

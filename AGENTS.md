@@ -4,7 +4,7 @@ Operating notes for agents working in **researchskills**.
 
 ## Non-negotiables
 
-1. Skills are documentation-first; do not vendor UsefulPapers, anulib, or scihub into this repo.
+1. Skills are documentation-first; do not vendor external literature-pipeline engines, anulib, or scihub **engines** into this repo. The in-repo paper-card schema under `schemas/` is owned here (`researchskills.extraction.v1`).
 2. Do not add overlapping prose twins. `manuscript-writing` is the manuscript prose and audit source of truth.
 3. Default MD↔DOCX converter is `manuscript-markdown` (CLI/extension). Do not use pandoc for manuscript Word roundtrip unless the user opts in after an install/compare flag. `manuscript-markdown` does not draft prose.
 4. `discover-papers` must support quick mode without PROTOCOL.md.

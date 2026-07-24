@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.10 — 2026-07-23
+
+- Own paper-card extraction in-repo: `schemas/paper-extraction.v1.schema.json`
+  (`researchskills.extraction.v1`). PROTOCOL template and literature-review
+  extract mode use the in-repo schema. Field shape matches the former external
+  `*.extraction.v3` card for migration.
+- Scrub product-name coupling to an external batch literature engine from
+  skills and pack docs; keep optional-engine language only.
+- Add PROTOCOL-templated extraction prompt
+  (`skills/literature-review/references/extraction-prompt.md`) plus
+  `render_extraction_prompt.py` and `validate_extraction.py`.
+
 ## 0.2.9 — 2026-07-23
 
 - Restructure `manuscript-writing` for progressive disclosure: thin `SKILL.md`
