@@ -137,6 +137,9 @@ Rules:
   methodological choice a reader would otherwise assume differently.
 - Do not restate simple arithmetic when the reported statistic already makes
   the aggregation self-evident.
+- Do not add signpost filler such as "as reported in Results," "see Results
+  for details," or "these values are presented below." Put the numbers where
+  they belong; let the section structure carry the pointer.
 
 Software, packages, and versions are not a separate trailing step. Cite each
 tool inline at the point its method is described. A single-sentence "analyses

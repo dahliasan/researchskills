@@ -14,6 +14,11 @@ A custom function name, an internal file path, or a claim-tracking tag tells
 the project team where a number lives, not what it means — put it in a
 provenance note, not the sentence.
 
+Also ban signpost filler in prose: do not write "as reported in Results,"
+"see Results for details," or "these values are presented below." Put counts
+and estimates in Results (or SI); Methods states the rule; the section order
+is the pointer.
+
 Scan Results as carefully as Methods: claim IDs and file paths leak into
 result prose as easily as function names leak into Methods.
 
