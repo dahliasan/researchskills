@@ -2,11 +2,11 @@
 name: manuscript-writing
 description: >-
   Manuscript writing from verified project artifacts. Use when outlining,
-  drafting, revising, surgically editing, auditing, or answering reviewers for
-  empirical research manuscripts. When another skill needs manuscript prose or
-  audit, invoke this skill.
+  drafting, revising, surgically editing, auditing, checking for AI-shaped prose,
+  or answering reviewers for empirical research manuscripts. When another skill
+  needs manuscript prose or audit, invoke this skill.
 metadata:
-  version: 3.6.0
+  version: 3.7.0
 ---
 
 # Manuscript writing
@@ -32,15 +32,16 @@ Classify the request, then **read only that mode file** before editing:
 | `draft` | Writing a new section | [modes/draft.md](modes/draft.md) |
 | `revise` | Improving logic, clarity, or structure | [modes/revise.md](modes/revise.md) |
 | `surgical-edit` | Minimal changes; preserve wording | [modes/surgical-edit.md](modes/surgical-edit.md) |
-| `audit` | Check before review or submission | [modes/audit.md](modes/audit.md) |
+| `audit` | Check scientific coherence before review or submission | [modes/audit.md](modes/audit.md) |
+| `prose-audit` | Detect or remove formulaic, inflated, generic, or AI-shaped manuscript prose | [modes/prose-audit.md](modes/prose-audit.md) |
 | `response-to-reviewers` | Revising from reviewer comments | [modes/response-to-reviewers.md](modes/response-to-reviewers.md) |
 
 **Done when** the chosen mode file is loaded and its completion criterion is
 met. Do not load other mode files.
 
 Section contracts, planning detail, citations, and statistical reporting live
-in [reference.md](reference.md) — load the sections the mode asks for, not the
-whole file unless the mode requires it.
+in [reference.md](reference.md). Conclusion-specific guidance lives in
+[conclusion.md](conclusion.md). Load only the sections the mode asks for.
 
 ## Shared gates
 
@@ -54,6 +55,7 @@ Apply before substantive writing (every mode except pure proofreading).
 | Methods | Implemented methods, data docs, configuration, code or workflow map |
 | Results | Final tables/registry, figures, uncertainty, analytical sample |
 | Discussion | Confirmed results, verified literature, limitations, alternatives |
+| Conclusion | Stable main finding, supported implication, scope boundary |
 | Abstract | Stable section summaries or stable full manuscript |
 | Captions | Final figure/table, source variables, abbreviations, statistical defs |
 

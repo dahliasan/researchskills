@@ -4,7 +4,8 @@
 
 1. Apply evidence and conflict gates to claims you will change.
 2. Load the target section contract from [reference.md](../reference.md)
-   only for sections you are revising.
+   only for sections you are revising. For a separate Conclusion section or
+   concluding Discussion paragraph, also load [conclusion.md](../conclusion.md).
 3. Load [scaffolding.md](../scaffolding.md); remove scaffolding leaks in
    touched prose.
 4. Run **separate** revision passes — do not mix jobs in one pass
