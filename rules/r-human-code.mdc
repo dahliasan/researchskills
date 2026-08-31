@@ -8,9 +8,9 @@ alwaysApply: false
 
 Load **`r-human-code`** from this pack when writing or refactoring analysis scripts.
 
-- One script per job where possible; read top to bottom
-- `pkg::fun()` for non-base R — no `library()` then bare verbs
-- Plain variables at the top for paths and options — no `commandArgs()` / CLI parsing
+- One script, top to bottom: paths → `library()` block → transform → write
+- Workhorse packages: load once, call bare; `pkg::fun()` only for one-offs, masking, or unclear source
+- No `source()` helpers, CLI parsing, or one-use custom functions
 - No custom functions unless the same chunk repeats and would be verbose inline
 - Heavy compute on ANU Dayhoff → separate `.sh` SLURM wrapper (`dayhoff-slurm`)
 

@@ -1,132 +1,102 @@
 ---
 name: r-human-code
 description: >-
-  Human-readable R analysis scripts — linear top-to-bottom flow, pkg::fun()
-  namespacing (no library() masking), no CLI parsing, no one-off helpers or AI
-  slop. Use when writing or refactoring scientific R scripts, or when the user
-  asks for /r-human-code, "humanize R", or "deslop R". Complements
-  r-editor-setup (environment), ggplot-maps (maps), dayhoff-slurm (HPC jobs).
+  Use when writing or refactoring scientific R analysis scripts, when output
+  looks over-engineered (helper files, CLI parsing, purrr nests, all-namespaced
+  tidyverse), or when the user asks for /r-human-code, humanize R, or deslop R.
 metadata:
-  version: 1.0.0
+  version: 1.2.0
 ---
 
 # /r-human-code — readable R, not agent slop
 
-Write R a coauthor can read by scrolling down once. One script per job where
-possible. Inspired by anti-slop hygiene (no speculative helpers, no narrating
-comments) — adapted for R analysis, not Python web apps.
+**Core principle:** One script, read top to bottom — paths → loads → transform →
+model/plot → write. Match how a coauthor writes R.
 
-## Shape
+## When to use
 
-1. **One script.** Paths and constants at the top, then load → transform →
-   model/plot → write. Split only when outputs are genuinely separate
-   deliverables.
-2. **Linear.** No indirection — the reader should not hunt for helpers in other
-   files.
-3. **No CLI in the script.** No `commandArgs()`, `optparse`, or `parse_cli()`.
-   Set dataset tag, paths, and options as plain variables at the top (or read
-   env vars once at the top). SLURM wrappers live in a separate `.sh` file — see
-   `dayhoff-slurm`.
-4. **No custom functions** unless the same non-trivial chunk repeats in that
-   script. A named list for domain lookup (taxon → predictors) or a `theme_pub`
-   used several times is fine.
+- New analysis script or major refactor of `.R` / `.Rmd` / `.qmd`
+- Script has `source()` helpers, `parse_cli()`, or one-function wrappers
+- All-namespaced tidyverse despite a load block, or bare masked verbs with no load
 
-## Namespacing — always `pkg::fun()`
+**When NOT:** repo paths/conventions → `AGENTS.md`. HPC → `dayhoff-slurm`. Maps → `ggplot-maps`.
 
-Call non-base R functions with an explicit namespace. Do **not** `library(dplyr)`
-then bare `filter()` — masks are opaque and look like agent slop.
+## Script shape
 
-| Do | Don't |
-|----|-------|
-| `dplyr::filter(dat, !is.na(x))` | `library(dplyr); filter(dat, …)` |
-| `readr::read_csv(path, show_col_types = FALSE)` | `library(readr); read_csv(…)` |
-| `ggplot2::ggplot(dat, ggplot2::aes(x, y))` | `library(ggplot2); ggplot(…)` |
-| `trip::speedfilter(…)` | `library(trip); speedfilter(…)` |
+```r
+input_csv <- "..."; out_dir <- "..."
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
-**Base R stays bare:** `mean()`, `c()`, `file.path()`, `list()`, `for`, `if`.
+library(dplyr); library(readr); library(ggplot2)
 
-**Legacy scripts:** if a file already uses `library()` consistently, match that
-file when editing — do not half-convert. New scripts default to namespaced calls.
+dat <- read_csv(input_csv, show_col_types = FALSE) |>
+  filter(!is.na(n_months), n_months >= 1)
 
-## Preferred packages
+write_csv(dat, file.path(out_dir, "out.csv"))
+```
 
-| Role | Prefer |
-|------|--------|
-| Tables | `dplyr`, `tidyr`, `tibble` |
-| I/O | `readr` |
-| Names | `janitor` |
-| Plots | `ggplot2` |
-| Strings | `stringr` when needed |
-| Models | domain packages (`glmmTMB`, `ncdf4`, …) with tidy prep around them |
+| Slot | Rule |
+|------|------|
+| Paths | Plain variables at top — no `commandArgs()` / `optparse` |
+| Loads | One block after paths; `library()` for packages used throughout |
+| Body | Linear; no `source()` / `lib_*.R`; no fn used once |
+| Split | Only for separate deliverables |
 
-Use native `|>` (or `%>%` if the project already does). Prefer tidyverse for
-ordinary scripts. Use `data.table` only for large HPC I/O where it clearly wins
-— keep that block local and still linear.
+Use `|>` (or `%>%` if file already does). Prefer tidyverse; `data.table` only for large I/O.
 
-## Use built-ins instead of wrappers
+## Packages: load default, namespace exceptions
+
+`library()` + bare verbs is normal when the load block is visible.
+
+**Bare call** — package in load block, name unambiguous.
+
+**`pkg::fun()`** — ANY true:
+
+| Predicate | Example |
+|-----------|---------|
+| Not in load block | `ncdf4::nc_open()`, `glmmTMB::glmmTMB()` |
+| Single call only | `janitor::clean_names(dat)` |
+| Masked, wrong semantics | `stats::filter()`, `base::union()` |
+| Source unclear | `terra::extract()` without `library(terra)` |
+
+Watch: `filter`, `select`, `rename`, `lag`, `intersect`, `union`, `setdiff`, `count`, `first`, `last`.
+
+**Editing:** match file's existing load/namespace style.
+
+## Built-ins over wrappers
 
 | Need | Use |
 |------|-----|
-| Standardize | `scale()` / `dplyr::mutate(dplyr::across(..., ~ as.numeric(scale(.x))))` |
-| Drop incomplete rows | `tidyr::drop_na()` or `stats::complete.cases()` |
-| Clean names | `janitor::clean_names()` |
-| Reshape | `tidyr::pivot_longer()` / `tidyr::pivot_wider()` |
-| Bind | `dplyr::bind_rows()` |
-| Formulas | `stats::reformulate()` |
-| Smooth on plots | `ggplot2::geom_smooth()` |
-| Labels | `dplyr::case_when()` / `base::cut()` |
+| Clean names (once) | `janitor::clean_names()` |
+| Standardize | `scale()` / `mutate(across(...))` |
+| Drop NAs | `drop_na()` |
+| Reshape | `pivot_longer()` / `pivot_wider()` |
 
-## When a local function is OK
+Base R bare: `mean()`, `c()`, `file.path()`, `for`, `if`. Local fn OK only for
+domain rules used repeatedly (taxon lookup, `theme_pub`).
 
-Only if it encodes **domain rules** or unavoidable repetition:
+## Common mistakes
 
-- Taxon → predictor inclusion table (named list)
-- Year windows for monthly raster / netCDF extracts
-- A single plot theme reused in one script (`theme_pub`)
-
-Not OK: one-line wrappers around `scale`, `drop_na`, `glmmTMB`, path getters,
-or bespoke z-score / complete-case helpers.
-
-## Anti-slop (R-adapted)
-
-Borrowed from code-humanizer / deslop patterns — structural debt, not formatting:
-
-| Pattern | Fix |
+| Symptom | Fix |
 |---------|-----|
-| `lib_*.R` or `source()` for one-off helpers | Inline or delete |
-| `purrr`/`nest` acrobatics when a `for` over taxa is clearer | Use `for` |
-| Reimplementing `janitor`, `scale`, `drop_na`, `geom_smooth` | Use the package |
-| Pretty-label maps when raw column names are fine | Drop the map |
-| Narrating comments (`# filter rows`) | Delete — code should speak |
-| `try(..., silent = TRUE)` swallowing real errors | Let it fail or narrow the catch |
-| `parse_cli()` / `optparse` in analysis scripts | Plain variables at top |
-| Multiple small functions each used once | Inline |
+| `dplyr::filter()` with tidyverse loaded | Bare after `library()` |
+| Bare `filter()`, no load | `library(dplyr)` or `stats::filter()` |
+| `library(ncdf4)` for one open | `ncdf4::nc_open()` |
+| `source("lib_*.R")`, narrating `# filter rows` | Inline; delete comment |
+| `purrr`+`nest` for taxon loop | `for` |
 
-## Sketch
+## Rationalizations
 
-```r
-input_csv <- "input/endloc_database_alltaxa_aug2026reextract.csv"
-out_dir <- "output/end_locations/location_exports/v2_aug2026reextract"
-dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
-
-dat <- readr::read_csv(input_csv, show_col_types = FALSE) |>
-  dplyr::filter(!is.na(n_months), n_months >= 1)
-
-# ... transform, model, plot ...
-
-readr::write_csv(dat, file.path(out_dir, "endloc_alltaxa.csv"))
-```
+| Excuse | Reality |
+|--------|---------|
+| "Namespaces always clearer" | Humans load dplyr, call `filter()` |
+| "Masking makes library() unsafe" | Qualify the rare conflict only |
+| "Helper keeps it clean" | One-off helpers force hunting |
+| "CLI makes it reusable" | Plain vars; SLURM wrapper for HPC |
 
 ## Companions
 
-| Need | Skill / rule |
-|------|----------------|
-| R + editor setup | `r-editor-setup` |
-| Map figures | `ggplot-maps` |
-| AIC / model choice | `aic-model-selection` |
-| Figure design QA | `figure-design` |
-| SLURM jobs on ANU Dayhoff | `dayhoff-slurm` |
-| Cursor auto-nudge when editing `.R` files | `rules/r-human-code.mdc` via `./scripts/link-cursor-rules.sh` |
+`r-editor-setup` · `ggplot-maps` · `aic-model-selection` · `figure-design` ·
+`dayhoff-slurm` · `rules/r-human-code.mdc`
 
-Do not use generic `r-style-guide`, `tidyverse-patterns`, or `r-tidyverse-style`
-skills for analysis scripts.
+Not: `r-style-guide`, `tidyverse-patterns`, `r-tidyverse-style`.
