@@ -55,6 +55,8 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | Manage a preliminary, methods, or formal literature workflow | [`literature-review`](./skills/literature-review/SKILL.md) |
 | Scaffold / audit / hand off a research project | [`research-project-ops`](./skills/research-project-ops/SKILL.md) |
 | Set up / doctor R in Cursor or VS Code (packages, Air, radian) | [`r-editor-setup`](./skills/r-editor-setup/SKILL.md) |
+| Human-readable R scripts (`pkg::fun()`, linear, anti-slop) | [`r-human-code`](./skills/r-human-code/SKILL.md) |
+| SLURM jobs on ANU Dayhoff HPC | [`dayhoff-slurm`](./skills/dayhoff-slurm/SKILL.md) |
 | Quarto `.qmd` authoring (external) | `npx skills add posit-dev/skills@quarto-authoring -g` |
 | Find papers (OpenAlex) | [`discover-papers`](./skills/discover-papers/SKILL.md) |
 | Build a PROTOCOL.md from a research question | [`protocol`](./skills/protocol/SKILL.md) (soft-hidden; literature-review or discover can invoke it) |
@@ -79,6 +81,8 @@ stay on your machine. See [INSTALL.md](./INSTALL.md).
      └─ /zotero · /zotero-mcp · /zotseek
 /research-project-ops    ← project artifacts, state, and handoff
 /r-editor-setup          ← R env doctor: extensions, packages, Air
+/r-human-code            ← readable R: pkg::fun(), linear, anti-slop
+/dayhoff-slurm           ← SLURM batch jobs on ANU Dayhoff
 /research-red-team       ← independent project-wide challenge register
 /aic-model-selection ← AIC/AICc ranking, near-ties, primary inference
 /manuscript-writing      ← manuscript argument, prose, and audit

@@ -19,6 +19,22 @@ mass-format. If `.qmd` is in play: Quarto CLI + `quarto.quarto` only, then
 recommends `npx skills add posit-dev/skills@quarto-authoring -g` (does not
 vendor that skill).
 
+## r-human-code
+
+**You:** /r-human-code — rewrite this export script without parse_cli helpers.
+
+**Agent:** Loads `r-human-code` → plain path variables at top → `dplyr::filter` /
+`readr::read_csv` namespaced calls → no one-off functions → `for` loop over taxa
+instead of purrr nest.
+
+## dayhoff-slurm
+
+**You:** /dayhoff-slurm — submit the track_duration file1 build on Dayhoff.
+
+**Agent:** Loads `dayhoff-slurm` → picks `R-py310` conda path → writes or uses
+existing `job_file1_dayhoff.sh` → `sbatch` with preflight → reports `squeue` /
+log path.
+
 ## manuscript-writing
 
 **You:** Revise this Results paragraph; keep Discussion claims out.

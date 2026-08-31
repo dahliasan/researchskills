@@ -6,8 +6,8 @@ description: >-
   Routes to manuscript-writing, manuscript-markdown, manuscript-collab,
   figure-design, ggplot-maps, manuscript-submission, literature-review,
   research-red-team, aic-model-selection, discover-papers, protocol,
-  find-pdf, pp-scite, research-project-ops, r-editor-setup, zotero, zotero-mcp,
-  or zotseek. Does not reimplement those skills.
+  find-pdf, pp-scite, research-project-ops, r-editor-setup, r-human-code,
+  dayhoff-slurm, zotero, zotero-mcp, or zotseek. Does not reimplement those skills.
 metadata:
   version: 0.2.0
 ---
@@ -35,6 +35,8 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 | Scite Smart Citations, search, tallies, assistant, reference-check | `pp-scite` |
 | Scaffold / audit / hand off a research repo (PROJECT.md, METHODS.md, STATUS.md) | `research-project-ops` |
 | Install / doctor R env in Cursor or VS Code (packages, Air, radian, httpgd) | `r-editor-setup` |
+| Human-readable R analysis scripts (`pkg::fun()`, linear, no CLI, anti-slop) | `r-human-code` |
+| SLURM batch jobs on ANU Dayhoff HPC | `dayhoff-slurm` |
 | Zotero library day-to-day (prefer MCP if present, else local API) | `zotero` |
 | Install/configure 54yyyu Zotero MCP | `zotero-mcp` |
 | Semantic search over Zotero PDFs (ZotSeek plugin) | `zotseek` |
@@ -49,7 +51,9 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 6. Use `figure-design` for visual design QA; use `ggplot-maps` for R map recipes. Keep analytical decisions with the analysis owner.
 7. Use `manuscript-submission` for venue rules, reporting compliance, declarations, and package preflight. For Word file emit during packaging, invoke `manuscript-markdown`.
 8. Zotero: `zotero` for session work; `zotero-mcp` for [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) install/config; `zotseek` for ZotSeek semantic. If backends are down, say so and continue without Zotero where possible.
-9. Use `r-editor-setup` for R + Air editor tooling; do not bury that in `ggplot-maps` or analysis scripts.
+9. Use `r-editor-setup` for R + Air editor tooling; use `r-human-code` for analysis script style.
+10. Use `dayhoff-slurm` for expensive compute on ANU Dayhoff (after SSH via `dahlias-fleet`).
+11. Do not use `r-style-guide`, `tidyverse-patterns`, `r-tidyverse-style`, or ad-hoc function-heavy patterns for analysis scripts.
 
 ## Exit
 
