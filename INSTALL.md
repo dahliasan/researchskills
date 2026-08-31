@@ -26,6 +26,14 @@ cd ~/Developer/researchskills
 
 Set list: `skills/sets/global.txt`. After `git pull`, re-run `./scripts/link-global.sh` only if new skills were added (existing symlinks already track file edits).
 
+Cursor rules (R file-type nudge for `r-human-code`):
+
+```bash
+./scripts/link-cursor-rules.sh
+```
+
+Installs `rules/*.mdc` into `~/.cursor/rules/`. Re-run after adding new rules.
+
 Consumer copy install (snapshot, not live):
 
 ```bash

@@ -12,6 +12,8 @@ research-red-team
 aic-model-selection
 research-project-ops
 r-editor-setup
+r-human-code
+dayhoff-slurm
 discover-papers
 protocol
 find-pdf

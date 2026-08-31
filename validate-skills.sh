@@ -24,6 +24,8 @@ required_skills=(
   zotseek
   research-project-ops
   r-editor-setup
+  r-human-code
+  dayhoff-slurm
 )
 
 echo "== frontmatter + required skills =="

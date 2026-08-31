@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.11 — 2026-08-31
+
+- Add `r-human-code`: human-readable R analysis style — linear scripts,
+  `pkg::fun()` namespacing, anti-slop rules. Replaces `r-linear-scripts`.
+  Cursor rule: `rules/r-human-code.mdc`.
+- Add `dayhoff-slurm`: SLURM job templates for ANU Dayhoff — conda env matrix
+  (`r_env` for Standards/spatial, `R-py310` for Threats/models), sequeira
+  paths, preflight and monitoring.
+
 ## 0.2.10 — 2026-07-23
 
 - Own paper-card extraction in-repo: `schemas/paper-extraction.v1.schema.json`
