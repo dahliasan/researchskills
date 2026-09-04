@@ -1,6 +1,6 @@
 ---
 name: research-project-ops
-description: "Use when the user wants to start, scaffold, audit, reorganize, document, hand off, resume, or prepare an empirical research project for analysis or manuscript writing. Also use for requests about research repository structure, PROJECT.md, METHODS.md, DECISIONS.md, STATUS.md, claims, results tables and figures, data provenance, reproducibility, or making a research project AI-agent friendly. This skill manages project artifacts and routes work by project phase; it does not replace domain-specific literature review, statistical analysis, or manuscript-writing skills."
+description: "Use when the user wants to start, scaffold, audit, reorganize, document, hand off, resume, or prepare an empirical research project for analysis or manuscript writing. Also use for requests about research repository structure, PROJECT.md, METHODS.md, STATUS.md, results tables and figures, data provenance, reproducibility, or making a research project AI-agent friendly. Scientific method and consequential choices live in METHODS.md (methods + decision ledger). Do not create `CLAIMS.md` or a separate `DECISIONS.md`. This skill manages project artifacts and routes work by project phase; it does not replace domain-specific literature review, statistical analysis, or manuscript-writing skills."
 metadata:
   version: 1.0.0
 ---
@@ -14,7 +14,7 @@ You manage the durable artifacts of an empirical research project so a human or 
 3. what was actually done
 4. which data and outputs are authoritative
 5. what is currently complete or blocked
-6. what evidence supports each manuscript claim
+6. which result tables/figures back each reported number
 
 Your goal is not to create every possible document. Create the smallest set that removes the project's current bottleneck.
 
@@ -96,7 +96,6 @@ README.md
 PROJECT.md
 STATUS.md
 METHODS.md
-DECISIONS.md
 AGENTS.md
 references.bib
 
@@ -114,12 +113,10 @@ manuscript/
 | `README.md` | Always, unless an adequate entry point already exists |
 | `PROJECT.md` | Research question, scope, objectives, or contribution need a stable home |
 | `STATUS.md` | Work spans sessions, people, or agents |
-| `METHODS.md` | Study design, processing, or analysis has begun |
-| `DECISIONS.md` | At least one consequential choice has alternatives or may be revisited |
+| `METHODS.md` | Study design, processing, or analysis has begun (also the decision ledger) |
 | `AGENTS.md` | AI agents will work in the repository |
 | `data/README.md` | The project uses or creates data |
 | `config/analysis.yml` | Parameters are repeated across scripts or outputs |
-| `CLAIMS.md` | Results are stable enough to support named claims |
 | results registry | Multiple final statistics must stay consistent across prose, tables, and figures |
 | figure/table manifests | There are several outputs or unclear output versions |
 | `manuscript/outline.md` | Manuscript planning has begun |
@@ -136,13 +133,13 @@ Use this hierarchy unless the project already has a better documented system:
 | What is the current research question? | `PROJECT.md` |
 | What is the project state now? | `STATUS.md` |
 | What was planned and implemented? | `METHODS.md` |
-| Why was a consequential choice made? | `DECISIONS.md` |
+| Why was a consequential choice made? | `METHODS.md` Decision ledger section |
 | What parameter values drive the pipeline? | `config/analysis.yml` or equivalent |
 | Where did data come from and what do variables mean? | `data/README.md` and machine-readable metadata |
 | What operations were actually implemented? | code and workflow definitions |
 | Which run produced an output? | run manifest |
 | Which numbers are reportable? | results registry or generated result tables |
-| What supports a manuscript claim? | `CLAIMS.md` or claim-evidence map |
+| Does a citation support a sentence? | Check the source (`citation-ops`); do not maintain a claims file |
 | What prose is current? | manuscript source files |
 
 When sources conflict:
@@ -176,7 +173,6 @@ project/
 ├── PROJECT.md
 ├── STATUS.md
 ├── METHODS.md
-├── DECISIONS.md
 ├── AGENTS.md
 ├── references.bib
 ├── config/
@@ -238,16 +234,16 @@ Route the new information to the authoritative artifact.
 
 | New information | Update |
 |---|---|
-| Research question or scope changed | `PROJECT.md`, then `STATUS.md`; add decision if consequential |
+| Research question or scope changed | `PROJECT.md`, then `STATUS.md`; record decision in `METHODS.md` if consequential |
 | Method planned or implemented | `METHODS.md` |
-| Reason for choosing or changing a method | `DECISIONS.md` |
-| Parameter value changed | config plus `METHODS.md`; add decision if consequential |
+| Reason for choosing or changing a method | `METHODS.md` Decision ledger |
+| Parameter value changed | config plus `METHODS.md`; add ledger entry if consequential |
 | New dataset or data version | `data/README.md`, provenance metadata, run config |
-| New result | generated result table or registry; then `CLAIMS.md` if stable |
+| New result | generated result table or registry (no claims file) |
 | New figure or table | source data, generating code, export, caption, manifest |
 | Work completed or blocked | `STATUS.md` |
 | Writing progress | manuscript files and `STATUS.md` |
-| Deviation from plan | `METHODS.md` current state plus `DECISIONS.md` history |
+| Deviation from plan | update `METHODS.md` current state and append a Decision ledger entry |
 
 After an update, check downstream consistency. Example: a changed eligibility threshold may affect config, methods, QC counts, results, figures, and manuscript text.
 
@@ -286,7 +282,7 @@ For every figure or table retain:
 
 ```text
 purpose
-claim/result IDs
+linked result IDs (from results registry / tables, not a claims file)
 source data
 generating code
 final export
@@ -323,7 +319,7 @@ Evaluate readiness section by section.
 - primary outputs are generated
 - every reported number has a source
 - figures and tables each have one clear purpose
-- Results claims avoid interpretation beyond the evidence
+- Reported results avoid interpretation beyond the evidence
 
 #### Discussion ready when
 
@@ -353,20 +349,20 @@ List only the gaps that block or materially slow writing.
 
 ## Artifact update rules
 
-### `METHODS.md` and `DECISIONS.md`
+### `METHODS.md` (methods + decision ledger)
 
-They overlap only at consequential choices.
+One research methods file. Current method text and consequential choices live together.
 
-- `METHODS.md`: current factual method
-- `DECISIONS.md`: context, alternatives, reason, consequences, history
+- **Methods sections:** what is planned / implemented / validated now
+- **Decision ledger:** dated entries for choices with real alternatives (why, options rejected, consequences)
 
 Example:
 
-`METHODS.md`:
+> **Data preparation — Status: implemented**  
 > Presences were aggregated to monthly 1° grid cells.
-
-`DECISIONS.md`:
-> D-004 records why monthly 1° cells were selected over native and finer resolutions.
+>
+> **Decision ledger — D-004 (accepted 2026-07-12)**  
+> Chose monthly 1° cells over native and finer resolutions because … Alternatives: …
 
 ### Planned versus actual
 

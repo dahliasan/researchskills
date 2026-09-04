@@ -41,4 +41,4 @@ Install optional readability support with `pip install textstat`.
 - `1`: blockers found
 - `2`: input file missing
 
-Run lint after scientific accuracy, structure, and claim-evidence checks.
+Run lint after scientific accuracy, structure, and citation–sentence checks.

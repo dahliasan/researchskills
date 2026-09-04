@@ -39,7 +39,7 @@ Same idea as makerskills `second-brain`: the skill is the workflow; the data and
 
 ```text
 research-project-ops
-    owns project state, decisions, dependencies, and handoff
+    owns project state, METHODS (incl. decisions), dependencies, and handoff
 
 literature-review
     owns review workflow and verified literature evidence

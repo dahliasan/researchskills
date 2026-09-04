@@ -12,7 +12,7 @@
    1. scientific accuracy and completeness
    2. central contribution and whole-paper argument
    3. section role and result logic
-   4. claim-evidence traceability
+   4. citation–sentence support (use `citation-ops` when needed)
    5. paragraph logic and transitions
    6. sentence clarity and concision
    7. terminology, numbers, figures, tables, and citations

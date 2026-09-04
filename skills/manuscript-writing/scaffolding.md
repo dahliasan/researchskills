@@ -19,7 +19,7 @@ Also ban signpost filler in prose: do not write "as reported in Results,"
 and estimates in Results (or SI); Methods states the rule; the section order
 is the pointer.
 
-Scan Results as carefully as Methods: claim IDs and file paths leak into
+Scan Results as carefully as Methods: internal IDs and file paths leak into
 result prose as easily as function names leak into Methods.
 
 **Before (scaffolding leaking into Results):**
@@ -27,12 +27,12 @@ result prose as easily as function names leak into Methods.
 > production gate (DEC-014): Blacktip shark and Northern Right whale. ... so
 > they have no dual-CV production packs (C-FUNNEL-94 → C-FUNNEL-92; C-FUNNEL-2).
 
-**After (finding only; decision tag and claim IDs moved to a provenance note):**
+**After (finding only; decision tag moved to a provenance note):**
 > Two of the 94 fitted species, Blacktip shark and Northern Right whale,
 > failed spatial cross-validation in every fold despite succeeding under
 > stratified cross-validation, and were excluded from performance,
 > predictor-importance, and habitat-map summaries.
-> `{>>Provenance: DEC-014; claim IDs C-FUNNEL-94/92/2.<<}`
+> `{>>Provenance: METHODS Decision ledger D-014; numbers from species_funnel.md.<<}`
 
 **Before (Methods, function name in prose):**
 > Extraction in this codebase is via `summarise_gbm_model()` in

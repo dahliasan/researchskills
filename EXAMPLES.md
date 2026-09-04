@@ -6,7 +6,7 @@ One worked example per skill: what you say → what happens.
 
 **You:** Scaffold this new analysis repo so an agent can resume next week.
 
-**Agent:** Mode **scaffold** → creates minimum PROJECT.md / STATUS.md / METHODS.md / DECISIONS.md / AGENTS.md as needed; does not invent results.
+**Agent:** Mode **scaffold** → creates minimum PROJECT.md / STATUS.md / METHODS.md / AGENTS.md as needed; does not invent results.
 
 ## r-editor-setup
 

@@ -2,7 +2,7 @@
 name: research-red-team
 description: >-
   Critically stress-test an entire research project from premise through data,
-  analysis, results, interpretation, figures, manuscript claims, and
+  analysis, results, interpretation, figures, manuscript statements, and
   reproducibility. Use for reviewer-2 reviews, pre-mortems, replication audits,
   failure-mode analysis, branch/change reviews, or when the user wants an
   opposing or sceptical lens. Inspects primary evidence, compares keep-as-is
@@ -61,7 +61,7 @@ those analyses are the fastest reliable way to decide whether a concern matters.
 | Challenge gap, premise, or contribution | `premise` |
 | Challenge study design or sampling | `design` |
 | Challenge processing, models, validation, or sensitivity | `analysis` |
-| Challenge claims and interpretation | `claims` |
+| Challenge interpretation beyond the results | `interpretation` |
 | Simulate a demanding peer reviewer | `reviewer-2` |
 | Test whether another team could reproduce the work | `replication` |
 | Identify plausible ways results could be wrong | `failure-modes` |
@@ -72,7 +72,7 @@ those analyses are the fastest reliable way to decide whether a concern matters.
 | Refresh and verify an existing challenge backlog | `reconcile` |
 
 Default depth is `standard`. A focus and depth may be combined, such as
-`quick analysis`, `deep reviewer-2`, or `branch claims`.
+`quick analysis`, `deep reviewer-2`, or `branch interpretation`.
 
 ## Audit depth
 
@@ -107,8 +107,7 @@ Read project artifacts when present:
 PROJECT.md
 STATUS.md
 METHODS.md
-DECISIONS.md
-CLAIMS.md
+METHODS.md (incl. Decision ledger)
 PROTOCOL.md
 RED_TEAM.md
 manuscript drafts
@@ -168,7 +167,7 @@ problem
 → study design
 → data and processing
 → analysis
-→ result claims
+→ reported results
 → interpretation
 → contribution
 ```
@@ -181,7 +180,7 @@ project decisions
 ↔ code and configuration
 ↔ executed outputs and logs
 ↔ figures and tables
-↔ manuscript claims
+↔ manuscript statements
 ↔ verified literature
 ```
 
@@ -242,7 +241,7 @@ cases, uncertainty, sample sizes, axes, scales, colour, aggregation, maps,
 selective main-text presentation, and agreement among captions, visuals, and
 prose.
 
-### Claims and interpretation
+### Interpretation beyond the results
 
 Check evidence type, causal wording, alternative explanations, comparability of
 external studies, generalisation, consequences of limitations, partial support,
@@ -424,7 +423,7 @@ RT-DESIGN-001
 RT-DATA-001
 RT-ANALYSIS-001
 RT-RESULTS-001
-RT-CLAIMS-001
+RT-INTERP-001
 RT-REPRO-001
 ```
 

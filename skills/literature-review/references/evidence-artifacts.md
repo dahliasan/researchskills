@@ -264,7 +264,6 @@ literature/
 ├── screening.jsonl
 ├── access-status.jsonl
 ├── extractions/
-├── claims/
 ├── synthesis-matrix.csv
 ├── gaps.md
 └── HANDOFF.md

@@ -79,9 +79,9 @@ correct.
 
 **Prose vs scaffolding.** Manuscript prose holds only what a reader needs to
 understand or reproduce the science. Citable packages, published functions, and
-named methods stay in prose. Internal paths, custom function names, decision
-tags, and claim IDs go in provenance notes. Worked examples:
-[scaffolding.md](scaffolding.md).
+named methods stay in prose. Internal paths, custom function names, and decision
+IDs (from `METHODS.md` Decision ledger) go in provenance notes — never claim-ID
+maps. Worked examples: [scaffolding.md](scaffolding.md).
 
 **Citations.** Cite immediately after the claim; group only when every source
 supports the same claim; preserve project cite syntax. Detail:
@@ -94,7 +94,7 @@ from evidence of no effect; do not upgrade association to causation. Detail:
 ## Workflow
 
 1. Identify mode → load that mode file only.
-2. Load evidence artifacts the mode requires.
+2. Load evidence the mode requires (METHODS, results tables/figures, verified literature — not a claims file).
 3. Apply evidence, readiness, and conflict gates.
 4. Execute the mode steps until its completion criterion is met.
 5. Run the deterministic validator when the mode requires it.

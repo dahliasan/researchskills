@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/dahliasan/researchskills/schemas/paper-extraction.v1.schema.json",
   "title": "ResearchskillsPaperExtraction",
-  "description": "Default lean paper card for researchskills literature extraction (v1). Field shape matches the former external extraction.v3 card for migration. No claims array — claims are a separate optional step.",
+  "description": "Default lean paper card for researchskills literature extraction (v1). Field shape matches the former external extraction.v3 card for migration. No claims array — do not maintain a separate claims ledger; verify sentences against sources as needed.",
   "type": "object",
   "required": [
     "schema_version",

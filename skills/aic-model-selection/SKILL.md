@@ -96,7 +96,7 @@ Keep min-AICc as primary only when:
 - there is an a priori biological case, **and**
 - you still disclose the near-tie in the table and prose.
 
-State the rule used in Methods / `DECISIONS.md`.
+State the rule used in `METHODS.md` (Decision ledger when consequential).
 
 ### 5. Reporting
 
@@ -114,7 +114,7 @@ State the rule used in Methods / `DECISIONS.md`.
 
 ### 6. Hand off
 
-- Decision log → `research-project-ops` / project `DECISIONS.md`
+- Decision log → `research-project-ops` / `METHODS.md` Decision ledger
 - Project-wide challenge → `research-red-team`
 - Prose → `manuscript-writing`
 
@@ -134,4 +134,4 @@ State the rule used in Methods / `DECISIONS.md`.
 |------|--------|
 | Whole-project challenge | `research-red-team` |
 | Manuscript wording | `manuscript-writing` |
-| Project decision log | `research-project-ops` |
+| Project decision log (`METHODS.md`) | `research-project-ops` |

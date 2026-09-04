@@ -66,7 +66,7 @@ Before searching, inspect what already exists when accessible:
 - screening decisions
 - extraction records
 - synthesis matrices
-- manuscript claims that need evidence
+- manuscript sentences that need citation support (prefer `citation-ops` for one-off checks)
 
 When the review belongs to a larger research project, read relevant project files
 for context, but do not take ownership of them.
@@ -336,7 +336,6 @@ literature/
 ├── screening.jsonl
 ├── access-status.jsonl
 ├── extractions/
-├── claims/
 ├── synthesis-matrix.csv
 ├── gaps.md
 └── HANDOFF.md
