@@ -5,7 +5,7 @@ Use these as review prompts, not automatic violations.
 | Pattern | Inspect for |
 |---|---|
 | `main <- function() ...; main()` in an analysis script | Application structure added without a real need |
-| `commandArgs()` with no external caller | CLI plumbing added for agent convenience |
+| `commandArgs()` or a CLI with no documented Bash/HPC caller | Unnecessary execution plumbing |
 | One-use wrappers around clear package calls | Function confetti |
 | Many tiny helpers that force file-jumping | Abstraction making the workflow harder to read |
 | Dense or deeply nested Boolean branches | A scientific decision that should be named or simplified |
@@ -25,8 +25,8 @@ The audit itself can become a smell. Do not manufacture work.
 |---|---|---|
 | Clear code with an alternative style available | PASS | Preference alone is not a defect |
 | High cyclomatic complexity warning | REVIEW | Inspect whether the branching reflects real domain logic before splitting |
-| `commandArgs()` with a documented shell, SLURM, or pipeline caller | PASS | It serves a real interface |
-| `commandArgs()` with no evident external caller | REVIEW | It may be generated CLI plumbing |
+| `docopt` selecting a config file for a documented shell, SLURM, or pipeline caller | PASS | It serves a real interface |
+| `commandArgs()` or a CLI with no evident external caller | REVIEW | It may be generated execution plumbing |
 | Parse error or deterministic checker failure | FAIL | Objective defect |
 | Refactor that expands the diff beyond the identified problem | REVIEW | Adjacent cleanup increases risk without proving value |
 

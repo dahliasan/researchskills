@@ -5,7 +5,7 @@ description: >-
   when generated code is over-engineered, too CLI-like, over-factored, branch-heavy,
   hard to inspect interactively, or unlike code a human R researcher would maintain.
 metadata:
-  version: "2.3.0"
+  version: "2.3.3"
 ---
 
 # Coauthor R
@@ -86,17 +86,27 @@ Treat interactive readability and whole-script reproducibility as compatible:
 - the complete file should run in a fresh project session when practical;
 - `Rscript script.R` does **not** imply a CLI.
 
-Add `commandArgs()`, argument parsers, or `main()` only when an actual external caller
-requires varying arguments or an existing interface requires them. Agent convenience
-is not a caller requirement.
+Prefer the simplest interface first: keep settings as plain assignments near the top of
+the script when that is enough for collaborators. Add a human-editable configuration
+file only when a repeatable set of choices has outgrown that simple interface; read
+[references/configuration.md](references/configuration.md) before designing it.
 
-During audit, treat `commandArgs()` as follows:
+Use no command-line interface by default. Add `docopt` only when a documented Bash,
+HPC, or pipeline caller genuinely needs one. Otherwise, collaborators edit top-level
+settings, or an established configuration, and source the analysis. Add `main()` only
+when an existing interface requires it.
 
-- **PASS** when a real caller supplies varying values, such as SLURM, shell automation,
-  another program, or an established command-line workflow;
-- **REVIEW** when it appears to exist only because generated code turned a normal
-  analysis script into a CLI;
-- never remove it automatically without checking callers and preserving the interface.
+When `docopt` is needed, expose one argument that selects the configuration file rather
+than duplicating every setting as a flag.
+
+During audit, treat command-line interfaces as follows:
+
+- **PASS** when a documented Bash, HPC, or pipeline caller uses `docopt` to select a
+  configuration file;
+- **REVIEW** when `commandArgs()` is used, or when a CLI exposes ordinary analysis
+  settings that collaborators could edit in the configuration;
+- never remove an existing interface automatically without checking callers and
+  preserving it.
 
 A script can still run non-interactively with `Rscript script.R` while keeping analysis
 settings as ordinary assignments. Non-interactive execution does not itself justify a
@@ -161,6 +171,9 @@ when the user wants the project-level checker installed.
   parallelism, iteration strategy, or `data.table` mutation.
 - Read [references/environment.md](references/environment.md) for packages, `renv`,
   credentials, or environment setup.
+- Read [references/configuration.md](references/configuration.md) when collaborators
+  need to change recurring analysis settings, or when connecting a configuration file
+  to HPC or shell automation.
 - Read [references/sources.md](references/sources.md) when reconciling this skill with
   external style advice.
 
