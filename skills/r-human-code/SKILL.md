@@ -5,7 +5,7 @@ description: >-
   when generated code is over-engineered, too CLI-like, over-factored, branch-heavy,
   hard to inspect interactively, or unlike code a human R researcher would maintain.
 metadata:
-  version: "2.3.3"
+  version: "2.3.4"
 ---
 
 # Coauthor R
@@ -143,10 +143,41 @@ when a loop exposes control flow better.
 ## Scientific behaviour
 
 Preserve raw inputs, types, missing-value semantics, identifiers, units, seeds,
-thresholds, exclusions, and statistical assumptions. Let unexpected errors surface;
-catch only known failures that the workflow is designed to continue past.
+thresholds, exclusions, and statistical assumptions. Do not change scientific
+meaning while performing style cleanup.
 
-Do not change scientific meaning while performing style cleanup.
+### Error handling: let R fail
+
+**Do not add error handling that R already provides.** Missing files, bad paths,
+empty filters that leave nothing to plot, and missing columns already stop with a
+traceback. Extra `stopifnot()`, `stop()`, `tryCatch()`, or empty-data guards are
+noise unless they earn their keep.
+
+**Default:** call the reader or plotter and let failure surface.
+
+| Smell | Prefer |
+|---|---|
+| `stopifnot(file.exists(path))` then `st_read(path)` / `read_csv(path)` | Just read; missing path fails in the reader |
+| `if (!file.exists(path)) stop(...)` before I/O | Just read |
+| `if (!nrow(x)) stop("empty")` after a filter you expect to keep rows | Let the next step fail or plot nothing |
+| `if (nrow(x) > 0) geom_sf(data = x)` for required layers | Plot; empty or missing data fails or draws nothing |
+| `if ("col" %in% names(d))` for columns the script requires | Use `d$col`; missing column errors |
+| Blanket `tryCatch` / purrr `safely` / `possibly` around ordinary steps | Let the error stop the script |
+
+**Add a check only when it earns its keep:**
+
+- a real failure already burned time and still recurs;
+- an **expected** gap that should skip (`if (!file.exists(nc)) next`, resume if
+  output exists);
+- one item in a batch must fail without killing the rest (`try()` on that item,
+  log which one, continue).
+
+**Order of preference:** fix the root cause → verify the upstream step by looking
+at outputs → skip known gaps → `stop()` only after that miss has happened →
+`try()` / `tryCatch` only for per-item batch continuation.
+
+Do not invent prerequisite theatre (`if (n_files < 90) stop(...)`) because an
+upstream step was not inspected. Open the folder or log instead.
 
 ## Deterministic gate
 
