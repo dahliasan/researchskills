@@ -14,6 +14,9 @@ Use these as review prompts, not automatic violations.
 | Calculation function writes files unexpectedly | Hidden side effect / mixed responsibility |
 | `setwd()`, `rm(list = ls())`, restored `.RData` assumptions | Hidden session state |
 | Blanket `tryCatch()` | Failures being hidden instead of understood |
+| `stopifnot(file.exists(...))` / `stop()` before `read_*` / `st_read` / `rast` | Redundant: the reader already fails on a missing path |
+| `if (!nrow(x)) stop(...)` or `if (nrow(x) > 0)` around required layers | Premature guard; let the next step fail or plot |
+| `if ("col" %in% names(d))` for required columns | Use the column; missing names error naturally |
 | `map()` nested several levels deep | Functional style obscuring control flow |
 | Repeated `rbind()` in growing loops | Readability and performance problem |
 
