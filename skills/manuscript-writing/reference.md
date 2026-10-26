@@ -79,6 +79,33 @@ purpose → claim → evidence or reasoning → boundary → transition
 Use citation keys, result IDs, and figure references. Do not draft unsupported
 bridging claims merely to make the story sound complete.
 
+## Style and detail
+
+Match the target manuscript, not a generic model voice. Read several nearby
+approved paragraphs in the same section; use the user's supplied style sample
+when no local sample exists. Notice established terminology, abbreviation use,
+sentence and paragraph length, voice, tense, hedging, and citation placement.
+Treat these as a style guide, not a quota to mimic mechanically. Preserve the
+author's patterns unless they conflict with accuracy or journal requirements.
+Do not imitate a source paper's wording.
+
+Keep enough detail for the section's job:
+
+- **Introduction:** only the background needed to establish the question and gap.
+- **Methods:** enough detail to understand and reproduce the implemented study.
+- **Results:** the sample, comparison, estimate, and uncertainty needed to read
+  the result; leave repeated values to tables where possible.
+- **Discussion:** interpret the result, compare it with verified literature, and
+  state boundaries and alternatives without repeating the Results.
+- **Abstract and captions:** retain the key design, result, and scope while
+  respecting their word and format limits.
+
+When revising, preserve the original strength of a claim if the evidence permits
+it. When it does not, propose the smallest accurate change, such as naming the
+population, weakening a causal verb, separating a result from interpretation, or
+adding uncertainty. Avoid both unsupported compression and background that does
+not help the reader understand the study.
+
 ## Introduction
 
 ```text

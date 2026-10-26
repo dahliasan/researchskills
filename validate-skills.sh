@@ -6,7 +6,9 @@ cd "$root"
 fail=0
 
 required_skills=(
-  researchskills
+  research-mode
+  paper-brief
+  fact-check
   manuscript-writing
   manuscript-markdown
   manuscript-collab
@@ -20,7 +22,6 @@ required_skills=(
   protocol
   find-pdf
   zotero
-  zotero-mcp
   zotseek
   research-project-ops
   r-editor-setup
@@ -53,6 +54,8 @@ done
 
 echo "== required scripts =="
 for path in \
+  skills/research-mode/references/skill-catalog.md \
+  skills/zotero/references/mcp-setup.md \
   skills/discover-papers/scripts/openalex_search.py \
   skills/manuscript-writing/validator.py \
   skills/manuscript-collab/scripts/strip_agent_criticmarkup.py \

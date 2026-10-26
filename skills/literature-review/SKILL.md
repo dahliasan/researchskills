@@ -6,7 +6,8 @@ description: >-
   synthesis, and citation checking. Use for preliminary reviews, research-question
   refinement, methods searches, formal reviews, evidence updates, synthesis
   matrices, or checking whether papers support manuscript claims. Routes internally
-  to protocol, discover-papers, find-pdf, and Zotero/ZotSeek when available.
+  to protocol, discover-papers, PaperKit when available, find-pdf as a fallback,
+  and Zotero/ZotSeek when available.
   Does not treat search snippets or abstracts as full-text evidence.
 metadata:
   version: 0.1.1
@@ -18,7 +19,7 @@ You coordinate the literature workflow and its durable evidence artifacts.
 Use existing literature capabilities rather than reimplementing search, PDF
 retrieval, library management, or screening engines.
 
-`literature-review` is a peer of `research-project-ops`, `analysis-design`, and
+`literature-review` is a peer of `research-mode`, `research-project-ops`, and
 `manuscript-writing`. It does not own those skills.
 
 ## Core rule
@@ -66,7 +67,7 @@ Before searching, inspect what already exists when accessible:
 - screening decisions
 - extraction records
 - synthesis matrices
-- manuscript sentences that need citation support (prefer `citation-ops` for one-off checks)
+- manuscript sentences that need citation support (prefer `fact-check` for one-off checks)
 
 When the review belongs to a larger research project, read relevant project files
 for context, but do not take ownership of them.
@@ -109,7 +110,7 @@ full-text-plus-supplement
 
 If required full text is unavailable:
 
-1. route to `find-pdf`
+1. route to PaperKit when available; otherwise use `find-pdf`
 2. try authorised or lawful retrieval routes available to the user
 3. keep the paper in the corpus with its access limitation
 4. do not promote detailed claims from that paper to `verified`
@@ -126,7 +127,7 @@ full-text extraction and claim verification.
 | External paper discovery | `discover-papers` |
 | Existing-library keyword or bibliographic search | `zotero` |
 | Existing-library semantic search | `zotseek` |
-| PDF or full-text retrieval | `find-pdf` |
+| PDF or full-text retrieval | `paperkit` when available; otherwise `find-pdf` |
 | Batch discovery, screening, and library sync | optional local batch engine, when installed |
 
 The skill is the literature review-state router. Search engines, PDF libraries,
@@ -138,7 +139,9 @@ These are peer skills, not parts of the literature-review workflow:
 
 - Hand accepted research-question, scope, project-status, or artifact changes to
   `research-project-ops`.
-- Hand accepted study-design or analytical implications to `analysis-design`.
+- Hand accepted study-design or analytical implications to `research-mode`;
+  record consequential choices through `research-project-ops` in the project's
+  existing `METHODS.md` source of truth.
 - Hand verified literature evidence to `manuscript-writing` when drafting or
   revising manuscript prose.
 
@@ -196,7 +199,9 @@ Return a methods evidence table containing citation, research step, method,
 context, important parameters, validation, author-stated limitations,
 transferability, and evidence location.
 
-Hand accepted analytical implications to `analysis-design`.
+Hand accepted design or analysis implications to `research-mode`; record
+consequential decisions through `research-project-ops` in the project's existing
+`METHODS.md` source of truth.
 
 ### `formal-review`
 
@@ -255,8 +260,11 @@ For each paper:
 4. put review-specific fields only in `protocol_extra` keys declared by PROTOCOL
 5. attach page, section, table, or figure locations when practical
 6. distinguish author-reported findings from reviewer inference
-7. record uncertainty, caveats, and missing information
-8. save the extraction before writing synthesis prose
+7. distinguish each included study's own results from its interpretation and
+   claims it attributes to prior studies; follow the original citation when a
+   review claim will be used as direct evidence
+8. record uncertainty, caveats, and missing information
+9. save the extraction before writing synthesis prose
 
 Do not use abstract-only extraction as a substitute for full-text extraction.
 Abstract extraction may be stored as a separate preliminary layer.
@@ -385,7 +393,7 @@ After substantive work, report:
 
 - `protocol`
 - `discover-papers`
-- `find-pdf`
+- `paperkit` when available, otherwise `find-pdf`
 - `zotero`
 - `zotseek`
 - optional local batch literature engine (when installed)
@@ -393,5 +401,5 @@ After substantive work, report:
 ## Peer skills
 
 - `research-project-ops`
-- `analysis-design`
+- `research-mode`
 - `manuscript-writing`

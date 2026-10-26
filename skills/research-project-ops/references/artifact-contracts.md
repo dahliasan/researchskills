@@ -192,7 +192,7 @@ Do not place narrative justification here.
 
 Do **not** create `CLAIMS.md`, `claims/`, or claim-ID maps. Reportable numbers
 live in results tables / registries and figures. Citation support for a sentence
-is checked in the moment with `citation-ops` (or full-text), not a claims ledger.
+is checked in the moment with `fact-check` (or full-text), not a claims ledger.
 
 ## Results registry
 

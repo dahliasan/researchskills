@@ -1,25 +1,13 @@
----
-name: researchskills
-description: >-
-  Pack router for researchskills. Use when the user is unsure which research
-  skill to run, asks for research help generally, or says "/researchskills".
-  Routes to manuscript-writing, manuscript-markdown, manuscript-collab,
-  figure-design, ggplot-maps, manuscript-submission, literature-review,
-  research-red-team, aic-model-selection, discover-papers, protocol,
-  find-pdf, pp-scite, research-project-ops, r-editor-setup, r-human-code,
-  dayhoff-slurm, citation-ops, zotero, zotero-mcp, or zotseek. Does not reimplement those skills.
-metadata:
-  version: 0.2.0
----
+# Skill catalog
 
-# /researchskills — pack router
-
-Pick the narrowest sibling skill. Then load and follow that skill.
+Choose the narrowest skill that handles the request.
 
 ## Route
 
 | Intent | Skill |
 |--------|--------|
+| Non-trivial research work spanning phases, or choose a workflow and evidence standard | `research-mode` |
+| Explain one paper with verified page-level evidence | `paper-brief` |
 | Draft, revise, storyboard, or audit manuscript prose | `manuscript-writing` |
 | Roundtrip DOCX ↔ Markdown (default MD↔Word path) | `manuscript-markdown` |
 | CriticMarkup collab, address review comments, or export Word without agent comments | `manuscript-collab` |
@@ -29,7 +17,7 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 | AIC/AICc model selection, Δ/weights, nested near-ties, primary inference | `aic-model-selection` |
 | Adapt a manuscript to a journal or prepare a submission package | `manuscript-submission` |
 | Literature workflow, synthesis, citation check | `literature-review` |
-| Find / verify / summarise cites with library+API primitives | `citation-ops` |
+| Verify claims, check attribution, and suggest supported replacements | `fact-check` |
 | Find papers / OpenAlex / brain-dump search | `discover-papers` |
 | Build or refine PROTOCOL.md from a research question | `protocol` |
 | Get a PDF for a DOI or paper | `find-pdf` |
@@ -39,7 +27,7 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 | Human-readable R analysis scripts (`pkg::fun()`, linear, no CLI, anti-slop) | `r-human-code` |
 | SLURM batch jobs on ANU Dayhoff HPC | `dayhoff-slurm` |
 | Zotero library day-to-day (prefer MCP if present, else local API) | `zotero` |
-| Install/configure 54yyyu Zotero MCP | `zotero-mcp` |
+| Install/configure 54yyyu Zotero MCP | `zotero` setup reference |
 | Semantic search over Zotero PDFs (ZotSeek plugin) | `zotseek` |
 
 ## Rules
@@ -51,8 +39,8 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 5. **Default** MD↔DOCX conversion to `manuscript-markdown` (never pandoc first; never as a prose twin).
 6. Use `figure-design` for visual design QA; use `ggplot-maps` for R map recipes. Keep analytical decisions with the analysis owner.
 7. Use `manuscript-submission` for venue rules, reporting compliance, declarations, and package preflight. For Word file emit during packaging, invoke `manuscript-markdown`.
-8. Zotero: `zotero` for session work; `zotero-mcp` for [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) install/config; `zotseek` for ZotSeek semantic. If backends are down, say so and continue without Zotero where possible.
-8b. For sentence-scoped find/verify/summarise with those primitives, use `citation-ops` (not a full `literature-review` unless the user wants a review corpus).
+8. Zotero: `zotero` for session work; `zotero` setup reference for [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) install/config; `zotseek` for ZotSeek semantic. If backends are down, say so and continue without Zotero where possible.
+8b. For claim verification and evidence-supported replacements, use `fact-check` (not a full `literature-review` unless the user wants a review corpus).
 8c. Scientific methods and consequential choices live in `METHODS.md` (Decision ledger). Do not create `CLAIMS.md` or a separate `DECISIONS.md`.
 9. Use `r-editor-setup` for R + Air editor tooling; use `r-human-code` for analysis script style.
 10. Use `dayhoff-slurm` for expensive compute on ANU Dayhoff (after SSH via `dahlias-fleet`).
@@ -60,4 +48,4 @@ Pick the narrowest sibling skill. Then load and follow that skill.
 
 ## Exit
 
-Name the chosen skill and invoke it.
+Name the chosen skill and use its workflow.

@@ -1,16 +1,3 @@
----
-name: zotero-mcp
-description: >-
-  Install, configure, and operate the 54yyyu Zotero MCP server (zotero-mcp-server).
-  Use when the user asks for Zotero MCP, zotero-mcp, richer Zotero agent tools
-  (annotations, DOI add, semantic search extras), or how to connect Zotero to
-  Cursor/Claude via MCP. Upstream: https://github.com/54yyyu/zotero-mcp.
-  Not a Zotero .xpi plugin; not ZotSeek. For day-to-day library routing see zotero;
-  for ZotSeek semantic plugin see zotseek.
-metadata:
-  version: 0.1.0
----
-
 # Zotero MCP (54yyyu)
 
 Agent skill for the **Python MCP server** that exposes a rich Zotero tool set to
@@ -19,8 +6,7 @@ Cursor, Claude, and other MCP hosts.
 **Upstream (install from here):** [github.com/54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp)
 
 This pack does **not** vendor that code. Prefer the upstream README when install
-flags change. This skill is the researchskills entry point: install, detect,
-route, and boundaries.
+flags change. This reference covers installation, detection, configuration, and boundaries.
 
 ## What it is / is not
 
@@ -32,7 +18,7 @@ route, and boundaries.
 | **Is not** | The pack’s local-API CLIs (`skills/zotero/scripts/`) — those are the thin fallback |
 
 Day-to-day library work still goes through skill **`zotero`** (router: prefer MCP
-tools when connected, else local scripts). Load **this** skill when installing,
+tools when connected, else local scripts). Read **this reference** when installing,
 debugging MCP connection, or choosing MCP-only capabilities.
 
 ## Install

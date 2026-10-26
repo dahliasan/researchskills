@@ -24,18 +24,11 @@ Use this when choosing APIs/MCP tools. Prefer the left column when available.
 | Need | Prefer | Fallback |
 |------|--------|----------|
 | Resolve cite → item | DOI in Zotero / BBT key | Crossref / OpenAlex |
-| Full-text support | Zotero PDF / ZotSeek passages | scite full-text excerpts |
+| Full-text support | PaperKit verified passages, or the accessible PDF | Zotero full text / ZotSeek passages; inspect scite excerpts in context |
 | How others cite this paper | scite Smart Citations / tallies | — |
 | Year/author sanity | metadata `date` + creators | publisher page |
 
-### Verdict rubric
-
-| Verdict | Meaning |
-|---------|---------|
-| supported | Passage/result matches the claim as written |
-| partially-supported | Same direction but narrower/broader scope → reword |
-| unsupported | Topic overlap only, or contradicts |
-| source-unavailable | No accessible full text / abstract-only when full text required |
+Use the verdict definitions in [fact-check](../SKILL.md#verification-process).
 
 ## Summarise studies
 
@@ -61,7 +54,7 @@ If Zotero runs on another machine, tunnel `23119` first (see `zotseek` / `zotero
 
 | Task | Wrong tool | Right skill |
 |------|------------|-------------|
-| Rewrite intro argument | citation-ops alone | `manuscript-writing` |
-| DOCX live fields | citation-ops alone | `manuscript-markdown` |
-| Systematic review corpus | citation-ops alone | `literature-review` |
-| Install Zotero MCP | citation-ops | `zotero-mcp` |
+| Rewrite intro argument | fact-check alone | `manuscript-writing` |
+| DOCX live fields | fact-check alone | `manuscript-markdown` |
+| Systematic review corpus | fact-check alone | `literature-review` |
+| Install Zotero MCP | fact-check | `zotero`, then its MCP setup reference |

@@ -5,7 +5,7 @@ description: >-
   otherwise use the pack's local-API CLI (status, search, BibTeX, cite, collection
   PDF paths). Use when the user mentions Zotero, citations, references.bib,
   BibTeX, localhost:23119, collections, or library PDFs. For semantic/passage
-  search hand off to zotseek. For install/config of 54yyyu MCP, see zotero-mcp.
+  search hand off to zotseek. For MCP installation or connection failures, read references/mcp-setup.md.
   Does not replace ZotSeek.
 metadata:
   version: 0.2.1
@@ -16,7 +16,7 @@ metadata:
 One skill for day-to-day Zotero work. **Probe backends first**, then pick the
 strongest path that exists in this session.
 
-- Install / debug **54yyyu Zotero MCP** → load sibling **`zotero-mcp`**
+- Install / debug **54yyyu Zotero MCP** → read [MCP setup](references/mcp-setup.md)
   ([github.com/54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp)).
 - Semantic / embedding search via **ZotSeek plugin** → sibling **`zotseek`**
   ([introfini/ZotSeek](https://github.com/introfini/ZotSeek)).
@@ -36,7 +36,7 @@ strongest path that exists in this session.
 3. **If MCP is absent → use the local-API scripts** below (default path). State
    the limitations briefly when they matter.
 4. **On first miss of MCP in this conversation** — tell the user once that a
-   richer backend exists; point them at skill **`zotero-mcp`** and
+   richer backend exists; point them at [MCP setup](references/mcp-setup.md) and
    https://github.com/54yyyu/zotero-mcp (see [Suggest upgrades](#suggest-upgrades)).
    Then continue with the local-API fallback. Do not nag every turn.
 5. **Semantic / “find by meaning” / PDF passages** → load and follow `zotseek`
@@ -96,7 +96,7 @@ local-script workflow even when MCP exists (`zotero.py cite`).
 
 If MCP tools were **not** detected, mention once (plain language):
 
-1. **Richer library MCP (optional):** skill **`zotero-mcp`** → install from
+1. **Richer library MCP (optional):** [MCP setup](references/mcp-setup.md), install from
    [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp)
    (`uv tool install zotero-mcp-server` then `zotero-mcp setup` / harness config).
 2. **Semantic search plugin (optional):** [introfini/ZotSeek](https://github.com/introfini/ZotSeek)
@@ -149,7 +149,7 @@ python3 <researchskills-root>/skills/zotero/scripts/query_collection.py "Heard I
 ## Related
 
 - `zotero-private` — optional host overlay (remote library tunnel); load when present
-- `zotero-mcp` — install/config for 54yyyu MCP
+- [MCP setup](references/mcp-setup.md) for installation and connection diagnosis
 - `zotseek` — semantic / passage search
 
 ## Route details

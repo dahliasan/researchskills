@@ -1,6 +1,6 @@
 # researchskills
 
-**AI agent skills for scientific research workflows.** Manuscript writing,
+**AI agent skills for scientific research workflows.** Evidence-traceable paper briefs, manuscript writing,
 DOCX↔Markdown roundtrip, scientific figure design, submission packaging,
 evidence-grounded literature reviews, project-wide research red teaming,
 AIC/AICc model selection, OpenAlex discovery,
@@ -43,7 +43,10 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 
 | I want to… | Skill |
 |------------|--------|
-| Unsure which skill | [`researchskills`](./skills/researchskills/SKILL.md) |
+| Plan or run non-trivial research across phases | [`research-mode`](./skills/research-mode/SKILL.md) |
+| Browse the pack or choose a specialist skill | [`research-mode` catalog](./skills/research-mode/references/skill-catalog.md) |
+| Get a quick, evidence-traceable explanation of one paper | [`paper-brief`](./skills/paper-brief/SKILL.md) |
+| Verify claims and suggest evidence-supported replacements | [`fact-check`](./skills/fact-check/SKILL.md) |
 | Draft, revise, storyboard, or audit a research manuscript | [`manuscript-writing`](./skills/manuscript-writing/SKILL.md) |
 | Roundtrip Word DOCX ↔ Markdown (**default** MD↔Word path) | [`manuscript-markdown`](./skills/manuscript-markdown/SKILL.md) |
 | CriticMarkup collab / strip agent comments / export Word for coauthors | [`manuscript-collab`](./skills/manuscript-collab/SKILL.md) |
@@ -63,7 +66,7 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | Get a PDF by DOI | [`find-pdf`](./skills/find-pdf/SKILL.md) |
 | Scite Smart Citations / literature search CLI | [`pp-scite`](./skills/pp-scite/SKILL.md) |
 | Zotero library day-to-day (MCP if present, else local API) | [`zotero`](./skills/zotero/SKILL.md) |
-| Install/configure [54yyyu Zotero MCP](https://github.com/54yyyu/zotero-mcp) | [`zotero-mcp`](./skills/zotero-mcp/SKILL.md) |
+| Install/configure [54yyyu Zotero MCP](https://github.com/54yyyu/zotero-mcp) | [`zotero` MCP setup](./skills/zotero/references/mcp-setup.md) |
 | Semantic search in Zotero ([ZotSeek](https://github.com/introfini/ZotSeek) plugin) | [`zotseek`](./skills/zotseek/SKILL.md) |
 
 ## Architecture
@@ -78,7 +81,7 @@ stay on your machine. See [INSTALL.md](./INSTALL.md).
      ├─ /discover-papers ← external candidate discovery
      ├─ /find-pdf        ← authorised full-text retrieval
      ├─ /pp-scite        ← Smart Citations / Scite CLI
-     └─ /zotero · /zotero-mcp · /zotseek
+     └─ /zotero · /zotseek
 /research-project-ops    ← project artifacts, state, and handoff
 /r-editor-setup          ← R env doctor: extensions, packages, Air
 /r-human-code            ← readable R: pkg::fun(), linear, anti-slop
