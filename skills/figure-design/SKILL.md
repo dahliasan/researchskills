@@ -8,7 +8,7 @@ description: >-
   Does not invent data, choose an analysis after seeing a preferred visual, or
   treat visual polish as evidence.
 metadata:
-  version: 0.1.0
+  version: 0.2.0
 ---
 
 # Figure design
@@ -90,6 +90,20 @@ Never:
 7. Check scientific integrity, legibility, accessibility, and manuscript fit.
 8. Test the final-size export rather than only the working-size view.
 9. Save or report source data, code, export, caption inputs, and unresolved items.
+
+## Publication result exports
+
+For research result figures and tables, default to publication-ready artifacts:
+
+- Export figures and maps as PDF only. Generate PNG, SVG or other companion formats only when explicitly requested or required by the target venue. Raster data may be embedded in a PDF; preserve its original source separately.
+- Include core figure elements: data marks, axes and units, legends, colour bars, essential panel identifiers, facet/group labels, and necessary statistical annotations.
+- Keep titles, subtitles, captions, interpretive prose, source notes and method explanations outside the figure canvas. Store caption inputs alongside manuscript text or figure documentation. Preserve required attribution outside the canvas unless its licence explicitly requires otherwise.
+- Export result tables as clean, machine-readable CSV by default; use another format when requested or required. Retain units and clear column names; avoid screenshots and decorative table headings or caption rows.
+- Keep final result folders limited to selected maps, key figures and tables. Store analysis inputs, curve data, metadata and provenance separately; retain maintained generating code in the source tree. Do not create redundant HTML reports, duplicate code snapshots or multi-format exports by default.
+- When cleaning existing exports, first establish which results are current. Preserve authoritative numerical data and unique provenance, then remove superseded and reproducible renderings. Update generators and readers so removed artifacts do not reappear.
+- Check the exported PDF at final dimensions for clipping, typography and legibility, and verify plotted values against the underlying results. Report exports and checks actually completed.
+
+These defaults apply to publication result artifacts. Presentation and web work may use titles or other formats when their brief calls for them. Explicit user or journal requirements take precedence; do not turn stylistic preferences into universal scientific validity tests.
 
 ## Figure brief
 
