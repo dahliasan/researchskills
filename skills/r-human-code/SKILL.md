@@ -16,6 +16,10 @@ Scientific R is often both a program and a working analysis document. Preserve a
 human's ability to open a script, run meaningful sections, inspect intermediate
 objects, and still execute the complete analysis cleanly in a fresh session.
 
+For R work, put necessary explanations in the relevant script or existing project
+documentation. Do not create a new Markdown file by default; create one when the
+user requests it or the project requires it.
+
 ## Design language
 
 - **Reveal intent.** Names and top-level structure expose the analysis rather than the
