@@ -8,7 +8,7 @@ description: >-
   or "run this on the cluster". Connectivity: dahlias-fleet ssh-fleet (not this
   skill).
 metadata:
-  version: 1.0.2
+  version: 1.0.3
 ---
 
 # /dayhoff-slurm — ANU Dayhoff batch jobs
@@ -75,7 +75,7 @@ export R_LIBS="${CONDA_R}/lib/R/library"
 | `--nodes` | `1` |
 | `--ntasks` | `1` |
 | `--cpus-per-task` | `1` (raise only if the R script uses parallel) |
-| `--mem` | start lean (MegaMove_Models default max **40G** first ask); profile with `slurm-mem-report.sh` / `sstat`, not empty `sacct` MaxRSS |
+| `--mem` | default **20G** (Dayhoff default); raise only from measured peak; profile with `slurm-mem-report.sh` / `sstat`, not empty `sacct` MaxRSS |
 | `--time` | `04:00:00`–`12:00:00` |
 | `--output` / `--error` | Under project `output/.../slurm_%j.out` |
 
@@ -90,7 +90,7 @@ GPU partition exists (`GPU`) — only request when the script actually uses GPU.
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=32G
+#SBATCH --mem=20G
 #SBATCH --time=04:00:00
 #SBATCH --output=output/my_workstream/slurm_%j.out
 #SBATCH --error=output/my_workstream/slurm_%j.err
