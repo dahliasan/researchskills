@@ -13,6 +13,11 @@ metadata:
 
 # /find-pdf — PDF waterfall router
 
+> **Superseded by `paperkit`** (skill `paperkit`, CLI `paper get <DOI>`, MCP `get_paper`). paperkit runs the
+> same waterfall (Zotero, Unpaywall/OpenAlex/S2/Europe PMC, browser fallback, institutional EZproxy with
+> automatic SSO) and also indexes the full text for reading and quote verification. Use this skill only
+> where paperkit is not installed.
+
 skillify-shaped: detect mode (or run the full waterfall), call the right backend, report success/failure. **Never fail the parent job** solely because a PDF is missing.
 
 See [references/waterfall.md](references/waterfall.md).

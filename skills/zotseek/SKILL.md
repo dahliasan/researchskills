@@ -103,6 +103,6 @@ Details: [reference.md](reference.md).
 
 - `zotero-private` — optional host overlay (tunnel / remote library); load when present
 - `zotero` — library router (prefer MCP if present, else local API scripts)
-- `zotero-mcp` — install/config for [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp)
+- `zotero` [MCP setup](../zotero/references/mcp-setup.md) for [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp)
 - `manuscript-writing` — how cites land in prose
 - `discover-papers` — find new papers outside the library

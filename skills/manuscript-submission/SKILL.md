@@ -35,7 +35,7 @@ Use companion workflows when available:
 - `figure-design` for visual changes and export quality
 - `research-project-ops` for provenance, availability statements, ethics, funding, and project facts
 - `literature-review` for unsupported external claims
-- `analysis-design` for unresolved analytical problems
+- `research-mode` for unresolved study or analytical problems
 
 ## Router
 

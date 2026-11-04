@@ -139,7 +139,7 @@ Use this hierarchy unless the project already has a better documented system:
 | What operations were actually implemented? | code and workflow definitions |
 | Which run produced an output? | run manifest |
 | Which numbers are reportable? | results registry or generated result tables |
-| Does a citation support a sentence? | Check the source (`citation-ops`); do not maintain a claims file |
+| Does a citation support a sentence? | Check the source (`fact-check`); do not maintain a claims file |
 | What prose is current? | manuscript source files |
 
 When sources conflict:

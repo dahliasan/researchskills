@@ -16,11 +16,12 @@ Write manuscripts from maintained evidence, not from memory.
 ## Scope
 
 Owns manuscript argument, structure, prose, and manuscript-level quality
-control. Does not own literature discovery, analysis design, project
+control. Does not own literature discovery, study or analysis design, project
 scaffolding, statistical execution, figure rendering, or submission packaging.
 
 Companions when available: `research-project-ops`, `literature-review`,
-`analysis-design`, Zotero tooling, `manuscript-markdown` (default MD↔DOCX).
+`research-mode` for study or analysis design, Zotero tooling, and
+`manuscript-markdown` (default MD↔DOCX).
 
 ## Router
 
@@ -72,7 +73,7 @@ readiness; this skill decides whether *this writing task* can proceed.
 Stop and report when Methods disagree with code/config; sample sizes disagree
 across prose/tables/figures; a result has no traceable output; a citation does
 not support the sentence; planned methods are written as completed. Route to
-`research-project-ops` or `analysis-design`. Do not guess which version is
+`research-project-ops` or `research-mode`. Do not guess which version is
 correct.
 
 ## Shared rules
