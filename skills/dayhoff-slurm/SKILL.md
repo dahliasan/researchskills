@@ -8,7 +8,7 @@ description: >-
   or "run this on the cluster". Connectivity: dahlias-fleet ssh-fleet (not this
   skill).
 metadata:
-  version: 1.0.1
+  version: 1.0.2
 ---
 
 # /dayhoff-slurm — ANU Dayhoff batch jobs
@@ -75,7 +75,7 @@ export R_LIBS="${CONDA_R}/lib/R/library"
 | `--nodes` | `1` |
 | `--ntasks` | `1` |
 | `--cpus-per-task` | `1` (raise only if the R script uses parallel) |
-| `--mem` | `32G` (profile with `sacct`/`seff` and adjust) |
+| `--mem` | start lean (MegaMove_Models default max **40G** first ask); profile with `slurm-mem-report.sh` / `sstat`, not empty `sacct` MaxRSS |
 | `--time` | `04:00:00`–`12:00:00` |
 | `--output` / `--error` | Under project `output/.../slurm_%j.out` |
 
@@ -108,6 +108,10 @@ export OMP_NUM_THREADS=1
 
 # Project-specific env vars (read once at top of matching .R script)
 export APR2026_TRACKDUR_OUT="${PROJECT}/output/track_duration"
+
+if [[ -n "${SLURM_JOB_ID:-}" ]]; then
+  trap '/mnt/data/dayhoff/home/shared/software/bin/slurm-mem-report.sh || true' EXIT
+fi
 
 echo "Host=$(hostname) Start=$(date) R=$(${CONDA_R}/bin/Rscript --version)"
 "${CONDA_R}/bin/Rscript" code/v2_apr2026/my_script.R
@@ -145,8 +149,37 @@ sacct -j JOBID --format=JobID,JobName,State,Elapsed,MaxRSS,ExitCode
 scancel JOBID
 ```
 
-After a run completes, check `seff JOBID` if available — tune `--mem` and
-`--time` from observed usage.
+### Peak RAM report (required)
+
+Dayhoff ships a cgroup peak-RAM reporter. Put it at the **end** of every
+`#SBATCH` script (or `trap` on `EXIT`) so stdout shows actual RAM used — better
+than `sacct`/`seff` `MaxRSS`, which are often empty on this cluster.
+
+```bash
+# End of script — peak RAM for sizing next ask (cluster guide / SBATCH structure)
+/mnt/data/dayhoff/home/shared/software/bin/slurm-mem-report.sh || true
+```
+
+Preferred in new wrappers:
+
+```bash
+set -euo pipefail
+if [[ -n "${SLURM_JOB_ID:-}" ]]; then
+  trap '/mnt/data/dayhoff/home/shared/software/bin/slurm-mem-report.sh || true' EXIT
+fi
+```
+
+Manual while job is still in `squeue`:
+`/mnt/data/dayhoff/home/shared/software/bin/slurm-mem-report.sh <JOB_ID>`
+
+MegaMove_Models: project skill `.cursor/skills/dayhoff/SKILL.md` § Peak RAM
+report; all repo-root `run_*.sh` use the EXIT trap. If `#SBATCH --output=/dev/null`,
+tee the report into the script's `LOG_FILE` instead of relying on Slurm stdout.
+
+### After the run
+
+Check the mem-report line in the job stdout log (and `seff JOBID` if available)
+— tune `--mem` and `--time` from observed usage.
 
 ## Job arrays (taxon / parameter sweeps)
 

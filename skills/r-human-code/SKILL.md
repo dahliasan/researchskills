@@ -6,7 +6,7 @@ description: >-
   one-off local functions, all-namespaced tidyverse), or when the user asks for
   /r-human-code, humanize R, or deslop R.
 metadata:
-  version: 1.10.0
+  version: 1.10.1
 ---
 
 # /r-human-code — readable R, not agent slop
@@ -277,7 +277,9 @@ runs and can't fix the root cause, you probably don't need `tryCatch` yet.
 
 **Default:** let R fail with its normal error. A missing column or bad path already
 stops the script with a traceback — that is enough for interactive work and for most
-of a SLURM script too.
+of a SLURM script too. Do not prepend `stopifnot(file.exists(path))` or
+`if (!file.exists(path)) stop(...)` before `read_csv` / `st_read` / `rast`; the
+reader already fails.
 
 **How humans write these scripts:** run prepare → confirm ~95 inputs exist → write
 fit assuming prepare is done. The fit script does not re-prove prepare with
@@ -291,7 +293,7 @@ Add checks only when they earn their keep:
 | **You already burned time on a real miss** | One `stop()` / `next` for that exact miss | Wrong prepare dir once → fix the path; only then a top check if it keeps recurring |
 | **Expected partial failure** | Skip or record, don't wrap everything | `if (file.exists(out_file)) next` (resume); `if (!file.exists(nc_path)) next` (gap in threat months) |
 | **Per-item failure, job should continue** | `try()` or `tryCatch` on *that* step only | Model won't converge for one species → `NA` + log, fit the rest |
-| **Never by default** | Blanket `tryCatch`, count gates (`n >= 90`), `safely` / `possibly` around loops | Hides bugs; papers over unverified upstream steps |
+| **Never by default** | Blanket `tryCatch`, count gates (`n >= 90`), `safely` / `possibly` around loops, `stopifnot(file.exists(...))` / `stop()` before `read_*` / `st_read` / `rast` | Hides bugs; papers over unverified upstream steps; readers already fail on missing paths |
 
 **Interactive vs SLURM:** same script. Prefer **verify upstream in the session /
 logs** over encoding fear into the next script. A cluster job that fails in 30s

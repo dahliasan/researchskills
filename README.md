@@ -59,6 +59,7 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | Scaffold / audit / hand off a research project | [`research-project-ops`](./skills/research-project-ops/SKILL.md) |
 | Set up / doctor R in Cursor or VS Code (packages, Air, radian) | [`r-editor-setup`](./skills/r-editor-setup/SKILL.md) |
 | Human-readable R scripts (`pkg::fun()`, linear, anti-slop) | [`r-human-code`](./skills/r-human-code/SKILL.md) |
+| Audit, then refactor an R research repo (structure, data flow, verification) | [`improve-r-research-architecture`](./skills/improve-r-research-architecture/SKILL.md) |
 | SLURM jobs on ANU Dayhoff HPC | [`dayhoff-slurm`](./skills/dayhoff-slurm/SKILL.md) |
 | Quarto `.qmd` authoring (external) | `npx skills add posit-dev/skills@quarto-authoring -g` |
 | Find papers (OpenAlex) | [`discover-papers`](./skills/discover-papers/SKILL.md) |
