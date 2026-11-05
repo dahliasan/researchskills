@@ -80,6 +80,20 @@ Calibration rules:
 - Do not recommend next steps to fill a list. Recommend only what pays off, and say
   "nothing urgent" when that is the honest answer.
 
+## Four stages
+
+**Explore → Recommend → Refactor → Verify.** The default run stops after Recommend
+(audit-only). Refactor starts only once the user has reviewed the proposed architecture
+or asked for implementation. Verify follows every structural change, and is the gate for
+moving on to the next one.
+
+| Stage | Sections | Output |
+|---|---|---|
+| Explore | §1 | Map of entry points, dependency order, baseline |
+| Recommend | §2 | 2–5 ranked candidates with before/after and invariants |
+| Refactor | §3–4 | One architecture change at a time, baseline kept |
+| Verify | §5–6 | Comparison with baseline, evidence, what was not verified |
+
 ## 1. Explore
 
 1. Read the project's entry points and documentation. Do not create missing files.
@@ -138,7 +152,29 @@ here and let the user choose.
 
 ## 3. Choose the smallest effective structure
 
-Options, not orthodoxy:
+Options, not orthodoxy.
+
+**Default reference layout.** This is a target to move toward only where §1 found
+friction. It is not a template to impose, and an existing layout that works stays as it is:
+
+```
+project/
+├── R/                 # Reusable functions
+├── data/
+│   ├── raw/           # Read-only source data
+│   └── processed/     # Derived, regenerable from raw
+├── scripts/           # Analysis workflows (executable steps)
+├── outputs/           # Figures, tables, models
+├── reports/           # Quarto manuscripts and reports
+├── tests/             # Scientific regression tests
+├── README.md
+├── renv.lock          # only if renv is adopted (see below)
+└── project.Rproj
+```
+
+Adapt it: keep names already in use if clear (`output/` for `outputs/`, `analysis/` for
+`scripts/`), and omit folders the project does not need. Any move is an architecture
+change in its own commit, with every reference updated (see §4).
 
 - **`.Rproj` and project-relative paths.** Use `here::here()` or paths relative to the
   project root. Required before anything else is portable.
