@@ -4,13 +4,19 @@
 #
 #   slurm-usage <cpus requested> <mem requested, e.g. 8G> <start epoch>
 #
+# With no arguments it reads all three from the job, so any sbatch script can end with
+#   trap '"$HOME/bin/slurm-usage" || true' EXIT
+#
 # Prints a Markdown table. A line starting with "ADJUST" means the request was
 # wrong: the job hit its memory limit, memory used was below 70% or above 90%
 # of the request, or CPU use was below 50%. A process killed for memory never
 # shows in the peak, so the out-of-memory count is checked first.
 # Dayhoff uses cgroup v1 under slurm_dayhoff/.
-cpus=$1 mem=$2 start=$3
 job=${SLURM_JOB_ID:?slurm-usage must run inside a Slurm job}
+cpus=${1:-${SLURM_CPUS_PER_TASK:-1}}
+mem=${2:-${SLURM_MEM_PER_NODE:+${SLURM_MEM_PER_NODE}M}}
+mem=${mem:-$(scontrol show job "$job" | grep -oP 'mem=\K[0-9]+[KMGT]' | head -1)}
+start=${3:-$(date -d "$(squeue -h -j "$job" -o %S)" +%s)}
 base=slurm_dayhoff/uid_$(id -u)/job_$job
 mem_file=/sys/fs/cgroup/memory/$base/memory.max_usage_in_bytes
 cpu_file=/sys/fs/cgroup/cpuacct/$base/cpuacct.usage

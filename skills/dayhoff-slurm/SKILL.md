@@ -110,8 +110,12 @@ ssh dayhoff 'cd /home/groups/sequeira/MegaMove_Threats && ~/bin/dsub -J endloc_e
   loop, not by polling in chat.
 
 Use a hand-written sbatch script only for arrays or multi-step pipelines. Then
-copy the sizing from `dsub-size`, and end the script with
-`~/bin/slurm-usage <cpus> <mem> <start epoch>` so the run is recorded.
+copy the sizing from `dsub-size`, and record the run with this line right
+after `set -euo pipefail` (it replaces the `slurm-mem-report.sh` trap):
+
+```bash
+trap '"$HOME/bin/slurm-usage" || true' EXIT
+```
 
 ## SLURM defaults (Sequeira jobs)
 
@@ -156,7 +160,7 @@ export OMP_NUM_THREADS=1
 export APR2026_TRACKDUR_OUT="${PROJECT}/output/track_duration"
 
 if [[ -n "${SLURM_JOB_ID:-}" ]]; then
-  trap '/mnt/data/dayhoff/home/shared/software/bin/slurm-mem-report.sh || true' EXIT
+  trap '"$HOME/bin/slurm-usage" || true' EXIT
 fi
 
 echo "Host=$(hostname) Start=$(date) R=$(${CONDA_R}/bin/Rscript --version)"
@@ -195,37 +199,26 @@ sacct -j JOBID --format=JobID,JobName,State,Elapsed,MaxRSS,ExitCode
 scancel JOBID
 ```
 
-### Peak RAM report (required)
+### Peak RAM report and history (required)
 
-Dayhoff ships a cgroup peak-RAM reporter. Put it at the **end** of every
-`#SBATCH` script (or `trap` on `EXIT`) so stdout shows actual RAM used — better
-than `sacct`/`seff` `MaxRSS`, which are often empty on this cluster.
-
-```bash
-# End of script — peak RAM for sizing next ask (cluster guide / SBATCH structure)
-/mnt/data/dayhoff/home/shared/software/bin/slurm-mem-report.sh || true
-```
-
-Preferred in new wrappers:
+Every `#SBATCH` script records its run with `slurm-usage`, right after
+`set -euo pipefail`:
 
 ```bash
-set -euo pipefail
-if [[ -n "${SLURM_JOB_ID:-}" ]]; then
-  trap '/mnt/data/dayhoff/home/shared/software/bin/slurm-mem-report.sh || true' EXIT
-fi
+trap '"$HOME/bin/slurm-usage" || true' EXIT
 ```
 
-Manual while job is still in `squeue`:
-`/mnt/data/dayhoff/home/shared/software/bin/slurm-mem-report.sh <JOB_ID>`
-
-MegaMove_Models: project skill `.cursor/skills/dayhoff/SKILL.md` § Peak RAM
-report; all repo-root `run_*.sh` use the EXIT trap. If `#SBATCH --output=/dev/null`,
-tee the report into the script's `LOG_FILE` instead of relying on Slurm stdout.
+It prints the resources table (peak excludes page cache, same as the admin
+emails) with any `ADJUST` line, and appends the run to `~/.dsub/history.tsv`,
+so `dsub-size <job name>` can size the next request. It replaces the older
+`slurm-mem-report.sh` trap. For a live peak while the job runs, use
+`/mnt/data/dayhoff/home/shared/software/bin/slurm-mem-report.sh <JOB_ID>`.
 
 ### After the run
 
-Check the mem-report line in the job stdout log (and `seff JOBID` if available)
-— tune `--mem` and `--time` from observed usage.
+Read the table at the end of the job log. If it has an `ADJUST` line, change
+`--mem`/`--time` in the script to the `dsub-size <job name>` suggestion and tell
+the user.
 
 ## Job arrays (taxon / parameter sweeps)
 
