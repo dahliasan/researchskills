@@ -1,0 +1,67 @@
+#!/bin/bash
+# Report what the current Slurm job used against what it asked for.
+# Run it at the end of the job script, inside the job, so it can read the cgroup.
+#
+#   slurm-usage <cpus requested> <mem requested, e.g. 8G> <start epoch>
+#
+# Prints a Markdown table. A line starting with "ADJUST" means the request was
+# wrong: the job hit its memory limit, memory used was below 70% or above 90%
+# of the request, or CPU use was below 50%. A process killed for memory never
+# shows in the peak, so the out-of-memory count is checked first.
+# Dayhoff uses cgroup v1 under slurm_dayhoff/.
+cpus=$1 mem=$2 start=$3
+job=${SLURM_JOB_ID:?slurm-usage must run inside a Slurm job}
+base=slurm_dayhoff/uid_$(id -u)/job_$job
+mem_file=/sys/fs/cgroup/memory/$base/memory.max_usage_in_bytes
+cpu_file=/sys/fs/cgroup/cpuacct/$base/cpuacct.usage
+oom_file=/sys/fs/cgroup/memory/$base/memory.oom_control
+fail_file=/sys/fs/cgroup/memory/$base/memory.failcnt
+elapsed=$(($(date +%s) - start))
+req_gb=$(numfmt --from=iec "$mem" | awk '{printf "%.1f", $1 / 2^30}')
+
+echo "# Resources, job $job"
+echo
+echo "| Measure | Requested | Used |"
+echo "|---|---|---|"
+echo "| Wall time | | $((elapsed / 3600))h $((elapsed % 3600 / 60))m $((elapsed % 60))s |"
+if [[ -r $mem_file ]]; then
+	# Same measure as the admin low-usage emails: peak minus reclaimable page cache.
+	stat_file=${mem_file%/*}/memory.stat
+	cache=$(awk '$1 == "total_inactive_file" {print $2}' "$stat_file" 2>/dev/null)
+	peak_gb=$(awk -v c="${cache:-0}" '{b = $1 - c; if (b < 0) b = 0; printf "%.2f", b / 2^30}' "$mem_file")
+	mem_pct=$(awk -v p="$peak_gb" -v r="$req_gb" 'BEGIN {printf "%d", 100 * p / r}')
+	echo "| Peak memory | ${req_gb} GB | ${peak_gb} GB (${mem_pct}%) |"
+else
+	echo "| Peak memory | ${req_gb} GB | not readable |"
+fi
+if [[ -r $cpu_file && $elapsed -gt 0 ]]; then
+	cpu_s=$(awk '{printf "%d", $1 / 1e9}' "$cpu_file")
+	cpu_used=$(awk -v c="$cpu_s" -v e="$elapsed" 'BEGIN {printf "%.1f", c / e}')
+	cpu_pct=$(awk -v u="$cpu_used" -v n="$cpus" 'BEGIN {printf "%d", 100 * u / n}')
+	echo "| CPUs | $cpus | ${cpu_used} on average (${cpu_pct}%) |"
+else
+	echo "| CPUs | $cpus | not readable |"
+fi
+oom=0
+[[ -r $oom_file ]] && oom=$(awk '$1 == "oom_kill" {print $2}' "$oom_file")
+[[ -r $fail_file ]] && (($(cat "$fail_file") > 0)) && oom=$((${oom:-0} + 1))
+# Jobs can swap past the limit without an OOM count, so treat >= 95% as hitting it.
+[[ -n ${mem_pct:-} ]] && ((mem_pct >= 95)) && oom=$((${oom:-0} + 1))
+echo "| Hit the memory limit | | $( ((${oom:-0} > 0)) && echo yes || echo no) |"
+echo
+if ((${oom:-0} > 0)); then
+	echo "ADJUST memory: the job hit its ${req_gb} GB limit, so it swapped or a process was killed. Double the request."
+elif [[ -n ${mem_pct:-} ]] && ((mem_pct < 70 || mem_pct > 90)); then
+	suggest=$(awk -v p="$peak_gb" 'BEGIN {g = int(p * 1.3) + 1; print g "G"}')
+	[[ ${suggest%G} != "${req_gb%.*}" ]] && echo "ADJUST memory: request $suggest (peak ${peak_gb} GB plus 30%)."
+fi
+if [[ -n ${cpu_pct:-} ]] && ((cpu_pct < 50 && cpus > 1)); then
+	echo "ADJUST CPUs: only ${cpu_used} of $cpus used on average. Request fewer, or check that the job runs in parallel."
+fi
+
+# Record the run so dsub can size the next request for the same job from it.
+# Columns: date job name dir mem_req_gb peak_gb elapsed_s cpus cpu_used hit_limit
+ledger=${DSUB_HISTORY:-$HOME/.dsub/history.tsv}
+mkdir -p "$(dirname "$ledger")"
+printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" "$(date +%F)" "$job" "${SLURM_JOB_NAME:-}" "$(readlink -f "${SLURM_SUBMIT_DIR:-$PWD}")" \
+	"$req_gb" "${peak_gb:-NA}" "$elapsed" "$cpus" "${cpu_used:-NA}" "$( ((${oom:-0} > 0)) && echo 1 || echo 0)" >>"$ledger"

@@ -1,14 +1,16 @@
 ---
 name: dayhoff-slurm
 description: >-
-  Submit R and Python analysis scripts as SLURM jobs on ANU Dayhoff HPC.
-  Covers sbatch templates, conda R env selection (r_env vs R-py310), sequeira
-  group paths, preflight checks, and job monitoring. Use when expensive compute
-  should run on Dayhoff, or the user says /dayhoff-slurm, "sbatch on dayhoff",
-  or "run this on the cluster". Connectivity: dahlias-fleet ssh-fleet (not this
-  skill).
+  Submit, size and check SLURM jobs on ANU Dayhoff HPC. Use before running
+  sbatch, dsub, srun or salloc on Dayhoff; before writing or editing any
+  .sh with #SBATCH lines (including changing --mem, --time or --cpus); when
+  reading a Slurm log or a low memory utilization email; or when the user
+  says /dayhoff-slurm, "run this on the cluster" or "sbatch on dayhoff".
+  Covers dsub history-based sizing, conda R env selection (r_env vs
+  R-py310), sequeira group paths and preflight checks. Connectivity:
+  dahlias-fleet ssh-fleet (not this skill).
 metadata:
-  version: 1.0.3
+  version: 1.1.0
 ---
 
 # /dayhoff-slurm — ANU Dayhoff batch jobs
@@ -67,6 +69,50 @@ export R_LIBS_USER=""
 export R_LIBS="${CONDA_R}/lib/R/library"
 ```
 
+## Submit with `dsub` (default for every job)
+
+Do not hand-write an sbatch file with a fixed `--mem=20G`. Admins email a
+low-utilization warning when a job uses under 70% of the memory it asked for.
+Use `~/bin/dsub` on Dayhoff, which sizes the request from the job's own history.
+The tools live in this skill's `bin/` (`dsub`, `dsub-size`, `slurm-usage`).
+On Dayhoff they are linked from a private clone. To install or update:
+
+```bash
+ssh dayhoff 'git -C ~/researchskills pull -q && ~/researchskills/skills/dayhoff-slurm/bin/install-dayhoff'
+```
+
+
+```bash
+ssh dayhoff 'cd /home/groups/sequeira/MegaMove_Threats && ~/bin/dsub -J endloc_export -- Rscript scripts/end_locations/05_export_tables.R'
+```
+
+- **Sizing:** with no `-m`/`-t`, `dsub` calls `~/bin/dsub-size <name> <dir>`,
+  which reads `~/.dsub/history.tsv`. It takes the highest peak of the last 5
+  runs with the same job name and folder, adds 30% and rounds up to a whole GB
+  (minimum 1G). It sets time to twice the longest run (minimum 30 min). If the
+  last run hit its limit, it doubles the request.
+- **First run:** a job with no history gets 4G and 2 h, and that run is the
+  measurement. Use a **stable `-J` name** per workload so later runs find it.
+  If the code can say more (it loads a 15 GB object, say), pass `-m` once.
+- **Feedback:** the conda env, `R_LIBS` and `./.env` are loaded for you. The
+  log is `slurm_logs/dsub-<name>-<job>.out` in the submit folder. Its last lines
+  are a resources table plus any `ADJUST` line. `slurm-usage` also appends the
+  run to the history file, so the next run corrects itself.
+- **Measure:** peak memory excludes reclaimable page cache, which is the same
+  measure the admin emails use.
+- **After every job:** read the table, and if it has an `ADJUST` line, say so
+  in your reply. Tell the user if a run will be flagged (under 70%).
+- **Long jobs (hours) with no history:** run a small slice first (one taxon,
+  a few bootstraps) under the same `-J` name, or watch the live peak with
+  `slurm-mem-report.sh <JOB_ID>`. `scancel` early if it is far off the request,
+  and resubmit. Memory can't change on a running job.
+- **Wait:** wait for jobs with a background `until ! squeue -h -j ID | grep -q ID`
+  loop, not by polling in chat.
+
+Use a hand-written sbatch script only for arrays or multi-step pipelines. Then
+copy the sizing from `dsub-size`, and end the script with
+`~/bin/slurm-usage <cpus> <mem> <start epoch>` so the run is recorded.
+
 ## SLURM defaults (Sequeira jobs)
 
 | Directive | Typical value |
@@ -75,7 +121,7 @@ export R_LIBS="${CONDA_R}/lib/R/library"
 | `--nodes` | `1` |
 | `--ntasks` | `1` |
 | `--cpus-per-task` | `1` (raise only if the R script uses parallel) |
-| `--mem` | default **20G** (Dayhoff default); raise only from measured peak; profile with `slurm-mem-report.sh` / `sstat`, not empty `sacct` MaxRSS |
+| `--mem` | from `dsub-size` (history peak + 30%, min 1G); 4G for a first run. Never a blanket 20G. `sacct` MaxRSS is empty on this cluster |
 | `--time` | `04:00:00`–`12:00:00` |
 | `--output` / `--error` | Under project `output/.../slurm_%j.out` |
 
@@ -90,7 +136,7 @@ GPU partition exists (`GPU`) — only request when the script actually uses GPU.
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=20G
+#SBATCH --mem=4G   # replace with `~/bin/dsub-size <job-name>` output
 #SBATCH --time=04:00:00
 #SBATCH --output=output/my_workstream/slurm_%j.out
 #SBATCH --error=output/my_workstream/slurm_%j.err
@@ -217,6 +263,7 @@ Before `sbatch`:
 
 | Need | Skill |
 |------|--------|
+| Editing or moving files on Dayhoff (write over ssh, never through the sshfs mount) | `dayhoff-remote-edits` |
 | SSH, VPN, ProxyJump | `dahlias-fleet` → `ssh-fleet.md` |
 | R script style | `r-human-code` |
 | Local R editor env | `r-editor-setup` |

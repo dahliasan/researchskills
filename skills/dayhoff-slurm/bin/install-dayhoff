@@ -1,0 +1,18 @@
+#!/bin/bash
+# Link the Dayhoff skills and job tools from this private clone into the home
+# folder. Run on Dayhoff after cloning or pulling researchskills into ~/researchskills.
+# Only the Dayhoff skills are linked, and the clone and ~/bin are private to you.
+set -euo pipefail
+repo=$(cd "$(dirname "$(readlink -f "$0")")/../../.." && pwd)
+chmod -R go-rwx "$repo"
+mkdir -p ~/bin && chmod 700 ~/bin
+for tool in dsub dsub-size slurm-usage; do
+	ln -sfn "$repo/skills/dayhoff-slurm/bin/$tool" ~/bin/$tool
+done
+for dir in ~/.claude/skills ~/.codex/skills; do
+	mkdir -p "$dir"
+	for skill in dayhoff-slurm dayhoff-remote-edits; do
+		ln -sfn "$repo/skills/$skill" "$dir/$skill"
+	done
+done
+echo "linked: $(ls ~/bin | tr '\n' ' ')"
