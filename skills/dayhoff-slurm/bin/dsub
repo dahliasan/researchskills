@@ -1,0 +1,80 @@
+#!/bin/bash
+# Submit one command as a Slurm job from the current folder, with the R
+# environment loaded, and report what it used against what it asked for.
+#
+#   dsub [-c cpus] [-m mem] [-t time] [-J name] [-n] -- command...
+#
+# Memory and time come from this job's past runs (dsub-size): the peak plus
+# 30%, and twice the longest run. A job with no history gets 4G and 2:00:00, and
+# its first run is the measurement. -m and -t override. 1 CPU by default; the
+# name comes from the script it runs. The job runs in
+# the folder you submit from, with the conda env, R_LIBS and ./.env loaded
+# (-n skips the environment). The log is slurm_logs/dsub-<name>-<job>.out and
+# ends with the exit status and a resources table from slurm-usage. A line
+# starting with ADJUST means the request was too big or too small.
+#
+#   dsub -m 8G -- Rscript --vanilla scripts/fit.R
+#
+# Settings (environment variables): DSUB_CONDA_ENV, DSUB_R_LIB.
+set -euo pipefail
+
+here=$(cd "$(dirname "$(readlink -f "$0")")" && pwd)
+cpus=1 mem= time= name= env=1
+usage() { sed -n '2,15p' "$0" >&2; exit 2; }
+while getopts "c:m:t:J:nh" opt; do
+	case $opt in
+	c) cpus=$OPTARG ;;
+	m) mem=$OPTARG ;;
+	t) time=$OPTARG ;;
+	J) name=$OPTARG ;;
+	n) env=0 ;;
+	*) usage ;;
+	esac
+done
+shift $((OPTIND - 1))
+[[ ${1:-} == -- ]] && shift
+(($#)) || usage
+# Name the job after the script it runs, or the program.
+if [[ -z $name ]]; then
+	script=$1
+	for a in "$@"; do [[ $a == *.R || $a == *.py || $a == *.sh ]] && script=$a; done
+	name=$(basename -- "$script" | tr -c 'A-Za-z0-9_.\n-' _ | cut -c1-30)
+fi
+
+if [[ -z $mem || -z $time ]]; then
+	read -r size_mem size_time size_why < <("$here/dsub-size" "$name" "$PWD")
+	echo "dsub: sized from history: $size_mem, $size_time ($size_why)" >&2
+	mem=${mem:-$size_mem} time=${time:-$size_time}
+fi
+
+conda_env=${DSUB_CONDA_ENV:-/mnt/data/dayhoff/home/u4887749/.conda/envs/R-py310}
+r_lib=${DSUB_R_LIB:-/mnt/data/dayhoff/home/u4887749/R/x86_64-conda-linux-gnu-library/4.4}
+mkdir -p slurm_logs
+cmd=$(printf '%q ' "$@")
+setup=
+if ((env)); then
+	setup="source /opt/conda/bin/activate $(printf %q "$conda_env")
+export R_LIBS=$(printf %q "$r_lib"):\$CONDA_PREFIX/lib/R/library
+if [[ -r .env ]]; then set -a; source .env; set +a; fi
+export COPERNICUSMARINE_SERVICE_USERNAME=\${COPERNICUSMARINE_SERVICE_USERNAME:-\${CMEMS_USER:-}}
+export COPERNICUSMARINE_SERVICE_PASSWORD=\${COPERNICUSMARINE_SERVICE_PASSWORD:-\${CMEMS_PASSWORD:-}}"
+fi
+
+# Files a job writes belong to the submitter's primary group. The personal group
+# u4887749 has a small quota, so submit under the lab group when it is available.
+group=${DSUB_GROUP-"rsb lab - sequeira"}
+submit() { if [[ -n $group ]] && id -Gn | grep -qF "$group"; then sg "$group" -c "$(printf '%q ' "$@")"; else "$@"; fi; }
+submit sbatch --parsable -J "$name" -c "$cpus" --mem="$mem" -t "$time" \
+	-o "$PWD/slurm_logs/dsub-$name-%j.out" <<EOF
+#!/bin/bash
+cd $(printf %q "$PWD")
+$setup
+start=\$(date +%s)
+echo "dsub: $cmd"
+$cmd
+status=\$?
+echo
+echo "exit status \$status"
+$(printf %q "$here/slurm-usage") "$cpus" "$mem" "\$start"
+exit \$status
+EOF

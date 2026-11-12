@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- `dayhoff-slurm` 1.1.0: submit with `dsub`, which sizes `--mem` and `--time`
+  from each job's past runs (no blanket 20G). The tools `dsub`, `dsub-size`
+  and `slurm-usage` now live in `skills/dayhoff-slurm/bin/`, with
+  `install-dayhoff` to link them and the Dayhoff skills from a private clone.
+- Add `dayhoff-remote-edits`: write to Dayhoff over ssh, never the sshfs mount.
+
 ## 0.2.11 — 2026-08-31
 
 - Add `r-human-code`: human-readable R analysis style — linear scripts,

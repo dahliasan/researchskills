@@ -1,0 +1,31 @@
+#!/bin/bash
+# Suggest --mem and --time for a job from its past runs.
+#
+#   dsub-size <job name> [dir]
+#
+# Prints "MEM TIME REASON" on one line. It looks at the last 5 runs with the same
+# name in the same folder, from the history that slurm-usage keeps.
+#   Memory: highest peak plus 30%, rounded up to whole GB, at least 1G.
+#           If the last run hit its limit, double what it asked for.
+#   Time:   twice the longest run, at least 30 minutes.
+# With no history it prints 4G 2:00:00, so start small and let the first run
+# measure the job.
+name=${1:?usage: dsub-size <job name> [dir]}
+dir=$(readlink -f "${2:-$PWD}")
+ledger=${DSUB_HISTORY:-$HOME/.dsub/history.tsv}
+[[ -r $ledger ]] || { echo "4G 2:00:00 no history yet"; exit 0; }
+awk -F'\t' -v n="$name" -v d="$dir" '
+	$3 == n && $4 == d { req[++k] = $5; peak[k] = $6; el[k] = $7; hit[k] = $10 }
+	END { p = 0; e = 0
+		if (!k) { print "4G 2:00:00 no history yet"; exit }
+		from = k > 5 ? k - 4 : 1
+		for (i = from; i <= k; i++) {
+			if (peak[i] != "NA" && peak[i] > p) p = peak[i]
+			if (el[i] > e) e = el[i]
+		}
+		if (hit[k] == 1) { m = int(req[k] * 2 + 0.999); why = "last run hit its " req[k] " GB limit" }
+		else { m = int(p * 1.3) + 1; why = "peak " p " GB over " (k - from + 1) " run(s)" }
+		if (m < 1) m = 1
+		t = 2 * e; if (t < 1800) t = 1800
+		printf "%dG %d:%02d:00 %s, longest %dm\n", m, t / 3600, t % 3600 / 60, why, e / 60
+	}' "$ledger"
