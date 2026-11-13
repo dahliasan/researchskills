@@ -4,8 +4,9 @@ description: >-
   Use when writing, refactoring, or reviewing scientific R analysis code, especially
   when generated code is over-engineered, too CLI-like, over-factored, branch-heavy,
   hard to inspect interactively, or unlike code a human R researcher would maintain.
+  Also use when saving analysis results, writing summaries or result tables, or naming columns in scientific outputs.
 metadata:
-  version: "2.3.4"
+  version: "2.4.0"
 ---
 
 # Coauthor R
@@ -209,6 +210,10 @@ when the user wants the project-level checker installed.
 - Read [references/configuration.md](references/configuration.md) when collaborators
   need to change recurring analysis settings, or when connecting a configuration file
   to HPC or shell automation.
+- Read [references/analysis-outputs.md](references/analysis-outputs.md) whenever an
+  analysis writes results to disk or prints a table. It covers saving raw results as
+  produced, keeping summaries minimal, standard statistical terms, column names,
+  and rounding to the precision each metric supports.
 - Read [references/sources.md](references/sources.md) when reconciling this skill with
   external style advice.
 
@@ -226,6 +231,7 @@ Before finishing:
 - abstractions earn their existence;
 - any CLI or sourced interface touched has its real callers accounted for;
 - scientific assumptions did not change accidentally;
+- analysis outputs pass the analysis-outputs checklist: raw results saved, summaries minimal, standard terms;
 - the project checker passes when present;
 - relevant outputs or entry points were exercised after structural changes;
 - anything that could not be verified is stated explicitly.
