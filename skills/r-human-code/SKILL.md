@@ -4,8 +4,9 @@ description: >-
   Use when writing, refactoring, or reviewing scientific R analysis code, especially
   when generated code is over-engineered, too CLI-like, over-factored, branch-heavy,
   hard to inspect interactively, or unlike code a human R researcher would maintain.
+  Also use when saving analysis results, writing summaries or result tables, or naming columns in scientific outputs.
 metadata:
-  version: "2.3.3"
+  version: "2.4.0"
 ---
 
 # Coauthor R
@@ -15,6 +16,10 @@ Write R for the scientist who reads it next.
 Scientific R is often both a program and a working analysis document. Preserve a
 human's ability to open a script, run meaningful sections, inspect intermediate
 objects, and still execute the complete analysis cleanly in a fresh session.
+
+For R work, put necessary explanations in the relevant script or existing project
+documentation. Do not create a new Markdown file by default; create one when the
+user requests it or the project requires it.
 
 ## Design language
 
@@ -143,10 +148,41 @@ when a loop exposes control flow better.
 ## Scientific behaviour
 
 Preserve raw inputs, types, missing-value semantics, identifiers, units, seeds,
-thresholds, exclusions, and statistical assumptions. Let unexpected errors surface;
-catch only known failures that the workflow is designed to continue past.
+thresholds, exclusions, and statistical assumptions. Do not change scientific
+meaning while performing style cleanup.
 
-Do not change scientific meaning while performing style cleanup.
+### Error handling: let R fail
+
+**Do not add error handling that R already provides.** Missing files, bad paths,
+empty filters that leave nothing to plot, and missing columns already stop with a
+traceback. Extra `stopifnot()`, `stop()`, `tryCatch()`, or empty-data guards are
+noise unless they earn their keep.
+
+**Default:** call the reader or plotter and let failure surface.
+
+| Smell | Prefer |
+|---|---|
+| `stopifnot(file.exists(path))` then `st_read(path)` / `read_csv(path)` | Just read; missing path fails in the reader |
+| `if (!file.exists(path)) stop(...)` before I/O | Just read |
+| `if (!nrow(x)) stop("empty")` after a filter you expect to keep rows | Let the next step fail or plot nothing |
+| `if (nrow(x) > 0) geom_sf(data = x)` for required layers | Plot; empty or missing data fails or draws nothing |
+| `if ("col" %in% names(d))` for columns the script requires | Use `d$col`; missing column errors |
+| Blanket `tryCatch` / purrr `safely` / `possibly` around ordinary steps | Let the error stop the script |
+
+**Add a check only when it earns its keep:**
+
+- a real failure already burned time and still recurs;
+- an **expected** gap that should skip (`if (!file.exists(nc)) next`, resume if
+  output exists);
+- one item in a batch must fail without killing the rest (`try()` on that item,
+  log which one, continue).
+
+**Order of preference:** fix the root cause → verify the upstream step by looking
+at outputs → skip known gaps → `stop()` only after that miss has happened →
+`try()` / `tryCatch` only for per-item batch continuation.
+
+Do not invent prerequisite theatre (`if (n_files < 90) stop(...)`) because an
+upstream step was not inspected. Open the folder or log instead.
 
 ## Deterministic gate
 
@@ -174,6 +210,10 @@ when the user wants the project-level checker installed.
 - Read [references/configuration.md](references/configuration.md) when collaborators
   need to change recurring analysis settings, or when connecting a configuration file
   to HPC or shell automation.
+- Read [references/analysis-outputs.md](references/analysis-outputs.md) whenever an
+  analysis writes results to disk or prints a table. It covers saving raw results as
+  produced, keeping summaries minimal, standard statistical terms, column names,
+  and rounding to the precision each metric supports.
 - Read [references/sources.md](references/sources.md) when reconciling this skill with
   external style advice.
 
@@ -191,6 +231,7 @@ Before finishing:
 - abstractions earn their existence;
 - any CLI or sourced interface touched has its real callers accounted for;
 - scientific assumptions did not change accidentally;
+- analysis outputs pass the analysis-outputs checklist: raw results saved, summaries minimal, standard terms;
 - the project checker passes when present;
 - relevant outputs or entry points were exercised after structural changes;
 - anything that could not be verified is stated explicitly.
