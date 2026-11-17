@@ -9,7 +9,7 @@ these examples. They differ and should not be combined into one mandatory range.
 | [Nature Communications submission guide](https://www.nature.com/documents/ncomms-submission-guide.pdf) | Prepare at expected print size | Older official brief suggests 5–8 pt; use current journal instructions when they differ |
 | [Nature final submission](https://www.nature.com/nature/for-authors/final-submission) | 89 / 183 mm; full depth 247 mm | 5–7 pt other text; 8 pt bold panel labels; Helvetica/Arial; strokes 0.25–1 pt |
 | [Ecology Letters](https://onlinelibrary.wiley.com/page/journal/14610248/homepage/forauthors.html) | 82, 110 or 173 mm | Smallest practicable final size; allow for reduction; vector PDF/EPS preferred; raster line/combination 600 dpi, photographs 300 dpi |
-| [PLOS Biology](https://journals.plos.org/plosbiology/s/figures) | Follow its own figure dimensions | Arial, Times or Symbol, 8–12 pt; use its required submission formats |
+| [PLOS Biology](https://journals.plos.org/plosbiology/s/figures) | 6.68–19.05 cm wide (13.2 cm to match the text column); height up to 22.23 cm, which fills the page and pushes the caption elsewhere | Arial, Times or Symbol, 8–12 pt; use its required submission formats |
 
 Nature's formatting and final-artwork pages give different dimensions. The values
 above are from final submission; do not silently mix specifications from pages.
@@ -20,6 +20,24 @@ which limits each figure to an A4-sized 179 × 260 mm area. Its web page describ
 do not describe column widths as universal maxima. Typography-only revisions
 should preserve dimensions and panel layout where practical. Retune point size,
 point-range fattening and stroke width independently when changing physical size.
+
+## Height and layout
+
+Journals fix the width (the column) and cap the height (the page), but they do
+not fix the aspect ratio. Set the width first, set type for that width, then let
+the height grow until nothing is crowded:
+
+- The journal scales a figure to its column width, so export at that width and
+  type sizes stay as set. Height changes spacing, not type size.
+- A main-text figure usually shares its page with the caption; keep it about
+  200 mm or less. Supplementary figures can use the full page.
+- Put tick labels and axis titles only on the outer edges of a panel grid: the
+  first column and the bottom row. A spare grid cell can hold the legend.
+- When panels are assembled with cowplot, `rel_widths` and `rel_heights` share
+  space by proportion, so a column with y-axis labels gets narrower plotting
+  areas. Measure the label space instead: build one panel with and without the
+  labels, convert each `ggplotGrob()` width or height that is not a `null` unit
+  to mm, take the difference, and add it to the first column and the bottom row.
 
 ## R settings
 
