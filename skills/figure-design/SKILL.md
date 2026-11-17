@@ -8,7 +8,7 @@ description: >-
   Does not invent data, choose an analysis after seeing a preferred visual, or
   treat visual polish as evidence.
 metadata:
-  version: 0.2.0
+  version: 0.3.0
 ---
 
 # Figure design
@@ -104,6 +104,31 @@ For research result figures and tables, default to publication-ready artifacts:
 - Check the exported PDF at final dimensions for clipping, typography and legibility, and verify plotted values against the underlying results. Report exports and checks actually completed.
 
 These defaults apply to publication result artifacts. Presentation and web work may use titles or other formats when their brief calls for them. Explicit user or journal requirements take precedence; do not turn stylistic preferences into universal scientific validity tests.
+
+## Publication sizing and typography
+
+Treat typography, point sizes and stroke widths as separate settings. When the
+request concerns lettering, preserve the existing layout and dimensions unless
+there is a demonstrated fit problem. If resizing is needed, explicitly retune
+points and strokes so they do not dominate the panels. A journal column width is
+a placement specification, not a universal maximum for all figures or venues.
+
+Design at the intended final physical size, not a large working canvas that will
+later be reduced. Text shrinks with the figure: 11 pt on a 20-inch canvas becomes
+about 3.9 pt at 180 mm width. Increasing raster DPI does not fix this.
+
+For an unspecified journal, start around 180 mm for a multi-panel figure, with
+7–8 pt axes, ticks, legends and facet labels and 8 pt bold panel identifiers.
+These are working defaults, not universal journal rules. Prefer fewer panels or
+split figures over shrinking labels to fit. Check annotations and custom legends
+as well as theme text. Inspect the complete exported figure at final size for
+clipping, overlapping labels, line weights and readable symbols.
+
+Read [references/publication-sizing.md](references/publication-sizing.md) for
+journal examples and R export settings. Reuse the recorded guidance for routine
+work; verify the target journal at submission or when its rules are uncertain.
+Do not apply Nature's limits to every Nature Portfolio journal or confuse
+manuscript body-text requirements with figure lettering.
 
 ## Figure brief
 
@@ -202,18 +227,25 @@ For spatial figures, verify:
 - Keep type size readable at final dimensions.
 - Use consistent terminology with the manuscript.
 
-## Caption handoff
+## Captions
 
-Provide manuscript-writing with:
+Write captions to publication standard: self-contained, short, and led by the
+result. A reader should grasp the finding from the figure and caption alone.
 
-- what is shown
-- population, period, and analytical sample
-- panel descriptions
-- visual encodings and units
-- uncertainty and statistical summaries
-- abbreviations
-- source or attribution where required
-- any display-only transformation
+1. **Title sentence states the finding**, not the chart type. Write "Fishes and
+   turtles use more threat-exposed areas than the global ocean", not "Bar chart
+   of differences by taxon". Check every number and pattern it names against the
+   plotted data.
+2. **Setup in one or two sentences:** what was measured, on what sample, and
+   against what baseline or comparison. Leave methods detail to Methods.
+3. **Panels:** say what each panel, row or column holds, briefly.
+4. **Encodings:** define each colour, symbol, line, interval and unit, plus the
+   sample size and abbreviations. Use the exact terms printed on the figure.
+5. State what the data show; leave implications to the Discussion.
+
+Avoid walking the reader through the layout ("Within each panel, rows are…
+Light stripes alternate…"). Describe only what is needed to read the result.
+Cut source paths and script names; keep required data attribution.
 
 The caption may be drafted by either skill, but the figure and caption must be
 checked together.
