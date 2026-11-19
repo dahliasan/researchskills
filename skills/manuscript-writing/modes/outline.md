@@ -40,3 +40,10 @@ qualify, or interpret this contribution.
 2. Reverse figure outline when Results are in scope
 3. Paragraph storyboard
 4. Unresolved evidence or decisions
+
+## Audience check (substantive framing only)
+
+When an unfamiliar journal or readership materially affects positioning,
+use discourse-community-mapping to inform the central contribution and
+paragraph storyboard. Otherwise reuse existing project/journal context.
+Audience mapping is not a prerequisite for ordinary manuscript planning.
