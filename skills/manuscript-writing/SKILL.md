@@ -6,7 +6,7 @@ description: >-
   empirical research manuscripts. When another skill needs manuscript prose or
   audit, invoke this skill.
 metadata:
-  version: 3.6.0
+  version: 3.7.0
 ---
 
 # Manuscript writing
@@ -20,6 +20,7 @@ control. Does not own literature discovery, study or analysis design, project
 scaffolding, statistical execution, figure rendering, or submission packaging.
 
 Companions when available: `research-project-ops`, `literature-review`,
+`discourse-community-mapping` for source-backed audience research before major reframing,
 `research-mode` for study or analysis design, Zotero tooling, and
 `manuscript-markdown` (default MD↔DOCX).
 
