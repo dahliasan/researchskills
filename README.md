@@ -52,6 +52,7 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | CriticMarkup collab / strip agent comments / export Word for coauthors | [`manuscript-collab`](./skills/manuscript-collab/SKILL.md) |
 | Plan, create, revise, or audit a scientific figure | [`figure-design`](./skills/figure-design/SKILL.md) |
 | Build R/ggplot2 maps (`sf`, polar CRS, basemaps, rasters) | [`ggplot-maps`](./skills/ggplot-maps/SKILL.md) |
+| Map target-journal readers and evidence expectations | [`discourse-community-mapping`](./skills/discourse-community-mapping/SKILL.md) |
 | Critically stress-test an entire research project | [`research-red-team`](./skills/research-red-team/SKILL.md) |
 | AIC/AICc model selection (Δ, weights, nested near-ties) | [`aic-model-selection`](./skills/aic-model-selection/SKILL.md) |
 | Adapt a manuscript to a journal or prepare its submission package | [`manuscript-submission`](./skills/manuscript-submission/SKILL.md) |
@@ -87,6 +88,7 @@ stay on your machine. See [INSTALL.md](./INSTALL.md).
 /r-editor-setup          ← R env doctor: extensions, packages, Air
 /r-human-code            ← readable R: pkg::fun(), linear, anti-slop
 /dayhoff-slurm           ← SLURM batch jobs on ANU Dayhoff
+/discourse-community-mapping ← target-reader codebook (not manuscript prose)
 /research-red-team       ← independent project-wide challenge register
 /aic-model-selection ← AIC/AICc ranking, near-ties, primary inference
 /manuscript-writing      ← manuscript argument, prose, and audit
