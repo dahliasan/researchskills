@@ -6,7 +6,7 @@ description: >-
   empirical research manuscripts. When another skill needs manuscript prose or
   audit, invoke this skill.
 metadata:
-  version: 3.6.0
+  version: 3.7.0
 ---
 
 # Manuscript writing
@@ -87,6 +87,10 @@ maps. Worked examples: [scaffolding.md](scaffolding.md).
 **Citations.** Cite immediately after the claim; group only when every source
 supports the same claim; preserve project cite syntax. Detail:
 [reference.md](reference.md#citations).
+
+**Word files.** When editing a `.docx` the user may have open in Word, check
+it, save and close it before reading, edit the file now on disk, then reopen
+it: [word-documents.md](word-documents.md) (helper `scripts/word_doc.sh`).
 
 **Statistical honesty.** Report uncertainty; distinguish absence of evidence
 from evidence of no effect; do not upgrade association to causation. Detail:
