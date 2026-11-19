@@ -69,6 +69,22 @@ one onto a task it was not designed for.
 | `resume` | Continue work across sessions or agents | `research-project-ops` handoff; inspect `STATUS.md`, `METHODS.md`, and existing artifacts |
 | `choose-skill` | User wants to browse or choose a pack skill, without asking to do the research yet | Read [the skill catalog](references/skill-catalog.md); return the best fit and invocation phrase |
 
+For an existing manuscript, inspect the project instructions and current draft
+before choosing a route. Choose the specialist from the requested outcome:
+
+- If terminology, audience, or the contribution needs the author's decision,
+  use `grill-paper` when available. Otherwise ask only the questions the
+  project records cannot answer.
+- For drafting from evidence, revising scientific claims, or auditing what
+  the evidence supports, use `manuscript-writing`.
+- For a cold read, argument flow, or line editing of an existing draft, use
+  `blue-pencil` when available. Otherwise use the appropriate
+  `manuscript-writing` revision mode.
+
+For a mixed revision, establish what the evidence supports before polishing
+the prose. If invoked without a task in a manuscript project, inspect the
+current draft and project notes, then suggest the most useful next step.
+
 For mixed tasks, follow the dependency order:
 
 ```text
