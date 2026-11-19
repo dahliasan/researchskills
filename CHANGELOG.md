@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- `manuscript-writing` 3.7.0: when editing a `.docx` the user may have open in
+  Word, save and close it first, edit the file now on disk, then reopen it
+  (`word-documents.md`, helper `scripts/word_doc.sh` for macOS).
 - `dayhoff-slurm` 1.1.0: submit with `dsub`, which sizes `--mem` and `--time`
   from each job's past runs (no blanket 20G). The tools `dsub`, `dsub-size`
   and `slurm-usage` now live in `skills/dayhoff-slurm/bin/`, with
