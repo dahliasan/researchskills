@@ -13,6 +13,7 @@ Choose the narrowest skill that handles the request.
 | CriticMarkup collab, address review comments, or export Word without agent comments | `manuscript-collab` |
 | Plan, create, revise, or audit a scientific figure | `figure-design` |
 | Build R/ggplot2 maps (`sf`, polar CRS, basemaps, rasters) | `ggplot-maps` |
+| Map target-journal reader questions, concepts and evidence expectations | `discourse-community-mapping` |
 | Critically stress-test a whole research project, simulate reviewer 2, or run a replication pre-mortem | `research-red-team` |
 | AIC/AICc model selection, Δ/weights, nested near-ties, primary inference | `aic-model-selection` |
 | Adapt a manuscript to a journal or prepare a submission package | `manuscript-submission` |
@@ -35,7 +36,7 @@ Choose the narrowest skill that handles the request.
 1. Prefer `literature-review` for review-shaped work; prefer `discover-papers` for one-off search.
 2. Use `research-red-team` for an opposing project-wide scientific lens; use `manuscript-writing` audit mode for manuscript-only coherence and prose checks.
 3. Use `aic-model-selection` for AIC/AICc tables, Δ/weights, nested near-ties, and primary inference choice; do not expand it into a general stats skill.
-4. Do not invent a second prose skill; always `manuscript-writing`.
+4. Do not invent a second prose skill; always `manuscript-writing`. `discourse-community-mapping` builds an audience codebook only, not manuscript prose.
 5. **Default** MD↔DOCX conversion to `manuscript-markdown` (never pandoc first; never as a prose twin).
 6. Use `figure-design` for visual design QA; use `ggplot-maps` for R map recipes. Keep analytical decisions with the analysis owner.
 7. Use `manuscript-submission` for venue rules, reporting compliance, declarations, and package preflight. For Word file emit during packaging, invoke `manuscript-markdown`.

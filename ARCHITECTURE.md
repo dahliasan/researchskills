@@ -25,6 +25,7 @@ Same idea as makerskills `second-brain`: the skill is the workflow; the data and
 |--------|--------|---------|
 | Research orchestration | `research-mode` | Research question → suitable frameworks → playbook → specialist skills |
 | Skill catalog | `research-mode` reference | Browse pack capabilities and choose a narrow skill |
+| Audience research | `discourse-community-mapping` | Source-backed reader codebook before substantial reframing; no prose ownership |
 | Project operations | `research-project-ops` | Project artifacts, state, dependencies, handoff |
 | Editor tooling | `r-editor-setup` | Doctor/install R + Cursor/VS Code + packages + Air |
 | Project challenge | `research-red-team` | Evidence tier → argument map → challenge register |
@@ -51,6 +52,9 @@ research-red-team
 
 aic-model-selection
     owns AIC/AICc ranking, near-ties, and primary inference choice
+
+discourse-community-mapping
+    owns source-backed readership and evidence-expectation codebooks
 
 manuscript-writing
     owns manuscript argument, prose, revision, and audit

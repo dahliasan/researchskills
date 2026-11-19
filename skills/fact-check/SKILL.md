@@ -7,7 +7,7 @@ description: >-
   or finding evidence for an unsupported claim. Distinguishes a paper's own
   findings from its interpretation and the prior work it cites.
 metadata:
-  version: 0.2.0
+  version: 0.3.0
 ---
 
 # Fact-check
@@ -36,11 +36,14 @@ citation, reviewer comment, search hit, or fluent summary is a lead to investiga
 6. Look for qualifications or conflicting results that materially change the
    claim. For broad claims, search beyond the supplied citation. State the search
    scope; a single supporting passage does not establish a field-wide consensus.
-7. Assign a verdict with a reason: `supported`, `partially supported`,
+7. Record source access **separately** from support: original full text
+   inspected, partial original text, abstract only, metadata only, or not
+   accessed. An accessible source is not necessarily a supporting source.
+8. Assign a verdict with a reason: `supported`, `partially supported`,
    `contradicted`, `unsupported`, `misattributed`, or `unverified`.
    `Unsupported` means the inspected evidence does not establish the claim;
    `contradicted` requires evidence against it. Missing access is `unverified`.
-8. Keep accurate wording. For each issue, suggest the smallest replacement the
+9. Keep accurate wording. For each issue, suggest the smallest replacement the
    evidence supports, with its source and locator. Verify the replacement by the
    same process. If no replacement is supported, leave the gap explicit.
 
@@ -76,7 +79,9 @@ passage can use a table:
 Include a short evidence excerpt when it helps the reader inspect the verdict.
 For calculated values, show the inputs and calculation. Report what remains
 unchecked. Match the manuscript's terminology and voice in proposed wording.
-Do not create a separate claims ledger unless the user requests one.
+When the user requests **every** claim or citation, do not silently sample:
+report coverage totals and name unchecked items. Use an inline table unless
+the user requests a separate persistent ledger.
 
 ## Boundaries
 

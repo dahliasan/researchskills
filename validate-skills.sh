@@ -10,6 +10,7 @@ required_skills=(
   paper-brief
   fact-check
   manuscript-writing
+  discourse-community-mapping
   manuscript-markdown
   manuscript-collab
   figure-design

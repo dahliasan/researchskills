@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add `discourse-community-mapping` for source-backed target-reader research and evidence expectations before major manuscript framing.
+- Add optional reader-centred editing diagnostics within `manuscript-writing`; no competing prose skill.
+- Strengthen reviewer-source checks, distinguish proposed from completed edits, and clarify claim-audit coverage and source-access status.
+
 - `dayhoff-slurm` 1.1.0: submit with `dsub`, which sizes `--mem` and `--time`
   from each job's past runs (no blanket 20G). The tools `dsub`, `dsub-size`
   and `slurm-usage` now live in `skills/dayhoff-slurm/bin/`, with
