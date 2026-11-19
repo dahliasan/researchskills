@@ -35,3 +35,13 @@ conventions over generic preferences.
 
 1. Revised section (or manuscript span)
 2. Material unresolved issues only
+
+## Reader-centred pass (when relevant)
+
+For substantive Introduction/Discussion reframing, poor paragraph focus,
+or unclear significance, consult
+[reader-centred editing](../references/reader-centred-editing.md) before
+sentence-level polishing. If the target readership is genuinely unfamiliar,
+use discourse-community-mapping for a source-backed audience codebook.
+Do not run it for routine local edits or manufacture novelty/consensus.
+Keep effective passages unchanged.
