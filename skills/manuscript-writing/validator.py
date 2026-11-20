@@ -32,8 +32,25 @@ class ManuscriptValidator:
     ACRONYM_RE = re.compile(r"\b([A-Z][A-Z0-9-]{1,})\b")
     COMMON_ACRONYMS = {"DNA", "RNA", "GPS", "UK", "US", "EU", "CI", "SD", "SE", "Fig", "DOI"}
 
-    def __init__(self, path: Path, mode: str, section: str | None, house_style: bool) -> None:
+    NARRATIVE = ("abstract", "introduction", "background", "discussion", "conclusion")
+    # Paragraph openers that announce a subject instead of stating the point.
+    ANNOUNCING_OPENERS = re.compile(
+        r"^(?:(?:this|the present|our) (?:study|paper|section|paragraph|work)\b"
+        r"|[^.]{0,120}\b(?:provides?|offers?|represents?) (?:a|an) (?:useful|direct|ideal|unique|good|valuable|natural)?\s*(?:conservation |model |case |natural )?(?:test|case|opportunity|system|model)\b"
+        r"|[^.]{0,120}\bmay also (?:differ|vary|play a role|matter)\b"
+        r"|it is (?:also )?(?:worth|important|interesting)\b"
+        r"|(?:we )?turn(?:ing)? (?:now )?to\b"
+        r"|in this (?:section|paragraph)\b)",
+        re.I,
+    )
+    GAP_CLAIM = re.compile(r"\b(?:managers|practitioners|researchers|decision[- ]makers|conservationists)\s+(?:still\s+|currently\s+)?(?:lack|do not know|don't know|have no|cannot predict)\b", re.I)
+    CITATION_RE = re.compile(r"\([^()]*[A-Z][^()]*\b(?:1[6-9]|20)\d{2}[a-z]?\)|\[@[^\]]+\]")
+    VALUE_RE = re.compile(r"[−-]?\d+(?:\.\d+)?\s?°C|\b\d{1,2}:\d{2}\b")
+
+    def __init__(self, path: Path, mode: str, section: str | None, house_style: bool,
+                 avoid_words: list[str] | None = None) -> None:
         self.path = path
+        self.avoid_words = avoid_words or []
         self.mode = mode
         self.section_filter = section.lower() if section else None
         self.house_style = house_style
@@ -68,6 +85,10 @@ class ManuscriptValidator:
         self.check_weak_phrasing()
         self.check_section_boundaries()
         self.check_readability()
+        self.check_paragraph_openers()
+        self.check_repetition()
+        self.check_proportion()
+        self.check_avoid_words()
         self.report()
         return not any(i.severity == "BLOCKER" for i in self.issues)
 
@@ -136,6 +157,52 @@ class ManuscriptValidator:
                 severity = "WARNING" if self.mode == "strict" else "INFO"
                 self.add(0, severity, "readability", f"{section.title()} grade level is {grade:.1f}. Review dense sentences; do not remove necessary technical detail.")
 
+    def check_paragraph_openers(self) -> None:
+        for number, section, line in self.iter_prose():
+            if not section.startswith(self.NARRATIVE) or line.lstrip().startswith("#"):
+                continue
+            first = re.split(r"(?<=[.!?])\s+", line.strip(), maxsplit=1)[0]
+            if section.startswith(("abstract", "introduction", "background")) and self.GAP_CLAIM.search(line):
+                self.add(number, "WARNING", "unsupported_gap", "Claims about what others lack or don't know need a source. Otherwise state why the result is useful.", line)
+            if self.ANNOUNCING_OPENERS.search(first):
+                self.add(number, "WARNING", "announcing_opener", "Open the paragraph with its point, not an announcement of its subject. If the point is uncertain, state it as an uncertain claim.", first)
+
+    def check_repetition(self) -> None:
+        cites: dict[tuple[str, str], list[int]] = {}
+        values: dict[tuple[str, str], list[int]] = {}
+        for number, section, line in self.iter_prose():
+            if section.startswith(("method", "materials", "reference")):
+                continue
+            for m in self.CITATION_RE.finditer(line):
+                cites.setdefault((section, m.group(0)), []).append(number)
+            for m in self.VALUE_RE.finditer(line):
+                values.setdefault((section, re.sub(r"\s", "", m.group(0))), []).append(number)
+        for (section, cite), where in cites.items():
+            if len(where) > 2:
+                self.add(where[0], "WARNING", "repeated_citation", f"{cite} is cited {len(where)} times in {section.title()}. Check whether the same claim is being repeated; give it one home.", cite)
+        for (section, value), where in values.items():
+            if len(where) > 3:
+                self.add(where[0], "WARNING", "repeated_value", f"{value} appears {len(where)} times in {section.title()}. Once defined, refer to it by name (for example 'the threshold') instead of restating it.", value)
+
+    def check_proportion(self) -> None:
+        if self.section_filter:
+            return
+        words: dict[str, int] = {}
+        for _, section, line in self.iter_prose():
+            key = "introduction" if section.startswith(("introduction", "background")) else section
+            words[key] = words.get(key, 0) + len(line.split())
+        intro, disc = words.get("introduction", 0), words.get("discussion", 0)
+        if intro and disc > 400 and disc > 1.5 * intro:
+            self.add(0, "WARNING", "discussion_length", f"Discussion has {disc} words against {intro} in the Introduction. Check that each Discussion paragraph answers something the Introduction set up, and cut points that don't.")
+
+    def check_avoid_words(self) -> None:
+        if not self.avoid_words:
+            return
+        pattern = re.compile(r"\b(" + "|".join(re.escape(w) for w in self.avoid_words) + r")\w*", re.I)
+        for number, _, line in self.iter_prose():
+            for m in pattern.finditer(line):
+                self.add(number, "WARNING", "avoid_word", f"'{m.group(0)}' is on the author's avoid list. Use a plain verb from the author voice profile.", line)
+
     def report(self) -> None:
         blockers = [i for i in self.issues if i.severity == "BLOCKER"]
         warnings = [i for i in self.issues if i.severity == "WARNING"]
@@ -150,18 +217,35 @@ class ManuscriptValidator:
                 print(f"  > {issue.text}")
 
 
+def load_avoid_words(path: Path) -> list[str]:
+    """Read an avoid list: plain lines, or backticked terms under Markdown headings containing 'avoid'."""
+    text = path.read_text(encoding="utf-8")
+    if path.suffix.lower() != ".md":
+        return [w.strip() for w in text.splitlines() if w.strip() and not w.startswith("#")]
+    terms, active = [], False
+    for line in text.splitlines():
+        if line.startswith("#"):
+            active = "avoid" in line.lower()
+            continue
+        if active:
+            terms += [t for t in re.findall(r"`([^`]+)`", line) if not t.endswith("...")]
+    return terms
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Lint Markdown research manuscripts.")
     parser.add_argument("--file", "-f", required=True)
     parser.add_argument("--mode", "-m", choices=["normal", "strict"], default="normal")
     parser.add_argument("--section", "-s", help="Limit checks to a named Markdown section")
     parser.add_argument("--house-style", action="store_true", help="Promote punctuation preferences to warnings")
+    parser.add_argument("--avoid-words", metavar="FILE", help="Words the author avoids: one per line, or a Markdown file whose backticked terms sit under a heading containing 'avoid'")
     args = parser.parse_args()
     path = Path(args.file)
     if not path.exists():
         print(f"File not found: {path}", file=sys.stderr)
         return 2
-    validator = ManuscriptValidator(path, args.mode, args.section, args.house_style)
+    avoid = load_avoid_words(Path(args.avoid_words)) if args.avoid_words else []
+    validator = ManuscriptValidator(path, args.mode, args.section, args.house_style, avoid)
     return 0 if validator.run() else 1
 
 
