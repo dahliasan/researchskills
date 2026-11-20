@@ -72,7 +72,10 @@ Never:
 
 - alter values or omit inconvenient observations for visual effect
 - truncate an axis in a way that exaggerates a pattern without clear justification
-- connect observations that are not ordered or meaningfully continuous
+- connect observations that are not ordered or meaningfully continuous (for
+  example, do not join sparse multi-year survey points across long unmonitored
+  gaps or across a change in survey method, which implies linear
+  interpolation; use unjoined points with faint horizontal gridlines instead)
 - show uncertainty without defining it
 - imply paired, temporal, spatial, or causal structure that the design does not support
 - use area, volume, or colour intensity inconsistently with the encoded values

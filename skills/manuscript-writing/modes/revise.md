@@ -31,6 +31,21 @@ idea per sentence/paragraph where practical; no filler or stacked hedges;
 define study-specific terms at first use; follow local journal and project
 conventions over generic preferences.
 
+## Section boundaries and epistemic discipline
+
+- **IMRaD separation:** state inclusion thresholds, definitions, data sources,
+  and analytical rules once in Methods without repeating them in Results. Keep
+  Results strictly to the study's own empirical findings, and move
+  prior-literature comparisons or historical context to Discussion. In
+  Discussion, distinguish underlying drivers (for example, prey shifts or
+  immigration) from the measured outcomes they affect (for example, survival
+  or recruitment).
+- **Preserve epistemic boundaries:** when cleaning internal notes, caveats, or
+  `[TBC]` flags, never resolve an unverified data gap through prose
+  tightening. Keep distinct states separate (for example, "no count reported"
+  versus "not surveyed" versus an observed zero) until verified against
+  primary records.
+
 ## Output
 
 1. Revised section (or manuscript span)
