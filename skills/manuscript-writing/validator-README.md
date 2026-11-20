@@ -27,6 +27,11 @@ Install optional readability support with `pip install textstat`.
 - causal language requiring design review
 - high readability grade in strict mode
 - punctuation preferences when `--house-style` is enabled
+- paragraph openers that announce a subject instead of stating the point (`announcing_opener`)
+- claims about what others lack, in the Abstract or Introduction (`unsupported_gap`)
+- the same citation more than twice, or the same threshold value more than three times, in one section (`repeated_citation`, `repeated_value`)
+- a Discussion over 1.5 times the Introduction's length (`discussion_length`)
+- words on the author's avoid list with `--avoid-words FILE` (`avoid_word`). FILE is one word per line, or a Markdown voice profile whose backticked terms sit under a heading containing "avoid".
 
 ## Design choices
 

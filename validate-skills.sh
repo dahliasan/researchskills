@@ -117,6 +117,7 @@ fi
 echo "== offline tests =="
 python3 tests/test_openalex_offline.py
 python3 tests/test_validator_fixture.py
+if python3 -c 'import lxml' 2>/dev/null; then python3 tests/test_track_edit.py; else echo 'SKIP: tests/test_track_edit.py needs lxml'; fi
 python3 tests/test_strip_agent_criticmarkup.py
 python3 tests/test_extraction_prompt.py
 
