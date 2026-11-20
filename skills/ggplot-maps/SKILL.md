@@ -117,14 +117,22 @@ your analysis grid.
   when a continuous legend is noisy.
 - Diverging only with a real midpoint (anomaly, residual).
 - Prefer direct labels over large legends when there are few groups.
+- In manual scales (`scale_shape_manual`, `scale_colour_manual`,
+  `scale_fill_manual`), pass explicit `breaks =` in the exact order of any
+  `override.aes` vectors so alphabetical sorting does not swap legend symbols.
 
 ## Labels and annotations
 
 - Use `ggrepel` for site and landmark labels; set a seed for stable layouts.
+- Keep map labels plain; place status or coverage caveats (for example,
+  partial coverage or uncounted surveys) in the legend or caption rather than
+  appending unexplained `*` or `†` glyphs to map text.
 - On dark imagery, light text with dark halo (`bg.color` / `bg.r`) reads better.
 - Keep landmark labels schematic; do not invent precise centroids as data.
 - Scale bar after `coord_sf`. Skip north arrow on polar maps when orientation is
-  obvious from the projection.
+  obvious from the projection; when adding a north arrow in `ggspatial`, prefer
+  `north_arrow_orienteering()` over `north_arrow_minimal()` (whose `N` crosses
+  its own shaft).
 
 ## Themes and titles
 
