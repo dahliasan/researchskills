@@ -13,6 +13,36 @@ Helper (macOS): `scripts/word_doc.sh status|close|open <file.docx>`.
 3. **Write the edits.** If the project keeps versions, archive the previous file first, then save the new file under the current name.
 4. **Reopen it** if it was open before: `word_doc.sh open <file>`. Reopen it also when the user asks to see the result.
 
+## Tracked changes: use the shared tool
+
+Write edits to a `.docx` with `scripts/track_edit.py`. Don't write your own OOXML
+editing script. Earlier sessions each rebuilt one from scratch, which was slow
+and produced coarse, paragraph-sized changes.
+
+```bash
+python scripts/track_edit.py IN.docx OUT.docx --edits edits.json --author "Name"
+```
+
+`edits.json` is a list of `{"find": "text in exactly one paragraph", "text": "whole new paragraph"}`
+objects. `find` matches the paragraph with all tracked changes accepted. Write
+italics as `*text*`. To keep a live citation, copy its displayed text exactly,
+for example `(Boyd, 1993; Boveng et al., 1998)`. The tool:
+
+- diffs word by word, so only changed words become insertions and deletions;
+- keeps existing revisions, comments, citation fields and formatting;
+- refuses citation-like text that matches no field, because Zotero would stop
+  managing it (`--allow-plain-citations` overrides this; prefer inserting the citation in Word);
+- writes nothing unless accepting all changes gives exactly the requested text
+  and rejecting this run's changes gives back the input.
+
+Write to a new file, with the user's name as `--author` unless they say
+otherwise. Requires `lxml`. The tool edits paragraph text only. Leave tables,
+figures and reference lists to Word, or ask.
+
+**Model choice.** Have a Claude model run this step. When another model
+orchestrates (for example Gemini Neon), it writes the edit list and hands the
+Word step to a Claude sub-agent.
+
 ## Notes
 
 - Never close or reopen documents other than the one being edited.
