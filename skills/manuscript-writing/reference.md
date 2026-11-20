@@ -298,7 +298,7 @@ Whole-section sequence:
 2. compare with relevant literature
 3. examine plausible mechanisms and alternatives
 4. explain how design and data affect interpretation
-5. state material limitations where they constrain claims
+5. state material limitations where they constrain claims (apply the materiality test in SKILL.md)
 6. broaden to the supported scientific or practical implication
 
 Rules: start with meaning, not a Results recap; separate evidence from

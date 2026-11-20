@@ -6,7 +6,7 @@ description: >-
   empirical research manuscripts. When another skill needs manuscript prose or
   audit, invoke this skill.
 metadata:
-  version: 3.7.0
+  version: 3.8.0
 ---
 
 # Manuscript writing
@@ -84,13 +84,57 @@ named methods stay in prose. Internal paths, custom function names, and decision
 IDs (from `METHODS.md` Decision ledger) go in provenance notes — never claim-ID
 maps. Worked examples: [scaffolding.md](scaffolding.md).
 
+**Verify, don't guess.** If a tool you have can settle a fact, use it before
+writing or asking. For example, measure a distance from coordinates, count from
+the data, open the cited paper, or check a publication date. Ask the user only
+for what no tool can reach, and never present an estimate as a checked fact.
+Build the evidence from several sources in the library rather than leaning on
+one convenient review for every claim.
+
+**Relevance.** Every sentence, clause and detail must serve this paper's
+question, result or implication. When citing another species or system, keep
+the finding that transfers and drop details that only matter there. A fact that
+is true but does no work in the argument is filler. This applies to what you
+add; it is not a licence to cut existing coauthor text without a reason.
+
+**Say it once.** Give each point, definition and threshold one home. After
+Methods defines a threshold, time or term, refer to it by name instead of
+restating the value. Don't repeat the Introduction's background in the
+Discussion, and don't cite the same claim to the same source in several
+paragraphs.
+
+**Point-first paragraphs.** Open each paragraph with its point, not an
+announcement of its subject ("X may also differ…", "This provides a test
+of…"). If the point is uncertain, state the uncertain point plainly; the hedge
+belongs in the claim, not in a vague opener.
+
+**Proportion.** Frame the work at its real size. Don't invent a gap by
+claiming what managers or researchers lack or don't know unless a source says
+so; state why the result is useful instead. Don't force tension into a
+straightforward story, and keep the register neutral rather than persuasive.
+Keep the Discussion in proportion to the Introduction and to the number of
+real findings.
+
+**Limitations: the materiality test.** Mention a limitation only if it could
+change the direction, size or certainty of a main conclusion, or how a reader
+can use the result. Ask: at its worst, would this change what we conclude?
+- **Yes:** state it once, plainly, with what it means for the conclusion.
+- **No, and we checked:** report the check as a result in one clause (for
+  example "results were unchanged when…"), not as a limitation.
+- **No, probably nothing:** leave it out. Small data gaps, routine
+  approximations and minor definitional choices that don't affect the result
+  are not limitations, and listing them invites doubt the data don't support.
+Never hide a material limitation; the test removes noise, not honesty.
+
 **Citations.** Cite immediately after the claim; group only when every source
 supports the same claim; preserve project cite syntax. Detail:
 [reference.md](reference.md#citations).
 
 **Word files.** When editing a `.docx` the user may have open in Word, check
 it, save and close it before reading, edit the file now on disk, then reopen
-it: [word-documents.md](word-documents.md) (helper `scripts/word_doc.sh`).
+it. Write tracked changes with the shared tool `scripts/track_edit.py`; don't
+write a new OOXML script. Have a Claude model run the Word step. Detail:
+[word-documents.md](word-documents.md).
 
 **Statistical honesty.** Report uncertainty; distinguish absence of evidence
 from evidence of no effect; do not upgrade association to causation. Detail:
