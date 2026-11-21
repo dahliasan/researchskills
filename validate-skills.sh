@@ -10,8 +10,6 @@ required_skills=(
   paper-brief
   fact-check
   manuscript-writing
-  manuscript-markdown
-  manuscript-collab
   figure-design
   ggplot-maps
   manuscript-submission
@@ -58,9 +56,6 @@ for path in \
   skills/zotero/references/mcp-setup.md \
   skills/discover-papers/scripts/openalex_search.py \
   skills/manuscript-writing/validator.py \
-  skills/manuscript-collab/scripts/strip_agent_criticmarkup.py \
-  skills/manuscript-collab/scripts/export_for_collaborators.sh \
-  skills/manuscript-collab/scripts/ensure_manuscript_markdown_cli.sh \
   skills/zotero/scripts/zotero.py \
   skills/zotero/scripts/query_collection.py \
   skills/zotseek/scripts/zotseek_stdio_mcp.py
@@ -118,7 +113,6 @@ echo "== offline tests =="
 python3 tests/test_openalex_offline.py
 python3 tests/test_validator_fixture.py
 if python3 -c 'import lxml' 2>/dev/null; then python3 tests/test_track_edit.py; else echo 'SKIP: tests/test_track_edit.py needs lxml'; fi
-python3 tests/test_strip_agent_criticmarkup.py
 python3 tests/test_extraction_prompt.py
 
 if [[ "$fail" -ne 0 ]]; then

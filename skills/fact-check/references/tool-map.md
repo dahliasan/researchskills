@@ -55,6 +55,6 @@ If Zotero runs on another machine, tunnel `23119` first (see `zotseek` / `zotero
 | Task | Wrong tool | Right skill |
 |------|------------|-------------|
 | Rewrite intro argument | fact-check alone | `manuscript-writing` |
-| DOCX live fields | fact-check alone | `manuscript-markdown` |
+| DOCX live fields | fact-check alone | `manuscript-writing` (Word edits), `zotero` (fields) |
 | Systematic review corpus | fact-check alone | `literature-review` |
 | Install Zotero MCP | fact-check | `zotero`, then its MCP setup reference |

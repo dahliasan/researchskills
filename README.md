@@ -48,8 +48,6 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | Get a quick, evidence-traceable explanation of one paper | [`paper-brief`](./skills/paper-brief/SKILL.md) |
 | Verify claims and suggest evidence-supported replacements | [`fact-check`](./skills/fact-check/SKILL.md) |
 | Draft, revise, storyboard, or audit a research manuscript | [`manuscript-writing`](./skills/manuscript-writing/SKILL.md) |
-| Roundtrip Word DOCX ↔ Markdown (**default** MD↔Word path) | [`manuscript-markdown`](./skills/manuscript-markdown/SKILL.md) |
-| CriticMarkup collab / strip agent comments / export Word for coauthors | [`manuscript-collab`](./skills/manuscript-collab/SKILL.md) |
 | Plan, create, revise, or audit a scientific figure | [`figure-design`](./skills/figure-design/SKILL.md) |
 | Build R/ggplot2 maps (`sf`, polar CRS, basemaps, rasters) | [`ggplot-maps`](./skills/ggplot-maps/SKILL.md) |
 | Critically stress-test an entire research project | [`research-red-team`](./skills/research-red-team/SKILL.md) |
@@ -90,7 +88,6 @@ stay on your machine. See [INSTALL.md](./INSTALL.md).
 /research-red-team       ← independent project-wide challenge register
 /aic-model-selection ← AIC/AICc ranking, near-ties, primary inference
 /manuscript-writing      ← manuscript argument, prose, and audit
-/manuscript-markdown     ← DOCX ↔ Markdown roundtrip (CLI + extension)
 /figure-design           ← scientific figure design and QA
 /ggplot-maps             ← R/ggplot2 + sf map recipes (companion)
 /manuscript-submission   ← journal compliance and submission package
