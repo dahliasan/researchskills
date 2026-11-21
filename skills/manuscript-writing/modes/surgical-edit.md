@@ -21,5 +21,6 @@ conflict created by the edit is reported.
 ## Output
 
 1. The edited span (or minimal surrounding context)
-2. Material `[TBC]` / conflicts if the edit surfaces them
+2. Material `[TBC]` / conflicts if the edit surfaces them, checked first
+   (see Proportionate flags in SKILL.md)
 3. No essay on what you chose not to change

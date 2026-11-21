@@ -4,9 +4,10 @@ description: >-
   Manuscript writing from verified project artifacts. Use when outlining,
   drafting, revising, surgically editing, auditing, or answering reviewers for
   empirical research manuscripts. When another skill needs manuscript prose or
-  audit, invoke this skill.
+  audit, invoke this skill. For a cold read, line edit or polish of an
+  existing draft, use blue-pencil when available.
 metadata:
-  version: 3.8.0
+  version: 3.9.0
 ---
 
 # Manuscript writing
@@ -20,8 +21,7 @@ control. Does not own literature discovery, study or analysis design, project
 scaffolding, statistical execution, figure rendering, or submission packaging.
 
 Companions when available: `research-project-ops`, `literature-review`,
-`research-mode` for study or analysis design, Zotero tooling, and
-`manuscript-markdown` (default MD↔DOCX).
+`research-mode` for study or analysis design, and Zotero tooling.
 
 ## Router
 
@@ -148,6 +148,14 @@ from evidence of no effect; do not upgrade association to causation. Detail:
 4. Execute the mode steps until its completion criterion is met.
 5. Run the deterministic validator when the mode requires it.
 6. Return only the mode’s output contract (plus material `[TBC]` / conflicts).
+
+**Proportionate flags.** Apply the materiality test to what you raise with the
+user, not only to limitations in the text. Before listing a doubt, open
+question or decision, run the check yourself and report the finding, not the
+doubt. Raise an item only if it would change a claim, a number or the
+argument. Settle style and layout choices from the project's style guide, or
+leave them out. When you remove or replace a table or figure, check that every
+claim citing it is still supported and say so in one line.
 
 **Done when** every required mode step is complete, gates are applied or
 explicitly waived by the mode, and the output matches the mode contract.
