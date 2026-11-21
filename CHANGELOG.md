@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- `manuscript-writing` 3.9.1: `track_edit.py` numbers revisions above the
+  document's highest existing id. A second run on a file it had already edited
+  reused ids, failed its reject check and wrote nothing.
 - Retire `manuscript-collab` and `manuscript-markdown` to `retired/`: manuscripts
   are edited directly in Word with tracked changes. They are no longer
   installed or validated; convert DOCX ↔ Markdown only on request.

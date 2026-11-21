@@ -115,6 +115,21 @@ class TestTrackEdit(unittest.TestCase):
         self.assertNotEqual(proc.returncode, 0)
         self.assertIn("matched 2 paragraphs", proc.stdout + proc.stderr)
 
+    def test_second_run_on_its_own_output_gets_new_revision_ids(self) -> None:
+        first = self.run_tool([{"find": "drone", "text": "Pups were counted on drone images."}])
+        self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+        self.src, second_dst = self.dst, self.dir / "out2.docx"
+        second = self.run_tool([{
+            "find": "first colonies reached saturation",
+            "text": "Growth slowed as breeding densities at the first colonies became saturated (Boyd, 1993), "
+                    "whereas the oldest colonies here had the lowest densities.",
+        }], dst=second_dst)
+        self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+        with zipfile.ZipFile(second_dst) as z:
+            xml = z.read("word/document.xml").decode()
+        ids = re.findall(r'<w:(?:ins|del) w:id="(\d+)"', xml)
+        self.assertEqual(len(ids), len(set(ids)), ids)
+
     def test_refuses_to_overwrite_the_input(self) -> None:
         proc = self.run_tool([{"find": "drone", "text": "Pups were counted on drone images."}], dst=self.src)
         self.assertNotEqual(proc.returncode, 0)

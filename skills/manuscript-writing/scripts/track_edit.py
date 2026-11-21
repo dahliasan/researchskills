@@ -138,7 +138,11 @@ def main(argv=None):
         print('Use the exact displayed text of an existing field, insert the citation in Word with '
               'Zotero afterwards, or pass --allow-plain-citations.')
         return 1
-    ids = engine.Ids()
+    # Number this run's revisions above every id already in the document, so a
+    # second run on a file this tool wrote does not reuse (and later reject) them.
+    top = max((int(v) for e in tree.iter() if isinstance(e.tag, str)
+               for v in [e.get(q('w:id'))] if v and v.isdigit()), default=0)
+    ids = engine.Ids(start=max(20000, top), split_start=max(40000, top + 20000))
     log, targets = [], []
     for n, edit in enumerate(edits):
         par = find_paragraph(tree, edit)
