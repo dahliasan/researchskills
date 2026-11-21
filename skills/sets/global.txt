@@ -1,6 +1,5 @@
 # Symlinked to ~/.agents/skills, ~/.cursor/skills, ~/.claude/skills, ~/.codex/skills
 # Refresh: ./scripts/link-global.sh
-researchskills
 manuscript-writing
 figure-design
 ggplot-maps
@@ -17,5 +16,4 @@ protocol
 find-pdf
 pp-scite
 zotero
-zotero-mcp
 zotseek
