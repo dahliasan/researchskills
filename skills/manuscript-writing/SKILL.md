@@ -7,7 +7,7 @@ description: >-
   audit, invoke this skill. For a cold read, line edit or polish of an
   existing draft, use blue-pencil when available.
 metadata:
-  version: 3.9.0
+  version: 3.9.1
 ---
 
 # Manuscript writing
