@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "skills/manuscript-collab/scripts/strip_agent_criticmarkup.py"
+SCRIPT = ROOT / "scripts/strip_agent_criticmarkup.py"
 FIXTURE = ROOT / "tests/fixtures/criticmarkup_mixed.md"
 
 

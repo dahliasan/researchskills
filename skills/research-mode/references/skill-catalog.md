@@ -9,8 +9,6 @@ Choose the narrowest skill that handles the request.
 | Non-trivial research work spanning phases, or choose a workflow and evidence standard | `research-mode` |
 | Explain one paper with verified page-level evidence | `paper-brief` |
 | Draft, revise, storyboard, or audit manuscript prose | `manuscript-writing` |
-| Roundtrip DOCX ↔ Markdown (default MD↔Word path) | `manuscript-markdown` |
-| CriticMarkup collab, address review comments, or export Word without agent comments | `manuscript-collab` |
 | Plan, create, revise, or audit a scientific figure | `figure-design` |
 | Build R/ggplot2 maps (`sf`, polar CRS, basemaps, rasters) | `ggplot-maps` |
 | Critically stress-test a whole research project, simulate reviewer 2, or run a replication pre-mortem | `research-red-team` |
@@ -36,9 +34,9 @@ Choose the narrowest skill that handles the request.
 2. Use `research-red-team` for an opposing project-wide scientific lens; use `manuscript-writing` audit mode for manuscript-only coherence and prose checks.
 3. Use `aic-model-selection` for AIC/AICc tables, Δ/weights, nested near-ties, and primary inference choice; do not expand it into a general stats skill.
 4. Do not invent a second prose skill; always `manuscript-writing`.
-5. **Default** MD↔DOCX conversion to `manuscript-markdown` (never pandoc first; never as a prose twin).
+5. Edit Word manuscripts directly with tracked changes (`manuscript-writing`). Convert DOCX ↔ Markdown only when the user asks.
 6. Use `figure-design` for visual design QA; use `ggplot-maps` for R map recipes. Keep analytical decisions with the analysis owner.
-7. Use `manuscript-submission` for venue rules, reporting compliance, declarations, and package preflight. For Word file emit during packaging, invoke `manuscript-markdown`.
+7. Use `manuscript-submission` for venue rules, reporting compliance, declarations, and package preflight.
 8. Zotero: `zotero` for session work; `zotero` setup reference for [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) install/config; `zotseek` for ZotSeek semantic. If backends are down, say so and continue without Zotero where possible.
 8b. For claim verification and evidence-supported replacements, use `fact-check` (not a full `literature-review` unless the user wants a review corpus).
 8c. Scientific methods and consequential choices live in `METHODS.md` (Decision ledger). Do not create `CLAIMS.md` or a separate `DECISIONS.md`.

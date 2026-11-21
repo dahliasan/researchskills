@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Retire `manuscript-collab` and `manuscript-markdown` to `retired/`: manuscripts
+  are edited directly in Word with tracked changes. They are no longer
+  installed or validated; convert DOCX ↔ Markdown only on request.
+- `manuscript-writing` 3.9.0: proportionate flags. Check a doubt before raising
+  it, and raise only what would change a claim, a number or the argument. Its
+  description now routes cold reads and line edits to `blue-pencil`.
+- `figure-design` 0.4.0: when the visual form is contested, compare two or
+  three alternatives rendered at final size.
 - `manuscript-writing` 3.7.0: when editing a `.docx` the user may have open in
   Word, save and close it first, edit the file now on disk, then reopen it
   (`word-documents.md`, helper `scripts/word_doc.sh` for macOS).

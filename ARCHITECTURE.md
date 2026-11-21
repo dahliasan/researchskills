@@ -32,7 +32,6 @@ Same idea as makerskills `second-brain`: the skill is the workflow; the data and
 | Literature workflow | `literature-review` | Review mode → evidence gate → sibling/backend |
 | Single-paper understanding | `paper-brief` | Paper identity → full-text evidence → attributed findings and interpretation |
 | Prose | `manuscript-writing` | Artifact-driven draft/revise/audit + lint; modes under `modes/` |
-| Document roundtrip | `manuscript-markdown` | **Default** DOCX ↔ Markdown (CLI/extension; not pandoc) |
 | Discovery | `discover-papers`, `protocol` | Search front door + durable protocol walk |
 | Full text | `find-pdf` | Waterfall router |
 | Library | `zotero`, `zotseek` | `zotero` day-to-day router; `zotero` setup reference = [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) install/config; `zotseek` = [ZotSeek](https://github.com/introfini/ZotSeek) plugin |

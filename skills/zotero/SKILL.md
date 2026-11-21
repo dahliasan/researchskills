@@ -123,7 +123,7 @@ python3 <researchskills-root>/skills/zotero/scripts/query_collection.py "nz sea 
 2. If using scripts and local API is down: `status --json`; `enable --restart` only when the user asked to operate Zotero.
 3. Confirm before any library **write** (import, MCP add/update/delete, Web API collection membership).
 4. **Better BibTeX:** when draft `[@keys]` disagree with BBT export, prefer renaming manuscript + `.bib` to match BBT over pinning items via writes the local API cannot do.
-5. **Live Word fields (Manuscript Markdown):** enrich BibTeX with `zotero-key` / `zotero-uri`. See `skills/manuscript-markdown/references/zotero-fields.md`.
+5. **Live Word fields (Manuscript Markdown):** enrich BibTeX with `zotero-key` / `zotero-uri`. See `retired/manuscript-markdown/references/zotero-fields.md` (Markdown roundtrip only).
 
 ## Common local commands
 

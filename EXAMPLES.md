@@ -45,12 +45,6 @@ log path.
 
 **Agent:** Chooses `surgical-edit` → reads `modes/surgical-edit.md` only; does not load Intro/Discussion hourglasses or the full revision-pass stack.
 
-## manuscript-markdown
-
-**You:** /manuscript-markdown — convert this coauthor Word outline to Markdown and keep comments.
-
-**Agent:** Step 0 checks `manuscript-markdown` on PATH (flags install if missing) → DOCX→MD with CriticMarkup preserved → places MD in the manuscript tree with provenance; does not rewrite scientific prose.
-
 ## research-red-team
 
 **You:** /research-red-team analysis — is our two-stage model selection defensible?

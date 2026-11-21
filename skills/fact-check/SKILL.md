@@ -87,4 +87,4 @@ Do not create a separate claims ledger unless the user requests one.
 - `literature-review` owns review corpora, screening, extraction, and synthesis.
 - `zotero`, `zotseek`, `pp-scite`, `find-pdf`, and `paperkit` own their tool
   procedures. Load installation skills only for setup or connection failures.
-- `manuscript-markdown` owns Word roundtrip and citation fields.
+- `manuscript-writing` (`word-documents.md`) owns Word edits; Zotero tooling owns citation fields.

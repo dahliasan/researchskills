@@ -2,8 +2,6 @@
 # Refresh: ./scripts/link-global.sh
 researchskills
 manuscript-writing
-manuscript-markdown
-manuscript-collab
 figure-design
 ggplot-maps
 manuscript-submission

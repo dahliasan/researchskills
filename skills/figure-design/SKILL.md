@@ -8,7 +8,7 @@ description: >-
   Does not invent data, choose an analysis after seeing a preferred visual, or
   treat visual polish as evidence.
 metadata:
-  version: 0.3.0
+  version: 0.4.0
 ---
 
 # Figure design
@@ -88,6 +88,9 @@ Never:
 2. Load the verified claim, result, source data, and current figure if present.
 3. Complete the figure brief.
 4. Select the visual form from the analytical question and data structure.
+   When the form is still contested, render two or three alternatives at
+   final size, show them side by side and recommend one. Compare the
+   renders, not descriptions of them.
 5. Plan panels and shared visual encodings before styling.
 6. Build or revise the figure reproducibly where practical.
 7. Check scientific integrity, legibility, accessibility, and manuscript fit.
