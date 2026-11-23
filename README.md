@@ -51,6 +51,7 @@ export RESEARCHSKILLS_MAILTO="you@example.com"
 | Plan, create, revise, or audit a scientific figure | [`figure-design`](./skills/figure-design/SKILL.md) |
 | Build R/ggplot2 maps (`sf`, polar CRS, basemaps, rasters) | [`ggplot-maps`](./skills/ggplot-maps/SKILL.md) |
 | Critically stress-test an entire research project | [`research-red-team`](./skills/research-red-team/SKILL.md) |
+| Get coauthor-style feedback on a manuscript from a council of three models | [`manuscript-council`](./skills/manuscript-council/SKILL.md) |
 | AIC/AICc model selection (Δ, weights, nested near-ties) | [`aic-model-selection`](./skills/aic-model-selection/SKILL.md) |
 | Adapt a manuscript to a journal or prepare its submission package | [`manuscript-submission`](./skills/manuscript-submission/SKILL.md) |
 | Manage a preliminary, methods, or formal literature workflow | [`literature-review`](./skills/literature-review/SKILL.md) |

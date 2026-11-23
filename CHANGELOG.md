@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add `manuscript-council`: three reviewers, one model per provider, each
+  with a lens fitted to the paper, give coauthor-style feedback merged into one
+  memo with readiness scores and review rounds. Adapted from the `council`
+  skill in t3dotgg/tstack.
 - `manuscript-writing` 3.9.1: `track_edit.py` numbers revisions above the
   document's highest existing id. A second run on a file it had already edited
   reused ids, failed its reject check and wrote nothing.

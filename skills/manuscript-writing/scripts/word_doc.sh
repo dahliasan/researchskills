@@ -3,11 +3,30 @@
 #   word_doc.sh status <file.docx>   -> "open", "open-unsaved" or "closed"
 #   word_doc.sh close  <file.docx>   -> save the user's changes, then close it (no-op if closed)
 #   word_doc.sh open   <file.docx>   -> open (or reopen) it in Word
+#   word_doc.sh list                 -> paths of documents open in Word (and whether saved)
 # Matches the open document by full path, falling back to the file name
 # (documents opened from OneDrive/SharePoint report a URL as their full name).
 set -euo pipefail
 cmd=${1:-}; f=${2:-}
-[[ -n $cmd && -n $f ]] || { sed -n '2,7p' "$0"; exit 2; }
+if [[ $cmd == list ]]; then
+  pgrep -x "Microsoft Word" >/dev/null || { echo "Word not running"; exit 0; }
+  osascript <<'OSA'
+tell application "Microsoft Word"
+  set out to ""
+  repeat with i from 1 to (count of documents)
+    set d to document i
+    set fn to full name of d
+    try
+      set fn to POSIX path of (fn as alias)
+    end try
+    set out to out & fn & tab & "saved=" & (saved of d) & linefeed
+  end repeat
+  return out
+end tell
+OSA
+  exit 0
+fi
+[[ -n $cmd && -n $f ]] || { sed -n '2,8p' "$0"; exit 2; }
 abs=$(cd "$(dirname "$f")" && pwd)/$(basename "$f")
 name=$(basename "$f")
 
@@ -54,5 +73,5 @@ case $cmd in
     echo "saved and closed" ;;
   open)
     open -a "Microsoft Word" "$abs"; echo "opened" ;;
-  *) sed -n '2,7p' "$0"; exit 2 ;;
+  *) sed -n '2,8p' "$0"; exit 2 ;;
 esac

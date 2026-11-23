@@ -106,6 +106,15 @@ population, weakening a causal verb, separating a result from interpretation, or
 adding uncertainty. Avoid both unsupported compression and background that does
 not help the reader understand the study.
 
+Use explicit logical bridges when shifting between distinct mechanisms, scales,
+or caveats (for example, "Beyond these local demographic processes, ...", "More
+broadly, ...", "However, ...", "In addition, ..."). Do not drop a new topic
+cold, and do not announce figures or tables with standalone sentences ("Table 1
+gives...", "X is shown in Supplementary Fig. 1"): weave parenthetical
+references naturally into the reporting prose, and verify that first-mention
+order is strictly sequential across every series (`Fig. 1..N`, `Table 1..N`,
+`Supplementary Fig. 1..N`, `Supplementary Table 1..N`).
+
 ## Introduction
 
 ```text
@@ -154,7 +163,10 @@ Rules:
 
 - Report the implemented method, not the history of exploratory attempts.
 - Keep consequential rationale brief; preserve fuller history in decision records.
-- Put rules in Methods and resulting counts in Results or QC outputs.
+- Put rules in Methods and resulting counts, ratios, or empirical conversion factors in Results or tables (never embed result numbers in Methods).
+- Write Methods as flowing paragraphs with clear topic sentences under subsection headings; avoid unstyled run-in sentence-fragment labels (such as `(1) Direct counts.`, `Ground counts.`, `Drone counts.`).
+- Define comparative or aggregation terms plainly at first use (for example, "overall (pooled) ratio" vs "mean of site-specific ratios") and drop filler like "(at full precision)".
+- Harmonize units across related metrics (for example, `ha` for area and `pups ha⁻¹` for density so readers can divide directly), putting secondary literature units in parentheses in Results when helpful for comparison.
 - State exact thresholds, units, software, versions, and validation where material.
 - Use `[TBC]` rather than inventing missing details.
 - Name packages, published functions, and named statistical methods inline at
