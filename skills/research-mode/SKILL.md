@@ -54,6 +54,12 @@ one onto a task it was not designed for.
 9. **Make work reproducible and proportionate.** Prefer existing project
    conventions and tools. Keep a record sufficient to repeat consequential
    searches, transformations, and analyses without adding process for its own sake.
+10. **Verify conventions by reading representative papers.** Whenever unsure
+    about field norms, reporting granularity, structure, or writing style (for
+    example, how much site-level detail belongs in Methods, how to frame a
+    comparison, or what repeats across Introduction and Discussion), check
+    representative published papers in the target journal and subfield rather
+    than guessing from generic rules.
 
 ## Choose a playbook
 

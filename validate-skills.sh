@@ -15,6 +15,7 @@ required_skills=(
   manuscript-submission
   literature-review
   research-red-team
+  manuscript-council
   aic-model-selection
   discover-papers
   protocol

@@ -12,6 +12,7 @@ Choose the narrowest skill that handles the request.
 | Plan, create, revise, or audit a scientific figure | `figure-design` |
 | Build R/ggplot2 maps (`sf`, polar CRS, basemaps, rasters) | `ggplot-maps` |
 | Critically stress-test a whole research project, simulate reviewer 2, or run a replication pre-mortem | `research-red-team` |
+| Coauthor-style feedback on a manuscript from three models with different lenses | `manuscript-council` |
 | AIC/AICc model selection, Δ/weights, nested near-ties, primary inference | `aic-model-selection` |
 | Adapt a manuscript to a journal or prepare a submission package | `manuscript-submission` |
 | Literature workflow, synthesis, citation check | `literature-review` |

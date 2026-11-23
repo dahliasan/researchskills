@@ -115,6 +115,22 @@ straightforward story, and keep the register neutral rather than persuasive.
 Keep the Discussion in proportion to the Introduction and to the number of
 real findings.
 
+**Level of detail (taste and judgement).** How much detail to include is a
+matter of scholarly judgement, not a checklist (Pat Thomson: balance *format*,
+*genre conventions*, *reviewer expectations*, and *intention*). Every detail
+must earn its place by serving the argument or reproducibility. When unsure
+whether a site-level exception or operational tweak belongs in Methods prose,
+a table footnote, or an internal note, check two or three representative
+papers in the target journal/field (for example, published census papers in
+the same journal) and match their granularity.
+
+**Tighten the claim, don't pad with disclaimers.** When a claim outruns the
+evidence or an example does not hold, narrow the claim or drop the example
+instead of leaving the broad claim intact and tacking on what the data did
+*not* show (negative framing / defensive hedging). Report what the data
+support; do not enumerate non-findings or unmeasured variables to excuse an
+overbroad opener.
+
 **Limitations: the materiality test.** Mention a limitation only if it could
 change the direction, size or certainty of a main conclusion, or how a reader
 can use the result. Ask: at its worst, would this change what we conclude?
@@ -131,9 +147,11 @@ supports the same claim; preserve project cite syntax. Detail:
 [reference.md](reference.md#citations).
 
 **Word files.** When editing a `.docx` the user may have open in Word, check
-it, save and close it before reading, edit the file now on disk, then reopen
+it, confirm it is the current draft (newest in its folder and the one open in
+Word), save and close it before reading, edit the file now on disk, then reopen
 it. Write tracked changes with the shared tool `scripts/track_edit.py`; don't
-write a new OOXML script. Have a Claude model run the Word step. Detail:
+write a new OOXML script. If you find yourself struggling with the technical
+`.docx` work, delegate that step to an Opus 5.5 sub-agent. Detail:
 [word-documents.md](word-documents.md).
 
 **Statistical honesty.** Report uncertainty; distinguish absence of evidence
