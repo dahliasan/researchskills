@@ -41,9 +41,29 @@ from track_changes.dlib import accepted_text, q  # noqa: E402
 from track_changes.revtools import accept_all, canonical, read_xml, reject_ids, serialize, write_docx  # noqa: E402
 
 PARAID = '{%s}paraId' % engine.W14
+MATH_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/math'
+OMATH = f'{{{MATH_NS}}}oMath'
 ZOTERO = 'ZOTERO_ITEM'
 # A parenthetical that names a year, for example "(Smith et al., 2020)" or "(Boyd, 1993; Lee, 2001a)".
 CITATION_RE = re.compile(r'\((?=[^()]*[A-Z][^()]*\b(?:1[6-9]|20)\d{2}[a-z]?\b)[^()]*\)')
+
+
+def demote_empty_headings(tree):
+    """Demote empty Heading* paragraphs (keeping sectPr/bookmarks intact) so Word's Navigation Pane has no blank entries."""
+    demoted = 0
+    for p in tree.getroot().iter(q('w:p')):
+        ppr = p.find(q('w:pPr'))
+        if ppr is None:
+            continue
+        pstyle = ppr.find(q('w:pStyle'))
+        if pstyle is None or not (pstyle.get(q('w:val')) or '').startswith('Heading'):
+            continue
+        has_text = any((t.text or '').strip() for t in p.iter(q('w:t')))
+        has_media = p.find('.//' + q('w:drawing')) is not None or p.find('.//' + OMATH) is not None
+        if not has_text and not has_media:
+            ppr.remove(pstyle)
+            demoted += 1
+    return demoted
 
 
 def field_library(tree):
@@ -105,9 +125,11 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('src')
     ap.add_argument('dst')
-    ap.add_argument('--edits', required=True, help='JSON file with the paragraph edits')
-    ap.add_argument('--author', required=True, help='revision author shown in Word')
+    ap.add_argument('--edits', help='JSON file with the paragraph edits (optional with --accept-existing)')
+    ap.add_argument('--author', help='revision author shown in Word (required with --edits)')
     ap.add_argument('--date', default=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
+    ap.add_argument('--accept-existing', action='store_true',
+                    help='accept existing tracked changes and demote empty Heading* paragraphs before applying edits')
     ap.add_argument('--keep-italic', action='append', default=[],
                     help='term whose existing italics must not change (repeatable)')
     ap.add_argument('--allow-plain-citations', action='store_true',
@@ -115,15 +137,23 @@ def main(argv=None):
     ap.add_argument('--seed', type=int, default=0)
     args = ap.parse_args(argv)
 
+    if not args.edits and not args.accept_existing:
+        ap.error('--edits is required unless --accept-existing is set')
+    if args.edits and not args.author:
+        ap.error('--author is required when --edits is given')
     if Path(args.src).resolve() == Path(args.dst).resolve():
         raise SystemExit('error: write to a new file; keep the input as the baseline')
     random.seed(args.seed)
-    engine.AUTHOR, engine.DATE = args.author, args.date
+    engine.AUTHOR, engine.DATE = args.author or 'Author', args.date
     engine.KEEP_ITALIC[:] = args.keep_italic
-    edits = json.loads(Path(args.edits).read_text(encoding='utf-8'))
+    edits = json.loads(Path(args.edits).read_text(encoding='utf-8')) if args.edits else []
 
-    original = read_xml(args.src)
     tree = read_xml(args.src)
+    if args.accept_existing:
+        accept_all(tree)
+        demoted = demote_empty_headings(tree)
+        print(f'accepted existing changes (demoted {demoted} empty heading(s))')
+    original = copy.deepcopy(tree)
     lib, reusable = field_library(tree)
     plain_cites = []
     for edit in edits:

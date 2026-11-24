@@ -135,6 +135,49 @@ class TestTrackEdit(unittest.TestCase):
         self.assertNotEqual(proc.returncode, 0)
         self.assertIn("new file", proc.stdout + proc.stderr)
 
+    def test_unchanged_field_stays_untracked_when_text_on_both_sides_changes(self) -> None:
+        proc = self.run_tool([{
+            "find": "first colonies reached saturation",
+            "text": "Growth slowed at dense colonies (Boyd, 1993). Oldest sites had lower densities.",
+        }])
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        xml = self.output_xml()
+        inserted = "".join(re.findall(r"<w:ins [^>]*>.*?</w:ins>", xml))
+        deleted = "".join(re.findall(r"<w:del [^>]*>.*?</w:del>", xml))
+        self.assertIn("ZOTERO_ITEM", xml)
+        self.assertNotIn("ZOTERO_ITEM", deleted)
+        self.assertNotIn("ZOTERO_ITEM", inserted)
+
+    def test_accept_existing_accepts_revisions_and_demotes_empty_sectpr_heading(self) -> None:
+        src = self.dir / "tracked.docx"
+        body = (
+            '<w:p><w:pPr><w:pStyle w:val="Heading1"/><w:sectPr/></w:pPr></w:p>'
+            '<w:p><w:r><w:t xml:space="preserve">Pup </w:t></w:r>'
+            '<w:del w:id="1" w:author="Old" w:date="2025-01-01T00:00:00Z"><w:r><w:delText>numbers</w:delText></w:r></w:del>'
+            '<w:ins w:id="2" w:author="Old" w:date="2025-01-01T00:00:00Z"><w:r><w:t>counts</w:t></w:r></w:ins>'
+            '<w:r><w:t xml:space="preserve"> were recorded.</w:t></w:r></w:p>'
+        )
+        document = (f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+                    f'<w:document xmlns:w="{W}"><w:body>{body}<w:sectPr/></w:body></w:document>')
+        with zipfile.ZipFile(src, "w") as z:
+            z.writestr("[Content_Types].xml",
+                       '<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+                       '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+                       '<Default Extension="xml" ContentType="application/xml"/>'
+                       '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>')
+            z.writestr("_rels/.rels",
+                       '<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+                       '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>')
+            z.writestr("word/document.xml", document)
+        self.src = src
+        proc = self.run_tool([{"find": "Pup counts were recorded.", "text": "Pup counts were logged."}], "--accept-existing")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        xml = self.output_xml()
+        self.assertNotIn('w:author="Old"', xml)
+        self.assertNotIn('w:val="Heading1"', xml)
+        self.assertIn("<w:sectPr/>", xml)
+        self.assertIn("logged", xml)
+
 
 if __name__ == "__main__":
     unittest.main()

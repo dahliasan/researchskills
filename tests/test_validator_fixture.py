@@ -79,6 +79,30 @@ class TestValidatorFixture(unittest.TestCase):
         self.assertIn("avoid_word", proc.stdout)
         self.assertIn("precipitate", proc.stdout)
 
+    def test_apa_citation_semicolons_and_acronyms_are_not_flagged(self) -> None:
+        text = (
+            "# Introduction\n\n"
+            "The New Zealand sea lion (NZSL; Phocarctos hookeri) breeds on subantarctic islands "
+            "(Smith, 2019; Jones & Lee, 2020; DOC, 2021). NZSL pup counts are summarized in Table S1.\n"
+        )
+        proc = self.run_validator(text, "--house-style")
+        self.assertNotIn("semicolon", proc.stdout)
+        self.assertNotIn("acronym_undefined", proc.stdout)
+
+    def test_stacked_hedge_is_checked_per_sentence(self) -> None:
+        separate = "# Discussion\n\nCold nights may raise energy demand. Wet fur may slow rewarming.\n"
+        self.assertNotIn("stacked_hedge", self.run_validator(separate).stdout)
+        same = "# Discussion\n\nCold nights may possibly raise energy demand.\n"
+        self.assertIn("stacked_hedge", self.run_validator(same).stdout)
+
+    def test_materials_and_methods_ampersand_heading_recognized(self) -> None:
+        text = (
+            "# Introduction\n\nWe tested weather links.\n\n"
+            "# Materials & Methods\n\nCounts ran at 08:00, 08:00, 08:00, and 08:00.\n"
+        )
+        proc = self.run_validator(text)
+        self.assertNotIn("repeated_value", proc.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -28,8 +28,9 @@ class Issue:
 
 
 class ManuscriptValidator:
-    SECTION_RE = re.compile(r"^#{1,6}\s+(abstract|introduction|background|methods?|materials and methods|results?|discussion|conclusions?|references)\b", re.I)
+    SECTION_RE = re.compile(r"^#{1,6}\s+(abstract|introduction|background|methods?|materials (?:and|&) methods|results?|discussion|conclusions?|references)\b", re.I)
     ACRONYM_RE = re.compile(r"\b([A-Z][A-Z0-9-]{1,})\b")
+    SUPP_LABEL_RE = re.compile(r"\b(?:Tables?|Figs?\.?|Figures?|Appendices|Appendix|Files?|Data|Text|Supplementary\s+(?:Tables?|Figs?\.?|Figures?))\s+S\d+[a-z]?\b", re.I)
     COMMON_ACRONYMS = {"DNA", "RNA", "GPS", "UK", "US", "EU", "CI", "SD", "SE", "Fig", "DOI"}
 
     NARRATIVE = ("abstract", "introduction", "background", "discussion", "conclusion")
@@ -44,7 +45,7 @@ class ManuscriptValidator:
         re.I,
     )
     GAP_CLAIM = re.compile(r"\b(?:managers|practitioners|researchers|decision[- ]makers|conservationists)\s+(?:still\s+|currently\s+)?(?:lack|do not know|don't know|have no|cannot predict)\b", re.I)
-    CITATION_RE = re.compile(r"\([^()]*[A-Z][^()]*\b(?:1[6-9]|20)\d{2}[a-z]?\)|\[@[^\]]+\]")
+    CITATION_RE = re.compile(r"\((?=[^()]*[A-Z][^()]*\b(?:1[6-9]|20)\d{2}[a-z]?\b)[^()]*\)|\[@[^\]]+\]")
     VALUE_RE = re.compile(r"[−-]?\d+(?:\.\d+)?\s?°C|\b\d{1,2}:\d{2}\b")
 
     def __init__(self, path: Path, mode: str, section: str | None, house_style: bool,
@@ -103,31 +104,36 @@ class ManuscriptValidator:
             if "—" in line:
                 severity = "WARNING" if self.house_style else "INFO"
                 self.add(number, severity, "em_dash", "Check whether a conjunction or sentence break states the relationship more clearly.", line)
-            if ";" in re.sub(r"\[@[^\]]+\]", "", line):
+            if ";" in re.sub(r"\([^()]*\)|\[@[^\]]+\]", "", line):
                 severity = "WARNING" if self.house_style else "INFO"
                 self.add(number, severity, "semicolon", "Check whether the sentence contains two ideas that should be separated.", line)
 
     def check_acronyms(self) -> None:
         defined: set[str] = set(self.COMMON_ACRONYMS)
-        definition_re = re.compile(r"(?:[A-Za-z][A-Za-z -]{2,})\s*\(([A-Z][A-Z0-9-]{1,})\)")
+        definition_re = re.compile(r"(?:[A-Za-z][A-Za-z -]{2,})\s*\(([A-Z][A-Z0-9-]{1,})(?:\s*[;,][^)]*)?\)")
         for number, _, line in self.iter_prose():
             for acronym in definition_re.findall(line):
                 defined.add(acronym)
-            for acronym in self.ACRONYM_RE.findall(line):
+            cleaned = self.SUPP_LABEL_RE.sub("", self.CITATION_RE.sub("", line))
+            for acronym in self.ACRONYM_RE.findall(cleaned):
                 if acronym not in defined and not acronym.isdigit():
                     self.add(number, "WARNING", "acronym_undefined", f"Define '{acronym}' at first use or add it to the accepted project list.", line)
                     defined.add(acronym)
 
     def check_weak_phrasing(self) -> None:
-        patterns = {
+        line_patterns = {
             "weak_conducted": (re.compile(r"\b(?:was|were|is|are|been) conducted\b|\bcarried out\b", re.I), "Use the concrete action, such as sampled, measured, fitted, or tested."),
             "throat_clearing": (re.compile(r"\b(it is important to note that|it should be noted that|in order to)\b", re.I), "State the claim or action directly."),
-            "stacked_hedge": (re.compile(r"\b(may|might|could|possibly|perhaps)\b.*\b(may|might|could|possibly|perhaps)\b", re.I), "Use one calibrated hedge unless the sentence distinguishes separate uncertainties."),
         }
+        stacked_hedge = re.compile(r"\b(may|might|could|possibly|perhaps)\b.*\b(may|might|could|possibly|perhaps)\b", re.I)
         for number, _, line in self.iter_prose():
-            for rule, (pattern, message) in patterns.items():
+            for rule, (pattern, message) in line_patterns.items():
                 if pattern.search(line):
                     self.add(number, "WARNING", rule, message, line)
+            for sent in re.split(r"(?<=[.!?])\s+", line.strip()):
+                if stacked_hedge.search(sent):
+                    self.add(number, "WARNING", "stacked_hedge", "Use one calibrated hedge unless the sentence distinguishes separate uncertainties.", sent)
+                    break
 
     def check_section_boundaries(self) -> None:
         result_interpretation = re.compile(r"\b(this suggests|this may indicate|likely because|may reflect|implication|mechanism)\b", re.I)
@@ -146,13 +152,13 @@ class ManuscriptValidator:
             return
         by_section: dict[str, list[str]] = {}
         for _, section, line in self.iter_prose():
-            by_section.setdefault(section or "document", []).append(re.sub(r"\[@[^\]]+\]", "", line))
+            by_section.setdefault(section or "document", []).append(self.CITATION_RE.sub("", line))
         for section, lines in by_section.items():
             text = " ".join(lines)
             if len(text.split()) < 100:
                 continue
             grade = textstat.flesch_kincaid_grade(text)
-            threshold = 17 if section in {"method", "methods", "materials and methods"} else 15
+            threshold = 17 if section.startswith(("method", "materials")) else 15
             if grade > threshold:
                 severity = "WARNING" if self.mode == "strict" else "INFO"
                 self.add(0, severity, "readability", f"{section.title()} grade level is {grade:.1f}. Review dense sentences; do not remove necessary technical detail.")

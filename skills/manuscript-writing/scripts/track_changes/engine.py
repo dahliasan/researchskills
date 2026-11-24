@@ -187,30 +187,26 @@ def tokenize_target(plain, flags, field_counts, unlimited):
 
 
 # ---------------------------------------------------------------- diff
-def diff_ops(skeys, tkeys, stext_len, ttext_len):
-    sm = difflib.SequenceMatcher(None, skeys, tkeys, autojunk=False)
+def _diff_segment(skeys, tkeys, i1, i2, j1, j2, stext_len, ttext_len):
+    sm = difflib.SequenceMatcher(None, skeys[i1:i2], tkeys[j1:j2], autojunk=False)
     ops = []
-    for tag, i1, i2, j1, j2 in sm.get_opcodes():
+    for tag, a1, a2, b1, b2 in sm.get_opcodes():
         t = 'eq' if tag == 'equal' else 'chg'
+        sa1, sa2, tb1, tb2 = i1 + a1, i1 + a2, j1 + b1, j1 + b2
         if ops and ops[-1][0] == 'chg' and t == 'chg':
             o = ops[-1]
-            ops[-1] = ('chg', o[1], i2, o[3], j2)
+            ops[-1] = ('chg', o[1], sa2, o[3], tb2)
         else:
-            ops.append((t, i1, i2, j1, j2))
-
-    def has_field(i1, i2):
-        return any(k[0] == 'F' for k in skeys[i1:i2])
+            ops.append((t, sa1, sa2, tb1, tb2))
 
     changed = True
     while changed:
         changed = False
         for k in range(1, len(ops) - 1):
-            t, i1, i2, j1, j2 = ops[k]
+            t, a1, a2, b1, b2 = ops[k]
             if t != 'eq' or ops[k - 1][0] != 'chg' or ops[k + 1][0] != 'chg':
                 continue
-            if has_field(i1, i2):
-                continue
-            L = stext_len(i1, i2)
+            L = stext_len(a1, a2)
             b, a = ops[k - 1], ops[k + 1]
             mb = max(stext_len(b[1], b[2]), ttext_len(b[3], b[4]))
             ma = max(stext_len(a[1], a[2]), ttext_len(a[3], a[4]))
@@ -218,6 +214,42 @@ def diff_ops(skeys, tkeys, stext_len, ttext_len):
                 ops[k - 1:k + 2] = [('chg', b[1], a[2], b[3], a[4])]
                 changed = True
                 break
+    return ops
+
+
+def diff_ops(skeys, tkeys, stext_len, ttext_len):
+    # Anchor matching ('F', ...) field tokens first so unchanged Zotero/REF fields
+    # stay untracked even when text on both sides changes.
+    s_fields = [(idx, skeys[idx]) for idx in range(len(skeys)) if skeys[idx][0] == 'F']
+    t_fields = [(idx, tkeys[idx]) for idx in range(len(tkeys)) if tkeys[idx][0] == 'F']
+    matches = []
+    if s_fields and t_fields:
+        sm_f = difflib.SequenceMatcher(None, [k for _, k in s_fields], [k for _, k in t_fields], autojunk=False)
+        matches = [
+            (s_fields[ai + off][0], t_fields[bi + off][0])
+            for ai, bi, n in sm_f.get_matching_blocks()
+            for off in range(n)
+        ]
+
+    ops = []
+    si, tj = 0, 0
+    for sf, tf in matches:
+        if sf > si or tf > tj:
+            ops.extend(_diff_segment(skeys, tkeys, si, sf, tj, tf, stext_len, ttext_len))
+        if ops and ops[-1][0] == 'eq' and ops[-1][2] == sf and ops[-1][4] == tf:
+            o = ops[-1]
+            ops[-1] = ('eq', o[1], sf + 1, o[3], tf + 1)
+        else:
+            ops.append(('eq', sf, sf + 1, tf, tf + 1))
+        si, tj = sf + 1, tf + 1
+    if si < len(skeys) or tj < len(tkeys):
+        seg = _diff_segment(skeys, tkeys, si, len(skeys), tj, len(tkeys), stext_len, ttext_len)
+        if ops and seg and ops[-1][0] == 'eq' and seg[0][0] == 'eq' and ops[-1][2] == seg[0][1] and ops[-1][4] == seg[0][3]:
+            o, s0 = ops[-1], seg[0]
+            ops[-1] = ('eq', o[1], s0[2], o[3], s0[4])
+            ops.extend(seg[1:])
+        else:
+            ops.extend(seg)
     return ops
 
 
