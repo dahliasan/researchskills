@@ -71,6 +71,18 @@ work (OOXML structure, tracked changes, embedded figures, comments or citation
 fields), write the edit list and delegate the `.docx` step to an Opus 5.5
 sub-agent.
 
+## OOXML integrity, comments, equations, and navigation
+
+When modifying `.docx` XML directly (accept-all, rebasing, re-anchoring comments, or restoring paragraphs):
+
+- **Equations (`<m:oMath>`) are visible content:** Never treat a paragraph as empty solely because it lacks `<w:t>`. Always check `<m:oMath>` / `<m:t>` (Office Math namespace) and `<w:drawing>` alongside `<w:t>`, or equation-only paragraphs will be silently deleted.
+- **Never copy paragraphs across `.docx` versions with raw comment or bookmark IDs:** Word renumbers comment IDs sequentially on save, so copying a paragraph from an older backup can import stale or duplicate comment IDs and orphan bookmarks that trigger Word's *"unreadable content"* recovery dialog. Before saving any edited `.docx`, validate:
+  1. `set(commentRangeStart) == set(commentRangeEnd) == set(commentReference) == valid_comment_ids` with zero duplicates and zero orphans;
+  2. `set(bookmarkStart) == set(bookmarkEnd)` (matched pairs);
+  3. unchanged `<m:oMath>` equation count and zero unintended blank spacer paragraphs added.
+- **No ghost blank headings in Navigation Pane:** Empty spacer paragraphs or tracked-deleted headings (`<w:del>` only) that still carry `Heading*` style appear as blank entries in Word's Navigation Pane. Remove empty `Heading*` spacers and demote tracked-deleted headings to `BodyText` so the deletion remains visible in Track Changes without polluting the Navigation Pane.
+- **Tight clause-level comment anchoring and up-to-date replies:** Anchor coauthor comments to the exact relevant clause (splitting plain `<w:r>` runs outside any `fldChar` field), not the entire paragraph. After major restructuring, audit author replies in `word/comments.xml` so replies never reference stale table/figure numbers, removed sections, or superseded wording.
+
 ## Notes
 
 - Never close or reopen documents other than the one being edited.

@@ -313,12 +313,16 @@ Whole-section sequence:
 5. state material limitations where they constrain claims (apply the materiality test in SKILL.md)
 6. broaden to the supported scientific or practical implication
 
-Rules: start with meaning, not a Results recap; separate evidence from
-speculation; integrate limitations with the claims they constrain; match
-causal language to design; end at the broadest implication the evidence
-supports. Do not turn association into causation. Do not use “consistent
-with” as proof of a mechanism. Do not create a detached limitations inventory
-when limitations can attach to the affected interpretation.
+Rules: start with meaning, not a Results recap; keep only load-bearing numbers
+in the Discussion (leave site-by-site percentages in Results and tables); cut
+weak side-tangents; avoid colons in running prose when a comma or clause reads
+more naturally; separate evidence from speculation; integrate limitations with
+the claims they constrain; match causal language to design; keep the final
+conclusion paragraph a pure recap and forward look with no new topics or new
+citations (place management and caveat points in the thematic paragraphs where
+those topics already live). Do not turn association into causation. Do not use
+“consistent with” as proof of a mechanism. Do not create a detached limitations
+inventory when limitations can attach to the affected interpretation.
 
 ## Abstract
 
@@ -343,6 +347,7 @@ it.
 
 - Place each citation next to the exact claim it supports.
 - Group citations only when all sources support the same claim.
+- Before submission, audit cited Zotero items (via the Zotero Web API, never direct SQLite writes while Zotero is running) for ALL-CAPS or Title Case titles, missing `<i>` species italics, missing article numbers/pages/journals, bogus month-name `issue` fields (for example `JUN`, `November`), report titles storing series numbers, and inconsistent author initials (for example `S D` vs `S. D.`) that trigger unwanted in-text disambiguation.
 - Split compound sentences when different sources support different clauses.
 - Narrative citations are valid when identity, chronology, or contrast matters.
 - Finding-first prose is usually more concise when author identity does not matter.
