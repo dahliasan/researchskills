@@ -12,7 +12,7 @@ Helper (macOS): `scripts/word_doc.sh status|close|open <file.docx>` and `scripts
    - `closed`: continue.
 2. **Always re-read the live file from disk after saving/closing and check for user edits**, NEVER edit a cached `/tmp/` or earlier intermediate copy. The user may have edited text, resolved/added comments, or refreshed Zotero in Word between turns. Diff the freshly saved file against your last output if helpful, and build every new edit strictly on top of the user's latest saved file so zero manual edits are ever lost.
 3. **Write the edits.** If the project keeps versions, archive the previous file first, then save the new file under the current name.
-4. **Reopen it** when done: `word_doc.sh open <file>`, whether or not it was open before, so the user sees the edited version. Skip this only if the user asked you not to.
+4. **Reopen it** when done: `word_doc.sh open <file>`, whether or not it was open before, so the user sees the edited version. Skip reopening if the user asked you not to, or during a background/automated run writing a new versioned copy while the user is actively editing a different manuscript in Word.
 
 ## Tracked changes: use the shared tool
 
@@ -22,6 +22,8 @@ and produced coarse, paragraph-sized changes.
 
 ```bash
 python scripts/track_edit.py IN.docx OUT.docx --edits edits.json --author "Name"
+# Or accept existing tracked changes first (and demote empty Heading* spacers) before applying new edits:
+python scripts/track_edit.py IN.docx OUT.docx --accept-existing --edits edits.json --author "Name"
 ```
 
 `edits.json` is a list of `{"find": "text in exactly one paragraph", "text": "whole new paragraph"}`
@@ -80,7 +82,7 @@ When modifying `.docx` XML directly (accept-all, rebasing, re-anchoring comments
   1. `set(commentRangeStart) == set(commentRangeEnd) == set(commentReference) == valid_comment_ids` with zero duplicates and zero orphans;
   2. `set(bookmarkStart) == set(bookmarkEnd)` (matched pairs);
   3. unchanged `<m:oMath>` equation count and zero unintended blank spacer paragraphs added.
-- **No ghost blank headings in Navigation Pane:** Empty spacer paragraphs or tracked-deleted headings (`<w:del>` only) that still carry `Heading*` style appear as blank entries in Word's Navigation Pane. Remove empty `Heading*` spacers and demote tracked-deleted headings to `BodyText` so the deletion remains visible in Track Changes without polluting the Navigation Pane.
+- **No ghost blank headings in Navigation Pane:** Empty spacer paragraphs or tracked-deleted headings (`<w:del>` only) that still carry `Heading*` style appear as blank entries in Word's Navigation Pane. Demote tracked-deleted headings to `BodyText` so the deletion remains visible in Track Changes without polluting the Navigation Pane. For empty `Heading*` paragraphs that contain `<w:sectPr>` section breaks or bookmarks, **demote** them (remove `<w:pStyle>` or set `Normal`/`BodyText`) rather than deleting the paragraph node, so page/section layout and bookmarks stay intact; remove only truly empty `Heading*` spacers that carry neither `<w:sectPr>` nor bookmarks. (`track_edit.py --accept-existing` demotes empty `Heading*` paragraphs automatically.)
 - **Tight clause-level comment anchoring and up-to-date replies:** Anchor coauthor comments to the exact relevant clause (splitting plain `<w:r>` runs outside any `fldChar` field), not the entire paragraph. After major restructuring, audit author replies in `word/comments.xml` so replies never reference stale table/figure numbers, removed sections, or superseded wording.
 
 ## Notes
